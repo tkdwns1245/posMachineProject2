@@ -1,4 +1,4 @@
-package LMH.gui;
+package lmh.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

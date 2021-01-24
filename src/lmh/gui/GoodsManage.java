@@ -1,4 +1,4 @@
-package LMH.gui;
+package lmh.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -74,12 +74,12 @@ public class GoodsManage extends FrameTemplete {
 	@Override
 	public void initComponent() {
 		mainPanel = new JPanel();
-		//Util¿¡  default·Î ¼¼ÆÃÇØ¾ß ÇÏ´ÂÇÔ
+		//Utilì—  defaultë¡œ ì„¸íŒ…í•´ì•¼ í•˜ëŠ”í•¨
 		ccUtil.setMainPanel(mainPanel);
-		//½Ã°è±â´É ÆĞ³Î, ·¹ÀÌºí
+		//ì‹œê³„ê¸°ëŠ¥ íŒ¨ë„, ë ˆì´ë¸”
 		timePanel=(JPanel)  ccUtil.createJcomponent("p", width*23/100,height*4/100, width*5/100,height*50/1000);
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
-		//¹°Ç°Ç×¸ñ  ÆĞ³Î
+		//ë¬¼í’ˆí•­ëª©  íŒ¨ë„
 		itemPanel= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*60/100, width*15/100,height*20/100);
 		itemTitlePanel =(JPanel)  ccUtil.createJcomponent("p", width*30/100,height*45/1000, 0,0);
 		itemDetail=(JPanel) ccUtil.createJcomponent("p", width*30/100,height*955/1000, 0, height*45/1000);
@@ -91,41 +91,41 @@ public class GoodsManage extends FrameTemplete {
 		order=(JPanel) ccUtil.createJcomponent("p", width/1000*205/3, height/600*575, width/1000*205/3*2, 0);
 
 
-		// Ä«Å×°í¸® ÆĞ³Î
+		// ì¹´í…Œê³ ë¦¬ íŒ¨ë„
 		categoryTitlePanel =(JPanel) ccUtil.createJcomponent("p",width*30/100,height*45/1000, 0,0);
 		categoryPanel=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*60/100, width*55/100,height*20/100);
 		categoryDetail=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*955/1000, 0, height*45/1000);
 		categoryContent=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*200, width/1000*50, height/600*60);
 
 
-		//¹°Ç°Ç×¸ñ, Ä«Å×°í¸® ·¹ÀÌÇÃ 
+		//ë¬¼í’ˆí•­ëª©, ì¹´í…Œê³ ë¦¬ ë ˆì´í”Œ 
 		itemLabel=(JLabel) ccUtil.createJcomponent("l", width*30/100,height*45/1000, width*0/100, height*0/100);
-		itemLabel.setText("ÆÇ¸ÅÇ×¸ñ()");
+		itemLabel.setText("íŒë§¤í•­ëª©()");
 		fieldName=(JLabel) ccUtil.createJcomponent("l",width/1000*00, height/600*200, width/1000*50, height/600*60);
-		fieldName.setText("ÀÌ ¸§            °¡ °İ            ¼ø ¼­");
+		fieldName.setText("ì´ ë¦„            ê°€ ê²©            ìˆœ ì„œ");
 
 		categoryLabel=(JLabel) ccUtil.createJcomponent("l",width*30/100,height*45/1000, width*0/100, height*0/100);
-		categoryLabel.setText("Ä«Å×°í¸®");
+		categoryLabel.setText("ì¹´í…Œê³ ë¦¬");
 		nameLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
-		nameLabel.setText("Ç× ¸ñ");
+		nameLabel.setText("í•­ ëª©");
 		priceLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
-		priceLabel.setText("°¡ °İ");
+		priceLabel.setText("ê°€ ê²©");
 		orderLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
-		orderLabel.setText("¼ø ¼­");
+		orderLabel.setText("ìˆœ ì„œ");
 		
-		//¹öÆ° 
+		//ë²„íŠ¼ 
 		saveButton=(JButton) ccUtil.createJcomponent("b",width/15, height/600*30, width/1000*60, height/600*280);
-		saveButton.setText("Àú Àå");
+		saveButton.setText("ì € ì¥");
 		itemAddButton=(JButton) ccUtil.createJcomponent("b",width/15, height/600*30, width/1000*190, height/600*15);
-		itemAddButton.setText("Ãß °¡");
+		itemAddButton.setText("ì¶” ê°€");
 		categoryAddButton=(JButton) ccUtil.createJcomponent("b",width/15, height/600*30, width/1000*190, height/600*15);
-		categoryAddButton.setText("Ãß °¡");
+		categoryAddButton.setText("ì¶” ê°€");
 		itemDelButton=(JButton) ccUtil.createJcomponent("b",width/15, height/600*30, width/1000*180, height/600*280);
-		itemDelButton.setText("»è Á¦");
+		itemDelButton.setText("ì‚­ ì œ");
 		categoryDelButton=(JButton) ccUtil.createJcomponent("b",width/15, height/600*30, width/1000*185, height/600*280);
-		categoryDelButton.setText("»è Á¦");
+		categoryDelButton.setText("ì‚­ ì œ");
 		
-		//ÅØ½ºÆ® ÇÊµå
+		//í…ìŠ¤íŠ¸ í•„ë“œ
 		itemTextField=(JTextField) ccUtil.createJcomponent("tf",width/1000*120, height/600*20, width/1000*50, height/600*20);
 		categoryTextField=(JTextField) ccUtil.createJcomponent("tf", width/1000*120, height/600*20, width/1000*50, height/600*20);
 		
@@ -135,7 +135,7 @@ public class GoodsManage extends FrameTemplete {
 	public void addGui() {
 		this.add(mainPanel);
 		
-		// ¹°Ç°Ç×¸ñ ÆĞ³Î
+		// ë¬¼í’ˆí•­ëª© íŒ¨ë„
 		mainPanel.setLayout(null);
 		mainPanel.setBackground(new Color(155,155,155));
 		mainPanel.add(timePanel);
@@ -179,7 +179,7 @@ public class GoodsManage extends FrameTemplete {
 		
          
 		
-		// Ä«Å×°í¸® ÆĞ³Î		
+		// ì¹´í…Œê³ ë¦¬ íŒ¨ë„		
 		
 		mainPanel.add(categoryPanel);
 		categoryPanel.setLayout(null);
@@ -219,16 +219,16 @@ public class GoodsManage extends FrameTemplete {
 				
 							
 			if((min<10) && (sec<10)) {
-				String day1 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":0" + sec );
+				String day1 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":0" + sec );
 				time.setText(day1);
 			} else if((min>10) && (sec<10)) {
-				String day2 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":0" + sec );
+				String day2 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":0" + sec );
 				time.setText(day2);
 			} else if((min<10) && (sec>10)) {
-				String day3 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":" + sec );
+				String day3 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":" + sec );
 				time.setText(day3);
 			} else {
-				String day4 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":" + sec );
+				String day4 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":" + sec );
 				time.setText(day4);
 			}
 			

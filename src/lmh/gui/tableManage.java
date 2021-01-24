@@ -1,5 +1,4 @@
-package LMH.gui;
-
+package lmh.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -146,5 +145,4 @@ public class tableManage extends FrameTemplete{
 		// TODO Auto-generated method stub
 		
 	}
-}
-	
+}	
