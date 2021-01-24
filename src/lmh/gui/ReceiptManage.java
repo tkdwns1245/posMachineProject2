@@ -1,4 +1,4 @@
-package LMH.gui;
+package lmh.gui;
 
 import java.awt.Color;
 import java.util.Calendar;
@@ -60,7 +60,7 @@ public class ReceiptManage extends FrameTemplete {
 	JButton receiptPrintButton;
 	JButton returnButton;
 	
-	JButton itemTextField;  // ³¯Â¥ ¼±ÅÃÃ¢ ±¸Çö ÇÊ¿ä
+	JButton itemTextField;  // ë‚ ì§œ ì„ íƒì°½ êµ¬í˜„ í•„ìš”
 	
 	public ReceiptManage() {
 		init();
@@ -70,13 +70,13 @@ public class ReceiptManage extends FrameTemplete {
 	@Override
 	public void initComponent() {
 		mainPanel = new JPanel();
-		//Util¿¡  default·Î ¼¼ÆÃÇØ¾ß ÇÏ´ÂÇÔ
+		//Utilì—  defaultë¡œ ì„¸íŒ…í•´ì•¼ í•˜ëŠ”í•¨
 		ccUtil.setMainPanel(mainPanel);
-		//½Ã°è±â´É ÆĞ³Î, ·¹ÀÌºí
+		//ì‹œê³„ê¸°ëŠ¥ íŒ¨ë„, ë ˆì´ë¸”
 		timePanel= (JPanel) ccUtil.createJcomponent("p", width*23/100,height*4/100, width*5/100, height*50/1000);
 		time=(JLabel) ccUtil.createJcomponent("l",width*3/10, height/6, width*4/10, height/60*5);
 		
-		// °áÁ¦Á¤º¸  ÆĞ³Î
+		// ê²°ì œì •ë³´  íŒ¨ë„
 		paymentPanel= (JPanel) ccUtil.createJcomponent("p",width*30/100,height*60/100, width*15/100,height*20/100);
 		paymentTitlePanel = (JPanel) ccUtil.createJcomponent("p",width*30/100,height*45/1000, 0,0);
 		paymentDetail=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*955/1000, 0, height*45/1000);
@@ -88,7 +88,7 @@ public class ReceiptManage extends FrameTemplete {
 		payTime=(JPanel) ccUtil.createJcomponent("p", width/1000*205/2, height/600*575, width/1000*205/2, 0);
 		
 		
-		// »ó¼¼³»¿ª ÆĞ³Î
+		// ìƒì„¸ë‚´ì—­ íŒ¨ë„
 		detailTitlePanel = (JPanel) ccUtil.createJcomponent("p", width*30/100,height*45/1000, 0,0);
 		detailPanel= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*60/100, width*55/100,height*20/100);
 		detail= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*955/1000, 0, height*45/1000);
@@ -101,46 +101,46 @@ public class ReceiptManage extends FrameTemplete {
 		times=(JPanel) ccUtil.createJcomponent("p", width/1000*205/3, height/600*575, width/1000*205/3, 0);
 		price=(JPanel) ccUtil.createJcomponent("p", width/1000*205/3, height/600*575, width/1000*205/3*2, 0);
 
-		// °áÁ¦Á¤º¸, »ó¼¼³»¿ª ·¹ÀÌºí
+		// ê²°ì œì •ë³´, ìƒì„¸ë‚´ì—­ ë ˆì´ë¸”
 		dateLabel=(JLabel) ccUtil.createJcomponent("l", width*30/100,height*45/1000, width*0/100, height*0/100);
-		dateLabel.setText("³¯Â¥¼±ÅÃ");
+		dateLabel.setText("ë‚ ì§œì„ íƒ");
 		
 		fieldName1=(JLabel) ccUtil.createJcomponent("l", width/1000*00, height/600*200, width/1000*50, height/600*60);
-		fieldName1.setText("   °áÁ¦±İ¾×                  °áÁ¦½Ã°£   ");
+		fieldName1.setText("   ê²°ì œê¸ˆì•¡                  ê²°ì œì‹œê°„   ");
 		payPriceLabel=(JLabel) ccUtil.createJcomponent("l", width/1000*205/2, height/600*575, width*0/100, height*0/100);
-		payPriceLabel.setText("20,000d¿ø");
+		payPriceLabel.setText("20,000dì›");
 		payTimeLabel=(JLabel) ccUtil.createJcomponent("l", width/1000*205/2, height/600*575, width*0/100, height*0/100);
 		payTimeLabel.setText("17:55");
 		deatailLabel=(JLabel) ccUtil.createJcomponent("l",width*30/100,height*45/1000, width*0/100, height*0/100);
-		deatailLabel.setText("»ó¼¼³»¿ª");
+		deatailLabel.setText("ìƒì„¸ë‚´ì—­");
 		
 		fieldName2=(JLabel) ccUtil.createJcomponent("l",width/1000*00, height/600*200, width/1000*50, height/600*60);
-		fieldName2.setText(" ³» ¿ª           ±¸¸ÅÈ½¼ö          °¡ °İ  ");
+		fieldName2.setText(" ë‚´ ì—­           êµ¬ë§¤íšŸìˆ˜          ê°€ ê²©  ");
 		totalLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205, height/600*25, width*0/100, height*0/100);
-		totalLabel.setText(" °áÁ¦±İ¾× : 20,000¿ø(card)  ");
+		totalLabel.setText(" ê²°ì œê¸ˆì•¡ : 20,000ì›(card)  ");
 		historyLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
-		historyLabel.setText("Ç× ¸ñ");
+		historyLabel.setText("í•­ ëª©");
 		timesLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
 		timesLabel.setText("1");
 		priceLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
-		priceLabel.setText("20,000¿ø");
+		priceLabel.setText("20,000ì›");
 		
 		
-		//¹öÆ° 
+		//ë²„íŠ¼ 
 		receiptPrintButton=(JButton) ccUtil.createJcomponent("b", width/10, height/600*30, width/1000*60, height/600*280);
-		receiptPrintButton.setText("¿µ¼öÁõ Ãâ·Â");
+		receiptPrintButton.setText("ì˜ìˆ˜ì¦ ì¶œë ¥");
 		returnButton=(JButton) ccUtil.createJcomponent("b", width/15, height/600*30, width/1000*185, height/600*280);
-		returnButton.setText("¹İ Ç°");
-		//ÅØ½ºÆ® ÇÊµå
+		returnButton.setText("ë°˜ í’ˆ");
+		//í…ìŠ¤íŠ¸ í•„ë“œ
 		itemTextField=(JButton) ccUtil.createJcomponent("b", width/1000*120, height/600*20, width/1000*50, height/600*20);
-		itemTextField.setText("ÄŞº¸¹Ú½º ´Ş·Â ¸¸µé±â");
+		itemTextField.setText("ì½¤ë³´ë°•ìŠ¤ ë‹¬ë ¥ ë§Œë“¤ê¸°");
 	}
 
 	@Override
 	public void addGui() {
 		this.add(mainPanel);
 		
-		// ¹°Ç°Ç×¸ñ ÆĞ³Î
+		// ë¬¼í’ˆí•­ëª© íŒ¨ë„
 		mainPanel.setLayout(null);
 		mainPanel.setBackground(new Color(155,155,155));
 		mainPanel.add(timePanel);
@@ -175,7 +175,7 @@ public class ReceiptManage extends FrameTemplete {
 		payTime.add(payTimeLabel);
 				
     
-		// Ä«Å×°í¸® ÆĞ³Î		
+		// ì¹´í…Œê³ ë¦¬ íŒ¨ë„		
 		
 		mainPanel.add(detailPanel);
 		detailPanel.setLayout(null);
@@ -234,16 +234,16 @@ public class ReceiptManage extends FrameTemplete {
 				
 							
 			if((min<10) && (sec<10)) {
-				String day1 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":0" + sec );
+				String day1 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":0" + sec );
 				time.setText(day1);
 			} else if((min>10) && (sec<10)) {
-				String day2 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":0" + sec );
+				String day2 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":0" + sec );
 				time.setText(day2);
 			} else if((min<10) && (sec>10)) {
-				String day3 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":" + sec );
+				String day3 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":" + sec );
 				time.setText(day3);
 			} else {
-				String day4 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":" + sec );
+				String day4 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":" + sec );
 				time.setText(day4);
 			}
 			
@@ -260,4 +260,3 @@ public class ReceiptManage extends FrameTemplete {
 	
 		
 }
-
