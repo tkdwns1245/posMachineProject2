@@ -2,10 +2,12 @@ package ssz.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -14,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import gui.util.CreateComponentUtil;
 
@@ -25,6 +28,7 @@ public class MainFrame  extends FrameTemplate3{
 	BorderLayout mainLayout = new BorderLayout();
 	FlowLayout bottomSecondLayout = new FlowLayout();
 	FlowLayout middleLayout = new FlowLayout();
+	
 	
 	JPanel topPanel;
 	JPanel middlePanel;
@@ -57,7 +61,7 @@ public class MainFrame  extends FrameTemplate3{
 	
 	@Override
 	public void initComponent() {
-		
+		tableButtonList = new ArrayList<JButton>();
 		//mainPanel 초기화
 		mainPanel= new JPanel();
 		mainPanel.setLayout(mainLayout);
@@ -69,7 +73,6 @@ public class MainFrame  extends FrameTemplate3{
 		//topPanel 초기화
 //		topPanel = (JPanel)ccUtil.createJcomponent("p",width,120, 0, 0);
 		topPanel = new JPanel();
-		topPanel.setBackground(Color.RED);
 		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT,65,10));
 		idLabel = new JLabel("아이디");
 		idLabel.setBorder(BorderFactory.createEmptyBorder(0, 475,0, 0));
@@ -82,12 +85,22 @@ public class MainFrame  extends FrameTemplate3{
 		dayLabel = new JLabel("2021/01/01");
 		timeLabel = new JLabel("PM 04:09");
 		
-//		middlePanel = (JPanel)ccUtil.createJcomponent("p",width,300, 0,120);
+		//middlePanel 초기화
 		middlePanel = new JPanel();
-		middlePanel.
-		middlePanel.setBackground(Color.BLUE);
+		middleLayout.setAlignment(FlowLayout.CENTER);
+		middleLayout.setHgap(50);
+		middleLayout.setVgap(50);
+		middlePanel.setBackground(new Color(255, 0, 0, 0));
+		middlePanel.setLayout(middleLayout);
 		
-//		bottomPanel = (JPanel)ccUtil.createJcomponent("p",width,150,0,420);
+		for(int i =0; i < 25; i++)
+		{
+			JButton tmpButton = new JButton("table" + (i+1));
+			tmpButton.setPreferredSize(new Dimension(100, 50));
+			tableButtonList.add(tmpButton);
+		}
+		
+		//bottomPanel 초기화
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 		bottomFirstPanel = new JPanel();
@@ -97,18 +110,20 @@ public class MainFrame  extends FrameTemplate3{
 		pagingLabel = new JLabel("1/3");
 		
 		bottomSecondPanel.setLayout(bottomSecondLayout);
-		bottomPanel.setBackground(Color.GREEN);
+		bottomPanel.setBackground(new Color(255, 0, 0, 0));
 		
-//		leftPanel = (JPanel)ccUtil.createJcomponent("p",width,150,0,420);
+		//leftPanel초기화
 		leftPanel = new JPanel();
 		leftPanel.setLayout(new FlowLayout(FlowLayout.CENTER,5,220));
-		leftPanel.setBackground(Color.YELLOW);
-		
+		leftPanel.setBackground(new Color(255, 0, 0, 0));
+		//rightPanel초기화
 		rightPanel = new JPanel();
 		rightPanel.setLayout(new FlowLayout(FlowLayout.CENTER,5,220));
-		rightPanel.setBackground(Color.MAGENTA);
+		rightPanel.setBackground(new Color(255, 0, 0, 0));
 		
+		//button 초기화
 		leftPagingButton = new JButton("<<<");
+		leftPagingButton.setVerticalAlignment(SwingConstants.CENTER);
 		rightPagingButton = new JButton(">>>");
 		
 		salesStatusButton = new JButton("매출현황");
@@ -130,6 +145,11 @@ public class MainFrame  extends FrameTemplate3{
 		
 		leftPanel.add(leftPagingButton);
 		rightPanel.add(rightPagingButton);
+		
+		for(int i = 0; i < tableButtonList.size(); i ++)
+		{
+			middlePanel.add(tableButtonList.get(i));
+		}
 		
 		bottomFirstPanel.add(pagingLabel);
 		bottomSecondPanel.add(salesStatusButton);
