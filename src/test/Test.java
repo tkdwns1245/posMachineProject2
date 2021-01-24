@@ -1,12 +1,14 @@
 package test;
 
-import ssz.gui.MainFrame;
+import ssz.gui.TableFrame;
 
 public class Test {
 	public static void main(String[] args) {
 //		LoginFrame3 lf3 = new LoginFrame3();
 //		JoinFrame jf = new JoinFrame();
-		MainFrame mf = new MainFrame();
-		System.out.println("테스트7");
+		TableFrame tf = new TableFrame();
+		System.out.println("테스트8");
 	}
 }
+
+
