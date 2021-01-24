@@ -38,6 +38,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import gui.util.CreateComponentUtil;
+import ssz.gui.FrameTemplate3;
 
 
 public class Sales_Status extends FrameTemplate3{
