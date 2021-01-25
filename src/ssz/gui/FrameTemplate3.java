@@ -46,7 +46,7 @@ public abstract class FrameTemplate3 extends JFrame {
 		initComponent();
 		addGui();
 		initEvent();		
-		this.setVisible(true);
+//		this.setVisible(true);
 	}
 	public abstract void initComponent();
 	public abstract void addGui();
