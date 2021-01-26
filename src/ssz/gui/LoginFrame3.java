@@ -82,17 +82,17 @@ public class LoginFrame3 extends FrameTemplate3{
 	@Override
 	public void initEvent() {
 		//Helper이벤트를 추가
-		JComponent[] jcomponentArray= {titlePanel,title,time,exitBtn}; //컴포넌트 이동 드래그 기능을 추가할 컴포넌트들
-		
-		ccUtil.setComponentHelperEvent(jcomponentArray);		
-		mainPanel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println(mainPanel.getMousePosition());
-			}
-			
-		});
+//		JComponent[] jcomponentArray= {titlePanel,title,time,exitBtn}; //컴포넌트 이동 드래그 기능을 추가할 컴포넌트들
+//		
+//		ccUtil.setComponentHelperEvent(jcomponentArray);		
+//		mainPanel.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mousePressed(MouseEvent e) {
+//				// TODO Auto-generated method stub
+//				System.out.println(mainPanel.getMousePosition());
+//			}
+//			
+//		});
 	}
 	@Override
 	public void addGui()
