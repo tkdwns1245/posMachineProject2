@@ -11,6 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicArrowButton;
 
 
 public class CreateComponentUtil{
@@ -44,6 +45,10 @@ public class CreateComponentUtil{
 			
 			case "b" : component=new JButton(); break;
 			case "B" : component=new JButton(); break;
+			
+			case "be" : component=new BasicArrowButton(BasicArrowButton.EAST); break;
+			case "bw" :component=new BasicArrowButton(BasicArrowButton.WEST); break;
+				
 			default : component=null;
 		}
 		
@@ -54,14 +59,14 @@ public class CreateComponentUtil{
 		
 	}
 	
-//	public JPanel createPanel(int sizeX,int sizeY,int coordiX,int coordiY) { //panelÀº ÀÌ ¹öÆ°ÀÌ ¼Ò¼Ó µÉ ÆÇ³Ú
+//	public JPanel createPanel(int sizeX,int sizeY,int coordiX,int coordiY) { //panelï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Ò¼ï¿½ ï¿½ï¿½ ï¿½Ç³ï¿½
 //		JPanel tmpPanel=new JPanel();
 //		tmpPanel.setSize(sizeX,sizeY);
 //		tmpPanel.setLocation(coordiX,coordiY);
 //		return tmpPanel;
 //	}
 //	
-//	public JLabel createLabel(int sizeX,int sizeY,int coordiX,int coordiY,String Text,int fontsize) { //panelÀº ÀÌ ¹öÆ°ÀÌ ¼Ò¼Ó µÉ ÆÇ³Ú
+//	public JLabel createLabel(int sizeX,int sizeY,int coordiX,int coordiY,String Text,int fontsize) { //panelï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Ò¼ï¿½ ï¿½ï¿½ ï¿½Ç³ï¿½
 //		JLabel New=new JLabel(Text);
 //		New.setSize(sizeX,sizeY);
 //		New.setLocation(coordiX,coordiY);
@@ -69,7 +74,7 @@ public class CreateComponentUtil{
 //		return New;
 //	}
 //	
-//	public JTextField createTextField(int sizeX,int sizeY,int coordiX,int coordiY,int length) { //panelÀº ÀÌ ¹öÆ°ÀÌ ¼Ò¼Ó µÉ ÆÇ³Ú
+//	public JTextField createTextField(int sizeX,int sizeY,int coordiX,int coordiY,int length) { //panelï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Ò¼ï¿½ ï¿½ï¿½ ï¿½Ç³ï¿½
 //		JTextField New=new JTextField(length);
 //		New.setSize(sizeX,sizeY);
 //		New.setLocation(coordiX,coordiY);
@@ -83,14 +88,14 @@ public class CreateComponentUtil{
 //		return New;
 //	}
 	
-	//helper ±â´ÉÀ» Ãß°¡ÇÏ´Â ÀÌº¥Æ®
-	int i=0; //ÄÄÆ÷³ÍÆ® ¹øÈ£
+	//helper ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï´ï¿½ ï¿½Ìºï¿½Æ®
+	int i=0; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È£
 	public void setComponentHelperEvent(JComponent[] component)
 	{
 		
 		for(i=0;i<component.length;i++)
 		{
-			if(component[i].getParent()==null)System.out.println("¿©±â"+i);
+			if(component[i].getParent()==null)System.out.println("ï¿½ï¿½ï¿½ï¿½"+i);
 		JPanel parentPanel = (JPanel)component[i].getParent();
 		if(guiHelpFunction==1)
 		{
@@ -117,15 +122,15 @@ public class CreateComponentUtil{
 			});
 		}catch(NullPointerException npe) {
 			npe.printStackTrace();
-			System.out.println("mainPanel À» settingÇÏ°í »ç¿ëÇØÁÖ¼¼¿ä.");
+			System.out.println("mainPanel ï¿½ï¿½ settingï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 		}
 		}
 		i=0;
 	}
-	//ÆÐ³Î¿¡ µî·ÏÇÒ ÀÌº¥Æ® ¾î´ðÅÍ ¸¦ »ý¼ºÇÏ´Â ÇÔ¼ö(Å¬¸¯ ½Ã moveComponent¸¦ panel ³»¿¡¼­ dragÇÒ¼ö ÀÖ°Ô ÀÌº¥Æ® Ãß°¡/Á¦°Å)
+	//ï¿½Ð³Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½(Å¬ï¿½ï¿½ ï¿½ï¿½ moveComponentï¿½ï¿½ panel ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ dragï¿½Ò¼ï¿½ ï¿½Ö°ï¿½ ï¿½Ìºï¿½Æ® ï¿½ß°ï¿½/ï¿½ï¿½ï¿½ï¿½)
 	public MouseAdapter createMouseAdapter (JComponent moveComponent,JPanel panel) {
 		
-		MouseAdapter getComponentPosition=new MouseAdapter() { //moveComponent°¡ ¸¶¿ì½º¸¦ µû¶ó°¡¸ç panel¿¡¼­ÀÇ À§Ä¡¸¦ ÇÁ¸°Æ®ÇÏ´Â ¸¶¿ì½º ¾îµªÅÍ
+		MouseAdapter getComponentPosition=new MouseAdapter() { //moveComponentï¿½ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ï¿½ó°¡¸ï¿½ panelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½îµªï¿½ï¿½
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -146,12 +151,12 @@ public class CreateComponentUtil{
 				if(func==-1) {
 					panel.addMouseMotionListener(getComponentPosition);
 
-					System.out.println("¸®½º³Ê µî·Ï");
+					System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½");
 				}
 				else if(func==1) {
 					panel.removeMouseMotionListener(getComponentPosition);
 
-					System.out.println("¸®½º³Ê »èÁ¦");
+					System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 				}
 				func*=-1;
 				
@@ -167,6 +172,7 @@ public class CreateComponentUtil{
 		hey.move(coordiX,coordiY);
 		
 	}
+
 }
 
 
