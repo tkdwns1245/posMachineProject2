@@ -8,7 +8,7 @@ import data.TableVO;
 public class TableDaoImpl implements TableDao{
 	
 	//싱글톤패턴으로 구현해주세요
-	DatabaseModule dbModule = DatabaseModule.getInstance();
+	DatabaseU dbModule = DatabaseModule.getInstance();
 	public TableDaoImpl() {
 		// TODO Auto-generated constructor stub
 	}
