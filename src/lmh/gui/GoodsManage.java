@@ -26,7 +26,7 @@ import javax.swing.border.TitledBorder;
 import gui.util.CreateComponentUtil;
 
 
-public class GoodsManage extends FrameTemplete {
+public class GoodsManage extends FrameTemplate {
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
 	
 	
@@ -79,6 +79,8 @@ public class GoodsManage extends FrameTemplete {
 		//시계기능 패널, 레이블
 		timePanel=(JPanel)  ccUtil.createJcomponent("p", width*23/100,height*4/100, width*5/100,height*50/1000);
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
+		time.setForeground(Color.white);
+		
 		//물품항목  패널
 		itemPanel= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*60/100, width*15/100,height*20/100);
 		itemTitlePanel =(JPanel)  ccUtil.createJcomponent("p", width*30/100,height*45/1000, 0,0);
@@ -137,10 +139,12 @@ public class GoodsManage extends FrameTemplete {
 		
 		// 물품항목 패널
 		mainPanel.setLayout(null);
-		mainPanel.setBackground(new Color(155,155,155));
+		mainPanel.setBackground(new Color(223, 228, 234));
+
 		mainPanel.add(timePanel);
 		timePanel.add(time);
-		
+		timePanel.setBackground(new Color(116, 125, 140));
+
 		mainPanel.add(itemPanel);
 		itemPanel.setLayout(null);
 		itemPanel.setBackground(new Color(100, 100, 100));
