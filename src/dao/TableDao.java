@@ -5,5 +5,5 @@ import java.util.List;
 import data.TableVO;
 
 public interface TableDao {
-	public abstract List<TableVO> selectTableList();
+	public abstract List<TableVO> selectTableList() throws Exception;
 }

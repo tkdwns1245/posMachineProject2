@@ -1,4 +1,4 @@
-package ssz.database;
+package database;
 
 import java.sql.ResultSet;
 
