@@ -3,6 +3,8 @@ package test;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.UserDao;
+import daoImpl.UserDaoImpl;
 import ssz.gui.FrameTemplate3;
 import ssz.gui.JoinFrame;
 import ssz.gui.LoginFrame3;
@@ -17,6 +19,10 @@ public class Test {
 		templateList.add(new LoginFrame3());
 		templateList.add(new JoinFrame());
 		templateList.add(new MainFrame());
+		for(FrameTemplate3 FrameTemplate : templateList )
+		{
+			FrameTemplate.setPageManager(pm);
+		}
 		pm.setPageManger(templateList);
 		
 		pm.goStartPage();

@@ -20,4 +20,8 @@ public class PageManager {
 		FrameTemplate3 tmpTemplate = (FrameTemplate3)pageMap.get("ssz.gui.LoginFrame3");
 		tmpTemplate.setVisible(true);
 	}
+	public void goMainPage() {
+		FrameTemplate3 tmpTemplate = (FrameTemplate3)pageMap.get("ssz.gui.MainFrame");
+		tmpTemplate.setVisible(true);
+	}
 }
