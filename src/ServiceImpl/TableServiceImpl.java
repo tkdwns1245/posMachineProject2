@@ -10,12 +10,24 @@ public class TableServiceImpl implements TableService{
 	TableDaoImpl tableDao = new TableDaoImpl();
 	
 	public TableServiceImpl() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public List<TableVO> selectTableList() {
-		// TODO Auto-generated method stub
-		return tableDao.selectTableList();
+		try {
+			return tableDao.selectTableList();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@Override
+	public int countOfTables() {
+		try {
+			return tableDao.countOfTables();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 }

@@ -1,16 +1,18 @@
 package data;
 
+
 import java.sql.Date;
+import java.sql.Timestamp;
 
 
-public class UserVO {
+public class UserVO{
 
 	private int idNumber;
 	private String id;
 	private String pass;
 	private int authority;
-	private String regDate;
-
+	private Timestamp regDate;
+	
 	
 	public int getIdNumber() {
 		return idNumber;
@@ -36,10 +38,10 @@ public class UserVO {
 	public void setAuthority(int authority) {
 		this.authority = authority;
 	}
-	public String getRegDate() {
+	public Timestamp getRegDate() {
 		return regDate;
 	}
-	public void setRegDate(String regDate) {
+	public void setRegDate(Timestamp regDate) {
 		this.regDate = regDate;
 	}
 	@Override
@@ -47,6 +49,9 @@ public class UserVO {
 		return "UserVO [idNumber=" + idNumber + ", id=" + id + ", pass=" + pass + ", authority=" + authority
 				+ ", regDate=" + regDate + "]";
 	}
+
+
+
 	
 	
 }

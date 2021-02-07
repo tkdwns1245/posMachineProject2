@@ -1,6 +1,9 @@
 package ssz.manager;
 
+import java.util.List;
+
 import ServiceImpl.TableServiceImpl;
+import data.TableVO;
 import service.TableService;
 
 public class TableManager {
@@ -9,6 +12,11 @@ public class TableManager {
 	public TableManager() {
 		// TODO Auto-generated constructor stub
 	}
-	
+	public List<TableVO> selectTableList() {
+		return tableService.selectTableList();
+	}
+	public int countOfTables() {
+		return tableService.countOfTables();
+	}
 	
 }

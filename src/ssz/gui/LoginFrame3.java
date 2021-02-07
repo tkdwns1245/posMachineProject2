@@ -94,10 +94,17 @@ public class LoginFrame3 extends FrameTemplate3{
                 	dispose();
                 	pageManager.goMainPage();
                 }else {
-                	 JOptionPane.showMessageDialog(null, "패스워드가 틀렸습니다.");
+                	 JOptionPane.showMessageDialog(null, "로그인에 실패하였습니다.");
                 	 idTextField.setText("");
                 	 passwordTextField.setText("");
                 }
+            }
+        });
+		regiBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	dispose();
+            	pageManager.goJoinPage();
             }
         });
 	}

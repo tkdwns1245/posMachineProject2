@@ -9,4 +9,7 @@ public class UserManager {
 	public boolean isLoginCheck(String id, String password) {
 		return us.checkLogin(id, password);
 	}
+	public int joinUser(String id, String password) {
+		return us.joinUser(id, password);
+	}
 }

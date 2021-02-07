@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.TableDao;
+import data.CountVO;
 import data.TableVO;
 import database.DatabaseUtil;
 import database.VOFactory;
-import userTable.UserVO;
 
 public class TableDaoImpl implements TableDao{
 	
-	final StringBuffer sql=new StringBuffer();
-	final UserVO uservo=new UserVO();
 	final VOFactory voFactory = new VOFactory();
 	@Override
 	public List<TableVO> selectTableList() throws Exception {
+		StringBuffer sql=new StringBuffer();
 		List<TableVO> tableList = new ArrayList<TableVO>();
 		sql.append("SELECT * ");
 		sql.append("FROM posmachine.TABLE ");
@@ -28,12 +27,37 @@ public class TableDaoImpl implements TableDao{
 				rs=pstmt.executeQuery();
 				
 				while(rs.next()) {
-					tableList.add((TableVO)voFactory.createVO("table",rs));
+					TableVO tmpTableVO = new TableVO();
+					voFactory.setTableVO(tmpTableVO,rs);
+					tableList.add(tmpTableVO);
 				}
 				
 			}
 		}.execute();
 		return tableList;
-	}	
+	}
+	
+	@Override
+	public int countOfTables() throws Exception {
+		StringBuffer sql=new StringBuffer();
+		CountVO tmpCount = new CountVO();
+		sql.append("SELECT COUNT(*) ");
+		sql.append("FROM posmachine.TABLE ");
+		
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					tmpCount.setCount(rs.getInt(1));
+				}
+				
+			}
+		}.execute();
+		return tmpCount.getCount();
+	}
 
 }

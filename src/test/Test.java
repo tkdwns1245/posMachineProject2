@@ -19,14 +19,15 @@ public class Test {
 		templateList.add(new LoginFrame3());
 		templateList.add(new JoinFrame());
 		templateList.add(new MainFrame());
+		
+		//각 프레임에 PageManager등록
 		for(FrameTemplate3 FrameTemplate : templateList )
 		{
 			FrameTemplate.setPageManager(pm);
 		}
-		pm.setPageManger(templateList);
+		pm.setPageList(templateList);
 		
 		pm.goStartPage();
-//		GoodsManage gm = new GoodsManage();
 		System.out.println("테스트8");
 	}
 }
