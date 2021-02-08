@@ -34,18 +34,6 @@ public class PageManager {
 		tmpTemplate.setVisible(true);
 		tmpTemplate.run();
 	}
-	
-	public void goTableManagePage2() {
-		FrameTemplate tmpTemplate = (FrameTemplate)pageMap.get("lmh.gui.tableManage2");
-		tmpTemplate.setVisible(true);
-		tmpTemplate.run();
-	}
-	
-	public void goTableManagePage3() {
-		FrameTemplate tmpTemplate = (FrameTemplate)pageMap.get("lmh.gui.tableManage3");
-		tmpTemplate.setVisible(true);
-		tmpTemplate.run();
-	}
 }
 
 
