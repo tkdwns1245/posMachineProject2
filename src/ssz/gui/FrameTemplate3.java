@@ -1,37 +1,16 @@
 package ssz.gui;
 
-import java.awt.event.ActionEvent;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.nio.file.AtomicMoveNotSupportedException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-
-
-import java.awt.*;
+import ssz.manager.PageManager;
 
 public abstract class FrameTemplate3 extends JFrame { 
 	protected int width=1000;
 	protected int height=600;
-
+	protected PageManager pageManager;
 	public FrameTemplate3() {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = screen.width / 2-width /2;
@@ -51,4 +30,7 @@ public abstract class FrameTemplate3 extends JFrame {
 	public abstract void initComponent();
 	public abstract void addGui();
 	public abstract void initEvent();
+	public void setPageManager(PageManager pageManager) {
+		this.pageManager = pageManager;
+	};
 }

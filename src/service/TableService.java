@@ -6,4 +6,5 @@ import data.TableVO;
 
 public interface TableService {
 	public abstract List<TableVO> selectTableList();
+	public abstract int countOfTables();
 }

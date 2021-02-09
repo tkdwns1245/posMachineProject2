@@ -5,22 +5,26 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import data.TableVO;
 import gui.util.CreateComponentUtil;
+import ssz.manager.TableManager;
+import ssz.manager.TablePagingManager;
 
 public class MainFrame  extends FrameTemplate3{
+	TableManager tm = new TableManager();
+	TablePagingManager tpm = new TablePagingManager(tm);
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
 	Font plainFont = new Font("",Font.PLAIN,10);
 	
@@ -31,7 +35,7 @@ public class MainFrame  extends FrameTemplate3{
 	
 	
 	JPanel topPanel;
-	JPanel middlePanel;
+	JPanel[] middlePanelarr;
 	JPanel bottomPanel;
 	JPanel bottomFirstPanel;
 	JPanel bottomSecondPanel;
@@ -54,6 +58,7 @@ public class MainFrame  extends FrameTemplate3{
 	JButton goodsManageButton;
 	JButton receiptManageButton;
 	JButton tableManageButton;
+	
 	
 	public MainFrame() {
 		super.init();
@@ -86,16 +91,20 @@ public class MainFrame  extends FrameTemplate3{
 		timeLabel = new JLabel("PM 04:09");
 		
 		//middlePanel 초기화
-		middlePanel = new JPanel();
-		middleLayout.setAlignment(FlowLayout.CENTER);
-		middleLayout.setHgap(50);
-		middleLayout.setVgap(50);
-		middlePanel.setBackground(new Color(255, 0, 0, 0));
-		middlePanel.setLayout(middleLayout);
-		
-		for(int i =0; i < 25; i++)
+		middlePanelarr = new JPanel[tpm.getTotalPageCount()+1];
+		for(int j=1; j <= tpm.getTotalPageCount(); j++)
 		{
-			JButton tmpButton = new JButton("table" + (i+1));
+			middlePanelarr[j] = new JPanel();
+			middleLayout.setAlignment(FlowLayout.CENTER);
+			middleLayout.setHgap(50);
+			middleLayout.setVgap(50);
+			middlePanelarr[j].setBackground(new Color(255, 0, 0, 0));
+			middlePanelarr[j].setLayout(middleLayout);
+		}
+		List<TableVO> tableList = tm.selectTableList();
+		for(int i =0; i < tpm.getTotalTableCount(); i++)
+		{
+			JButton tmpButton = new JButton("table" + tableList.get(i).getTableNumber());
 			tmpButton.setPreferredSize(new Dimension(100, 50));
 			tableButtonList.add(tmpButton);
 		}
@@ -107,8 +116,8 @@ public class MainFrame  extends FrameTemplate3{
 		bottomSecondPanel = new JPanel();
 		bottomSecondLayout.setAlignment(FlowLayout.CENTER);
 		bottomSecondLayout.setHgap(50);
-		pagingLabel = new JLabel("1/3");
-		
+		pagingLabel = new JLabel(tpm.getCurruntPage() + " / " + tpm.getTotalPageCount());
+	
 		bottomSecondPanel.setLayout(bottomSecondLayout);
 		bottomPanel.setBackground(new Color(255, 0, 0, 0));
 		
@@ -145,10 +154,24 @@ public class MainFrame  extends FrameTemplate3{
 		
 		leftPanel.add(leftPagingButton);
 		rightPanel.add(rightPagingButton);
-		
-		for(int i = 0; i < tableButtonList.size(); i ++)
+		for(int i = 1; i <= tpm.getTotalPageCount(); i++)
 		{
-			middlePanel.add(tableButtonList.get(i));
+			//마지막 패널이 아닐 경우
+			if(i != tpm.getTotalPageCount())
+			{
+				//페이지당 버튼 개수로 패널 세팅
+				for(int j=0; j < tpm.getPagePerTable(); j++)
+				{
+					middlePanelarr[i].add(tableButtonList.get(j+((i-1)*20)));
+				}
+			//마지막 패널일 경우
+			}else {
+				//남는버튼으로 패널 세팅
+				for(int j=0; j < tpm.getTotalTableCount() % tpm.getPagePerTable(); j++)
+				{
+					middlePanelarr[i].add(tableButtonList.get(j+((i-1)*20)));
+				}
+			}
 		}
 		
 		bottomFirstPanel.add(pagingLabel);
@@ -160,7 +183,7 @@ public class MainFrame  extends FrameTemplate3{
 		bottomPanel.add(bottomSecondPanel);
 		
 		mainPanel.add(topPanel, BorderLayout.NORTH);
-		mainPanel.add(middlePanel, BorderLayout.CENTER);
+		mainPanel.add(middlePanelarr[tpm.getCurruntPage()], BorderLayout.CENTER);
 		mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 		mainPanel.add(leftPanel, BorderLayout.WEST);
 		mainPanel.add(rightPanel, BorderLayout.EAST);
@@ -168,18 +191,23 @@ public class MainFrame  extends FrameTemplate3{
 	
 	@Override
 	public void initEvent() {
-		//Helper이벤트를 추가
-		JComponent[] jcomponentArray= {timePanel,leftPagingButton}; //컴포넌트 이동 드래그 기능을 추가할 컴포넌트들
-		
-		ccUtil.setComponentHelperEvent(jcomponentArray);		
-		mainPanel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println(mainPanel.getMousePosition());
-			}
-			
-		});
-		
+		leftPagingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	mainPanel.remove(middlePanelarr[tpm.getCurruntPage()]);
+            	mainPanel.add(middlePanelarr[tpm.getPrevPage()]);
+            	pagingLabel.setText(tpm.getCurruntPage() + " / " + tpm.getTotalPageCount());
+            	repaint();
+            }
+        });
+		rightPagingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	mainPanel.remove(middlePanelarr[tpm.getCurruntPage()]);
+            	mainPanel.add(middlePanelarr[tpm.getNextPage()]);
+            	pagingLabel.setText(tpm.getCurruntPage() + " / " + tpm.getTotalPageCount());
+            	repaint();
+            }
+        });
 	}
 }

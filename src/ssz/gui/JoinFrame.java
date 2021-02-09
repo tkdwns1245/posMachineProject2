@@ -3,17 +3,22 @@ package ssz.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import gui.util.CreateComponentUtil;
+import ssz.manager.UserManager;
 
 public class JoinFrame extends FrameTemplate3{
+	UserManager um = new UserManager();
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
 	Font plainFont = new Font("",Font.PLAIN,10);
 	JPanel mainPanel;
@@ -100,6 +105,30 @@ public class JoinFrame extends FrameTemplate3{
 	}
 	@Override
 	public void initEvent() {
+		okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	int joinCheck = 2;
+            	joinCheck = um.joinUser(idTextField.getText(),passwordTextField.getText());
+                if(joinCheck == 1)
+                {
+                	JOptionPane.showMessageDialog(null, "회원가입에 성공하였습니다.");
+                	dispose();
+                	pageManager.goStartPage();
+                }else if(joinCheck == 0) {
+                	 JOptionPane.showMessageDialog(null, "이미 존재하는 아이디입니다.");
+                	 idTextField.setText("");
+                	 passwordTextField.setText("");
+                }
+            }
+        });
+		cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	dispose();
+            	pageManager.goStartPage();
+            }
+        });
 	}
 	
 }

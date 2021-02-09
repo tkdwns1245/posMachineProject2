@@ -27,6 +27,10 @@ public abstract class DatabaseUtil {
 	public PreparedStatement pstmt;
 	public ResultSet rs;
 	
+	
+	public DatabaseUtil() {
+		// TODO Auto-generated constructor stub
+	}
 	public final void execute() {
 		try {
 			init();
@@ -59,5 +63,5 @@ public abstract class DatabaseUtil {
 		}
 		
 	}
-
+	
 }

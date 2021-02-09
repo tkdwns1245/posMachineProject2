@@ -3,18 +3,20 @@ package ssz.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import gui.util.CreateComponentUtil;
+import ssz.manager.UserManager;
 
 public class LoginFrame3 extends FrameTemplate3{
+	UserManager um = new UserManager();
 	JPanel mainPanel;
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
 	Font plainFont = new Font("",Font.PLAIN,10);
@@ -81,18 +83,30 @@ public class LoginFrame3 extends FrameTemplate3{
 	}
 	@Override
 	public void initEvent() {
-		//Helper이벤트를 추가
-//		JComponent[] jcomponentArray= {titlePanel,title,time,exitBtn}; //컴포넌트 이동 드래그 기능을 추가할 컴포넌트들
-//		
-//		ccUtil.setComponentHelperEvent(jcomponentArray);		
-//		mainPanel.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mousePressed(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				System.out.println(mainPanel.getMousePosition());
-//			}
-//			
-//		});
+		loginBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	boolean loginCheck = false;
+                loginCheck = um.isLoginCheck(idTextField.getText(),passwordTextField.getText());
+                if(loginCheck)
+                {
+                	JOptionPane.showMessageDialog(null, "로그인에 성공하였습니다.");
+                	dispose();
+                	pageManager.goMainPage();
+                }else {
+                	 JOptionPane.showMessageDialog(null, "로그인에 실패하였습니다.");
+                	 idTextField.setText("");
+                	 passwordTextField.setText("");
+                }
+            }
+        });
+		regiBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	dispose();
+            	pageManager.goJoinPage();
+            }
+        });
 	}
 	@Override
 	public void addGui()
