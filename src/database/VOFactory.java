@@ -8,6 +8,7 @@ import data.*;
 
 public class VOFactory {
 	public void setUserVO(UserVO userVO,ResultSet rs) {
+		//¡÷ºÆ
 		try {
 				userVO.setIdNumber(rs.getInt(1));
 				userVO.setId(rs.getString(2));
