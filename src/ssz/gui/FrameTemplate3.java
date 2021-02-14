@@ -11,6 +11,7 @@ public abstract class FrameTemplate3 extends JFrame {
 	protected int width=1000;
 	protected int height=600;
 	protected PageManager pageManager;
+	protected int selectedTableNumber;
 	public FrameTemplate3() {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = screen.width / 2-width /2;
@@ -33,4 +34,5 @@ public abstract class FrameTemplate3 extends JFrame {
 	public void setPageManager(PageManager pageManager) {
 		this.pageManager = pageManager;
 	};
+	
 }

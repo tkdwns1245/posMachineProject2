@@ -1,14 +1,17 @@
-package database; //�׽�Ʈ �ּ� kukirun3
+package database; //占쌓쏙옙트 占쌍쇽옙 kukirun3
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
-import data.*;
+import data.CategoryVO;
+import data.MenuVO;
+import data.ReceiptJoinedVO;
+import data.TableOrderDetailVO;
+import data.TableVO;
+import data.UserVO;
 
 public class VOFactory {
 	public void setUserVO(UserVO userVO,ResultSet rs) {
-		//�ּ�
+		//占쌍쇽옙
 		try {
 				userVO.setIdNumber(rs.getInt(1));
 				userVO.setId(rs.getString(2));
@@ -35,7 +38,7 @@ public class VOFactory {
 	}
 	
 	
-	// DB의 데이터 값을 MenuVO에 세팅
+	// DB�쓽 �뜲�씠�꽣 媛믪쓣 MenuVO�뿉 �꽭�똿
 	public void setMenuVO(MenuVO menuVO,ResultSet rs) {
 		try {
 				menuVO.setMenuCategory(rs.getString(2));
@@ -79,5 +82,19 @@ public class VOFactory {
 		return rjVO;
 		
 	}
+		public void setTableOrderDetailVO(TableOrderDetailVO tableOrderDetailVO,ResultSet rs) {
+			try {
+				tableOrderDetailVO.setTableNum(rs.getInt("tableNum"));
+				tableOrderDetailVO.setOrderNum(rs.getInt("orderNum"));
+				tableOrderDetailVO.setStatus(rs.getString("status"));
+				tableOrderDetailVO.setDetailNum(rs.getInt("orderDetailNum"));
+				tableOrderDetailVO.setNumOf(rs.getInt("num_of"));
+				tableOrderDetailVO.setMenuNum(rs.getInt("menuNum"));
+				tableOrderDetailVO.setMenuName(rs.getString("menu_name"));
+				tableOrderDetailVO.setMenuPrice(rs.getInt("menu_price"));					
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 }
 

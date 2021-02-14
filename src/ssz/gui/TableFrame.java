@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +20,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import data.CategoryVO;
+import data.MenuVO;
+import data.TableOrderDetailVO;
 import gui.util.CreateComponentUtil;
+import lmh.manager.MenuManager;
+import ssz.manager.TableManager;
 
 public class TableFrame extends FrameTemplate3{
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
+	TableManager tm = new TableManager();
+	MenuManager mm = new MenuManager();
 	Font plainFont = new Font("",Font.PLAIN,10);
 	BorderLayout mainLayout = new BorderLayout();
 	BorderLayout middleLeftBorderLayout = new BorderLayout();
@@ -57,12 +68,14 @@ public class TableFrame extends FrameTemplate3{
 	JTable salesTable;
 	JTable goodsTable;
 	
+	JButton gobackButton;
 	JButton cancelButton;
 	JButton payButton;
 	JButton addButton;
 	JButton logoutButton;
 	List<JButton> categoryButtonList;
 	
+	int selectedTableNum;
 	public TableFrame() {
 		super.init();
 	}
@@ -78,17 +91,17 @@ public class TableFrame extends FrameTemplate3{
 		
 		//topPanel 초기화
 		topPanel = new JPanel();
-		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT,65,10));
+		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT,30,10));
 		topPanel.setBackground(Color.BLUE);
 		logoutButton = new JButton("로그아웃");
-		
+		gobackButton = new JButton("나가기");
 		//time패널 초기화
 		timePanel = new JPanel();
 		
 		//label초기화
 		dayLabel = new JLabel("2021/01/01");
 		timeLabel = new JLabel("PM 04:09");
-		tableLabel = new JLabel("table 1");
+		tableLabel = new JLabel("table ");
 		tableLabel.setBorder(BorderFactory.createEmptyBorder(0, 200,0, 200));
 		idLabel = new JLabel("아이디");
 		
@@ -161,8 +174,8 @@ public class TableFrame extends FrameTemplate3{
 			{"항목4","3000"}
 		};
 		DefaultTableModel model2 = new DefaultTableModel(contents2,header2);
-		salesTable = new JTable(model2);
-		goodsScrollpane = new JScrollPane(salesTable);
+		goodsTable = new JTable(model2);
+		goodsScrollpane = new JScrollPane(goodsTable);
 		goodsScrollpane.setPreferredSize(new Dimension(280,280));
 		addButton = new JButton("추가");
 		//bottomPanel 초기화
@@ -179,7 +192,7 @@ public class TableFrame extends FrameTemplate3{
 		topPanel.add(tableLabel);
 		topPanel.add(idLabel);
 		topPanel.add(logoutButton);		
-		
+		topPanel.add(gobackButton);
 		mlTopPanel.add(mlTitleLabel);
 		mlMiddlePanel.add(salesScrollpane);
 		mlBottomPanel.add(cancelButton);
@@ -208,6 +221,93 @@ public class TableFrame extends FrameTemplate3{
 	}
 	@Override
 	public void initEvent() {
-		
+		gobackButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+            	pageManager.goMainPage();	
+			}
+		});
+		this.addComponentListener(new ComponentListener() {
+			public void componentShown(ComponentEvent e) {
+				tableLabel.setText("table " + pageManager.getTableNumber());
+				List<TableOrderDetailVO> tableOrderDetailList = new ArrayList<TableOrderDetailVO>();
+				//////////////salesTablePaint/////////////
+				//select tableOrderDetailList
+				tableOrderDetailList = tm.selectTableOrderDetail(pageManager.getTableNumber());
+				int tableOrderSize = tableOrderDetailList.size();
+				
+				//set contents from tableOrderDetailList
+				String[][] contents = new String[tableOrderSize][4];
+				String header[] = {"이름","가격","개수","금액"};
+				//
+				for(int i = 0; i < tableOrderSize; i ++)
+				{
+					String menuName = tableOrderDetailList.get(i).getMenuName();
+					int menuPrice = tableOrderDetailList.get(i).getMenuPrice();
+					int numOf = tableOrderDetailList.get(i).getNumOf();
+					int sumOfPrice = menuPrice * numOf;
+					contents[i][0] = menuName;
+					contents[i][1] = "" + menuPrice;
+					contents[i][2] = "" + numOf;
+					contents[i][3] = "" + sumOfPrice; 
+				}
+				DefaultTableModel model = new DefaultTableModel(contents,header);
+				salesTable.setModel(model);
+				
+				////////////// setting categoryButtonList and repaint mrTopPanel /////////////
+				categoryButtonList.removeAll(categoryButtonList);
+				List<CategoryVO> categoryList = mm.selectCategoryList();
+				
+				//setting categoryButtonList
+				for(int i =0; i < categoryList.size(); i++)
+				{
+					CategoryVO tmpCategoryVO = categoryList.get(i);
+					JButton tmpButton = new JButton(tmpCategoryVO.getCategoryName());
+					tmpButton.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							List<MenuVO> menuList = mm.selectMenuListByCategoryName(tmpCategoryVO.getCategoryName());
+							int menuListSize = menuList.size();
+							
+							//set contents from tableOrderDetailList
+							String[][] contents = new String[menuListSize][4];
+							String header[] = {"이름","가격"};
+							//
+							for(int i = 0; i < menuListSize; i ++)
+							{
+								String menuName = menuList.get(i).getMenuName();
+								int menuPrice = menuList.get(i).getMenuPrice();
+								contents[i][0] = menuName;
+								contents[i][1] = "" + menuPrice;
+							}
+							DefaultTableModel model = new DefaultTableModel(contents,header);
+							goodsTable.setModel(model);
+						}
+					});
+					tmpButton.setPreferredSize(new Dimension(70, 30));
+					categoryButtonList.add(tmpButton);
+				}
+				//remove all components in mrTopPanel
+				mrTopPanel.removeAll();
+				
+				//repaint mrTopPanel
+				for(int j = 0 ; j < categoryButtonList.size(); j++)
+				{
+					mrTopPanel.add(categoryButtonList.get(j));
+				}
+				mrTopPanel.repaint();
+	        }public void componentHidden(ComponentEvent e) {
+
+	        }
+
+	        public void componentMoved(ComponentEvent e) {
+
+	        }
+
+	        public void componentResized(ComponentEvent e) {
+
+	        }
+        });
 	}
 }

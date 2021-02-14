@@ -3,6 +3,7 @@ package ServiceImpl;
 import java.util.List;
 
 import daoImpl.TableDaoImpl;
+import data.TableOrderDetailVO;
 import data.TableVO;
 import service.TableService;
 
@@ -21,6 +22,17 @@ public class TableServiceImpl implements TableService{
 		}
 		return null;
 	}
+	
+	@Override
+	public List<TableOrderDetailVO> selectTableOrderDetail(int tableNum) {
+		try {
+			return tableDao.selectTableOrderDetail(tableNum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	@Override
 	public int countOfTables() {
 		try {

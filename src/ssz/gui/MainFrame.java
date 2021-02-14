@@ -104,7 +104,7 @@ public class MainFrame  extends FrameTemplate3{
 		List<TableVO> tableList = tm.selectTableList();
 		for(int i =0; i < tpm.getTotalTableCount(); i++)
 		{
-			JButton tmpButton = new JButton("table" + tableList.get(i).getTableNumber());
+			JButton tmpButton = new JButton("table " + tableList.get(i).getTableNumber());
 			tmpButton.setPreferredSize(new Dimension(100, 50));
 			tableButtonList.add(tmpButton);
 		}
@@ -209,5 +209,16 @@ public class MainFrame  extends FrameTemplate3{
             	repaint();
             }
         });
+		for(int i = 0; i < tableButtonList.size(); i++)
+		{
+			int tableNum = Integer.parseInt(tableButtonList.get(i).getText().split(" ")[1]);
+			tableButtonList.get(i).addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	            	dispose();
+	            	pageManager.goTablePage(tableNum);
+	            }
+	        });
+		}
 	}
 }

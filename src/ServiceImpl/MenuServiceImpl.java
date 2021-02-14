@@ -31,7 +31,15 @@ public class MenuServiceImpl implements MenuService{
 		}
 		return null;
 	}
-	
+	@Override
+	public List<MenuVO> menuListByCategoryName(String categoryName) {
+		try {
+			return MenuDao.menuListByCategoryName(categoryName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 
 }

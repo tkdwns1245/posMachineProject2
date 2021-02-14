@@ -8,7 +8,7 @@ import ssz.gui.FrameTemplate3;
 
 public class PageManager {
 	Map pageMap = new HashMap<String,FrameTemplate3>();
-	
+	int tableNumber;
 	public void setPageList(List<FrameTemplate3> frameList){
 		for (FrameTemplate3 frame : frameList)
 		{
@@ -27,5 +27,14 @@ public class PageManager {
 	public void goMainPage() {
 		FrameTemplate3 tmpTemplate = (FrameTemplate3)pageMap.get("ssz.gui.MainFrame");
 		tmpTemplate.setVisible(true);
+	}
+	public void goTablePage(int tableNum) {
+		FrameTemplate3 tmpTemplate = (FrameTemplate3)pageMap.get("ssz.gui.TableFrame");
+		this.tableNumber = tableNum;
+		tmpTemplate.setVisible(true);
+		
+	}
+	public int getTableNumber() {
+		return this.tableNumber;
 	}
 }

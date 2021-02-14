@@ -15,6 +15,10 @@ public class MenuManager {
 		return ms.menuList();
 
 	}
+	public List<MenuVO> selectMenuListByCategoryName(String categoryName){
+		return ms.menuListByCategoryName(categoryName);
+	}
+
 	
 	public List<CategoryVO> selectCategoryList(){
 		return ms.categoryList();
