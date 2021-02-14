@@ -25,7 +25,7 @@ public class Test {
 		for(FrameTemplate3 FrameTemplate : templateList )
 		{
 			FrameTemplate.setPageManager(pm);
-		}
+		
 		pm.setPageList(templateList);
 		
 		pm.goStartPage();

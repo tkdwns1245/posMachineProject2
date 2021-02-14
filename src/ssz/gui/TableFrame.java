@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 
 import data.CategoryVO;
 import data.MenuVO;
+import data.OrderDetailVO;
 import data.TableOrderDetailVO;
 import gui.util.CreateComponentUtil;
 import lmh.manager.MenuManager;
@@ -74,8 +77,11 @@ public class TableFrame extends FrameTemplate3{
 	JButton addButton;
 	JButton logoutButton;
 	List<JButton> categoryButtonList;
-	
+	List<OrderDetailVO> updateOrderDetailList = new ArrayList<OrderDetailVO>();
+	List<OrderDetailVO> deleteOrderDetailList = new ArrayList<OrderDetailVO>();
 	int selectedTableNum;
+	int selectedSalesTableRow;
+	int selectedGoodsTableRow;
 	public TableFrame() {
 		super.init();
 	}
@@ -168,10 +174,6 @@ public class TableFrame extends FrameTemplate3{
 		String header2[] = {"이름","가격"};
 		String contents2[][] = 
 		{
-			{"항목1","3000"},
-			{"항목2","4000"},
-			{"항목3","5000"},
-			{"항목4","3000"}
 		};
 		DefaultTableModel model2 = new DefaultTableModel(contents2,header2);
 		goodsTable = new JTable(model2);
@@ -221,9 +223,181 @@ public class TableFrame extends FrameTemplate3{
 	}
 	@Override
 	public void initEvent() {
+		salesTable.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectedSalesTableRow = salesTable.getSelectedRow();
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+		});
+		goodsTable.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectedGoodsTableRow = goodsTable.getSelectedRow();
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+		});
+		addButton.addActionListener(new ActionListener() {
+		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int selectedSalesRowNum = 0;
+				boolean isSelectedSalesRow = true;
+				String selectedMenuName = ""+goodsTable.getModel().getValueAt(selectedGoodsTableRow,0);
+				String selectedMenuPrice = ""+goodsTable.getModel().getValueAt(selectedGoodsTableRow,1);
+				DefaultTableModel tmpSalesModel = (DefaultTableModel) salesTable.getModel();
+				
+				//check is selected Goods in salesTable
+				for(int i = 0 ; i < tmpSalesModel.getRowCount(); i++)
+				{
+					String menuName = ""+tmpSalesModel.getValueAt(i,0);
+					if(menuName.equals(selectedMenuName))
+					{
+						selectedSalesRowNum = i;
+						isSelectedSalesRow = true;
+						break;
+					}else if(i == tmpSalesModel.getRowCount()-1)
+					{
+						isSelectedSalesRow = false;
+					}
+					
+				}
+				System.out.println("selectedSalesRowNum : " + selectedSalesRowNum);
+				//when is selected goods in salesTable
+				if(isSelectedSalesRow)
+				{
+					int selectedMenuIndexOf = searchOrderDetailListIndex(updateOrderDetailList,selectedMenuName);
+					int selectedMenuNumOf = Integer.parseInt(""+salesTable.getModel().getValueAt(selectedSalesRowNum,2));
+					System.out.println("selectedMenuNumOf : " + selectedMenuNumOf);
+					OrderDetailVO tmpOrderDetail = updateOrderDetailList.get(selectedMenuIndexOf);
+					tmpOrderDetail.setNumOf(selectedMenuNumOf + 1);
+					
+					//update updateOrderDetailList
+					updateOrderDetailList.set(selectedMenuIndexOf,tmpOrderDetail);
+					
+					//update saletable
+					DefaultTableModel updateTableModel = (DefaultTableModel) salesTable.getModel();
+					updateTableModel.setValueAt("" + (selectedMenuNumOf + 1), selectedSalesRowNum, 2);
+					updateTableModel.fireTableDataChanged();
+					salesTable.setModel(updateTableModel);
+					
+					
+				//when is not goods in salesTable
+				}else
+				{
+					int deleteMenuIndexOf = searchOrderDetailListIndex(deleteOrderDetailList,selectedMenuName);
+					OrderDetailVO tmpOrderDetail = new OrderDetailVO();
+					tmpOrderDetail.setMenuName(selectedMenuName);
+					tmpOrderDetail.setNumOf(0);
+					updateOrderDetailList.add(tmpOrderDetail);
+					DefaultTableModel updateTableModel = (DefaultTableModel) salesTable.getModel();
+					updateTableModel.addRow(new String[]{selectedMenuName,selectedMenuPrice,"1",selectedMenuPrice});
+				
+					//check deleteOrderDetailList and delete item in deleteOrderDetailList
+					if(deleteMenuIndexOf != -1)
+					{
+						deleteOrderDetailList.remove(deleteMenuIndexOf);
+					}
+				}
+				salesTable.repaint(); 
+			}
+			
+		});
+		cancelButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int selectedSalesRowNum = 0;
+				boolean isSelectedSalesRow = true;
+				String selectedMenuName = ""+salesTable.getModel().getValueAt(selectedSalesTableRow,0);
+				int selectedMenuNumOf = Integer.parseInt(""+salesTable.getModel().getValueAt(selectedSalesTableRow,2));
+				
+				//check is selected Goods in salesTable
+				for(int i = 0 ; i < salesTable.getModel().getRowCount(); i++)
+				{
+					String menuName = ""+salesTable.getModel().getValueAt(i,0);
+					if(menuName.equals(selectedMenuName))
+					{
+						selectedSalesRowNum = i;
+						isSelectedSalesRow = true;
+						break;
+					}else if(i == salesTable.getModel().getRowCount()-1)
+					{
+						isSelectedSalesRow = false;
+					}
+					
+				}
+				
+				if(isSelectedSalesRow)
+				{
+					if(selectedMenuNumOf > 1)
+					{
+						int selectedMenuIndexOf = searchOrderDetailListIndex(updateOrderDetailList,selectedMenuName);
+						OrderDetailVO tmpOrderDetail = updateOrderDetailList.get(selectedMenuIndexOf);
+						tmpOrderDetail.setNumOf(selectedMenuNumOf - 1);
+						
+						//update updateOrderDetailList
+						updateOrderDetailList.set(selectedMenuIndexOf,tmpOrderDetail);
+						DefaultTableModel updateTableModel = (DefaultTableModel) salesTable.getModel();
+						
+						//update salesTable
+						updateTableModel.setValueAt("" + (selectedMenuNumOf - 1), selectedSalesRowNum, 2);
+						salesTable.setModel(updateTableModel);
+					}
+					else
+					{
+						int selectedMenuIndexOf = searchOrderDetailListIndex(updateOrderDetailList,selectedMenuName);
+						
+						//remove item in updateOrderDetailList
+						updateOrderDetailList.remove(selectedMenuIndexOf);
+						DefaultTableModel updateTableModel = (DefaultTableModel) salesTable.getModel();
+						
+						//add item in deleteOrderDetailList
+						OrderDetailVO tmpOrderDetail = new OrderDetailVO();
+						tmpOrderDetail.setMenuName(selectedMenuName);
+						tmpOrderDetail.setNumOf(0);
+						deleteOrderDetailList.add(tmpOrderDetail);
+						
+						//remove item salesTable
+						updateTableModel.removeRow(selectedSalesRowNum);
+						salesTable.setModel(updateTableModel);
+					}
+				}
+				salesTable.repaint(); 
+				System.out.println(updateOrderDetailList);
+				System.out.println(deleteOrderDetailList);
+			}
+		});
+		
 		gobackButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//save salesList
+				
+				
+				//move mainPage
 				dispose();
             	pageManager.goMainPage();	
 			}
@@ -240,13 +414,18 @@ public class TableFrame extends FrameTemplate3{
 				//set contents from tableOrderDetailList
 				String[][] contents = new String[tableOrderSize][4];
 				String header[] = {"이름","가격","개수","금액"};
-				//
 				for(int i = 0; i < tableOrderSize; i ++)
 				{
 					String menuName = tableOrderDetailList.get(i).getMenuName();
 					int menuPrice = tableOrderDetailList.get(i).getMenuPrice();
 					int numOf = tableOrderDetailList.get(i).getNumOf();
 					int sumOfPrice = menuPrice * numOf;
+					
+					//set updateOrderDetailMap
+					OrderDetailVO tmpOrderDetail = new OrderDetailVO();
+					tmpOrderDetail.setMenuName(menuName);
+					tmpOrderDetail.setNumOf(numOf);
+					updateOrderDetailList.add(tmpOrderDetail);
 					contents[i][0] = menuName;
 					contents[i][1] = "" + menuPrice;
 					contents[i][2] = "" + numOf;
@@ -309,5 +488,16 @@ public class TableFrame extends FrameTemplate3{
 
 	        }
         });
+	}
+	public int searchOrderDetailListIndex(List<OrderDetailVO> orderDetailList, String menuName) {
+		int searchNum = 0;
+		for(OrderDetailVO tmpOrderDetailVO : orderDetailList)
+		{
+			if(menuName.equals(tmpOrderDetailVO.getMenuName()))
+				return searchNum;
+			else
+				searchNum++;
+		}
+		return -1;
 	}
 }

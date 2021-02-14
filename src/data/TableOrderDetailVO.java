@@ -71,6 +71,7 @@ public class TableOrderDetailVO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
 	@Override
 	public String toString() {
 		return "TableOrderDetailVO [tableNum=" + tableNum + ", orderNum=" + orderNum + ", detailNum="
