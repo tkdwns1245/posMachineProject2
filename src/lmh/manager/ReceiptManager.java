@@ -1,20 +1,15 @@
 package lmh.manager;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ServiceImpl.MenuServiceImpl;
 import ServiceImpl.ReceiptServiceImpl;
-import data.CategoryVO;
-import data.MenuVO;
 import data.ReceiptJoinedVO;
-import data.ReceiptVO;
-import data.Receipt_DetailsVO;
-import service.MenuService;
+import lmh.serviceimpl.LmhServiceImpl;
 import service.ReceiptService;
 
 public class ReceiptManager {
 	ReceiptService rs = new ReceiptServiceImpl();	
+	LmhServiceImpl lmhrs=new LmhServiceImpl();
 	
 	public List<ReceiptJoinedVO> selecttReceipt(){
 		return rs.selectJoinedReceiptTable();
@@ -24,6 +19,14 @@ public class ReceiptManager {
 	public List<ReceiptJoinedVO> selecttReceipt_Details(){
 		return rs.selectJoinedReceiptTable();
 
+	}
+	
+	public Object[][] CreateReceiptJtableContents(int year,int month, int day){
+		return lmhrs.CreateReceiptJtableContents(year, month, day);
+	}
+	
+	public Object[][] CreateReceiptDetailJtableContents(int rcNumber){
+		return lmhrs.CreateReceiptDetailJtableContents(rcNumber);
 	}
 
 }

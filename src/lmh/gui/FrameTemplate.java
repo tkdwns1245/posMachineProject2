@@ -36,7 +36,7 @@ public abstract class FrameTemplate extends JFrame implements Runnable {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = screen.width / 2-width /2;
 		int y =  screen.height / 2 - height/2;
-        this.setTitle("SLR의 PosMachine");
+        this.setTitle("SLR�쓽 PosMachine");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		this.setSize(width, height);
@@ -44,8 +44,8 @@ public abstract class FrameTemplate extends JFrame implements Runnable {
 	}  
 	public void init() {
 		initComponent();
-		initEvent();
 		addGui();
+		initEvent();
 		
 	}
 	public abstract void initComponent();

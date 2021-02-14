@@ -4,8 +4,17 @@ import java.awt.Color;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,8 +27,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.SwingUtilities; 
+import javax.swing.event.AncestorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import data.MenuVO;
 import data.ReceiptJoinedVO;
@@ -34,6 +48,8 @@ public class ReceiptManage extends FrameTemplate {
 	ReceiptManager rm = new ReceiptManager();
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
 	DecimalFormat df = new DecimalFormat("###,###");
+	
+	int year,month,day;
 
 	
 	JPanel mainPanel;
@@ -44,14 +60,7 @@ public class ReceiptManage extends FrameTemplate {
 	JPanel paymentDetail;
 	JPanel paymentContent;
 	JPanel tableContent;
- //	JPanel tableField1;
- //	JPanel tableValue1;	 
- //	JPanel payPrice;
- //	JPanel payTime;
-	
- //	JPanel tableField2;
- //	JPanel tableValue2;
- //	JPanel total;
+
 	JPanel history;
 	JPanel times;
 	JPanel price;
@@ -71,8 +80,7 @@ public class ReceiptManage extends FrameTemplate {
 	JLabel fieldName1;
 	JLabel fieldName2;
 	JLabel deatailLabel;
-//	JLabel payPriceLabel;
-//	JLabel payTimeLabel;
+
 	
 	JLabel totalLabel;
 	JLabel historyLabel;
@@ -90,6 +98,13 @@ public class ReceiptManage extends FrameTemplate {
 	int size;
 	int size2;
 	int totalSum;
+	
+	UtilDateModel model;
+	JDatePanelImpl datePanel;
+	JDatePickerImpl datePicker;
+	
+	String[] header,header2;
+	Object[][] contents,contents2;
 	
 	public ReceiptManage() {
 		init();
@@ -112,23 +127,13 @@ public class ReceiptManage extends FrameTemplate {
 		paymentTitlePanel = (JPanel) ccUtil.createJcomponent("p",width*30/100,height*45/1000, 0,0);
 		paymentDetail=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*955/1000, 0, height*45/1000);
 		paymentContent=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*245, width/1000*50, height/600*65);
-	//	tableField1=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*25, 0, 0);
-	//	tableValue1=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*575, 0, height/600*25);
-		
-	//	payPrice=(JPanel) ccUtil.createJcomponent("p", width/1000*205/2, height/600*575, 0, 0);
-	//	payTime=(JPanel) ccUtil.createJcomponent("p", width/1000*205/2, height/600*575, width/1000*205/2, 0);
-		
-		
+
 		// 상세내역 패널
 		detailTitlePanel = (JPanel) ccUtil.createJcomponent("p", width*30/100,height*45/1000, 0,0);
 		detailPanel= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*60/100, width*55/100,height*20/100);
 		detail= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*955/1000, 0, height*45/1000);
 		detailContent=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*190, width/1000*50, height/600*40);
 		totalPanel=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*25, width/1000*50,height/600*230);
-
-	//	tableField2=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*25, 0, 0);
-	//	tableValue2=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*170, 0, height/600*25);
-	//	total=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*25, 0, height/600*195);
 
 		history=(JPanel) ccUtil.createJcomponent("p", width/1000*205/3, height/600*575, 0, 0);
 		times=(JPanel) ccUtil.createJcomponent("p", width/1000*205/3, height/600*575, width/1000*205/3, 0);
@@ -139,67 +144,42 @@ public class ReceiptManage extends FrameTemplate {
 		dateLabel.setText("날짜선택");
 		dateLabel.setFont(new Font("맑은고딕",Font.BOLD, 15));	
 		
-	//	fieldName1=(JLabel) ccUtil.createJcomponent("l", width/1000*00, height/600*200, width/1000*50, height/600*60);
-	//	fieldName1.setText("   결제금액                  결제시간   ");
-	//	payPriceLabel=(JLabel) ccUtil.createJcomponent("l", width/1000*205/2, height/600*575, width*0/100, height*0/100);
-	//	payPriceLabel.setText("20,000d원");
-	//	payTimeLabel=(JLabel) ccUtil.createJcomponent("l", width/1000*205/2, height/600*575, width*0/100, height*0/100);
-	//	payTimeLabel.setText("17:55");
 		deatailLabel=(JLabel) ccUtil.createJcomponent("l",width*30/100,height*45/1000, width*0/100, height*0/100);
 		deatailLabel.setText("상세내역");
 		deatailLabel.setFont(new Font("맑은고딕",Font.BOLD, 15));	
-		
-		
-	//	fieldName2=(JLabel) ccUtil.createJcomponent("l",width/1000*00, height/600*200, width/1000*50, height/600*60);
-	//	fieldName2.setText(" 내 역           구매횟수          가 격  ");
+
 		totalLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205, height/600*25, 0, 0);
 		
-	//	historyLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
-	//	historyLabel.setText("항 목");
-	//	timesLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
-	//	timesLabel.setText("1");
-	//	priceLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
-	//	priceLabel.setText("20,000원");
+
 		
 		// Table 생성(결제금액, 결제시간)
-		String header[] = {"결제금액","결제시간"};
-		size = rm.selecttReceipt().size();
-		ArrayList<ReceiptJoinedVO> List= (ArrayList)rm.selecttReceipt();
-		String[][] contents = new String[size][2];  // 리스트 사이즈를 먼저 선언
-		for(int i=0; i < List.size(); i++) {
-			contents[i][0] =  "" + List.get(i).getSumPrice();
-			contents[i][1] = "" + List.get(i).getRegTime();
-		}
-		
+		header = new String[] {"결제금액","결제시간"};
+		contents=rm.CreateReceiptJtableContents(year, month, day);
+
     	DefaultTableModel model = new DefaultTableModel(contents,header){
 		// 더블클릭해서 수정불가
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
 		};
+		
+		
+		dateTable = new JTable(model);
 		dateScrollpane = new JScrollPane(dateTable);
 		dateScrollpane.setPreferredSize(new Dimension(width/1000*195,height/600*235));
 		
 		
 		// Table 생성(내역, 구매횟수, 가격)
-		String header2[] = {"내 역","구매횟수","가 격"};
-		size2 = rm.selecttReceipt_Details().size();
-		ArrayList<ReceiptJoinedVO> List2 = (ArrayList)rm.selecttReceipt();
-		String[][] contents2 = new String[size2][3];  // 리스트 사이즈를 먼저 선언
-		for(int i=0; i < List2.size(); i++) {
-			contents2[i][0] = List2.get(i).getMenu_Name();
-			contents2[i][1] = "" + List2.get(i).getNumberOf();
-			contents2[i][2] = "" + List2.get(i).getMenu_Price();
-			
-			totalSum += List2.get(i).getMenu_Price(); 
-		}
-		
+		header2 = new String[] {"내 역","구매횟수","가 격"};
+		contents2=rm.CreateReceiptDetailJtableContents(0);
 		DefaultTableModel model2 = new DefaultTableModel(contents2,header2){
 		// 더블클릭해서 수정불가
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
 		};
+		
+		
 		detailTable = new JTable(model2);
 		detailScrollpane = new JScrollPane(detailTable);
 		detailScrollpane.setPreferredSize(new Dimension(width/1000*195,height/600*180));
@@ -221,14 +201,15 @@ public class ReceiptManage extends FrameTemplate {
 		
 		// 날짜선택창
 		
-		UtilDateModel model = new UtilDateModel();
-		JDatePanelImpl datePanel = new JDatePanelImpl(model);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
-		datePicker.setPreferredSize(new Dimension(width/1000*200,height/600*25));
+		model = new UtilDateModel();
+		datePanel = new JDatePanelImpl(model);
+		datePicker = new JDatePickerImpl(datePanel);
+		datePicker.setPreferredSize(new Dimension(200,25));
 		datePicker.setFont(new Font("맑은고딕",Font.BOLD, 15));	
 		dateSelect.add(datePicker);
 		dateSelect.setBackground(new Color(30, 144, 255));
-
+		
+		
 		// 달력에서 선택된 값 받기 : model.getYear() + "-" + (model.getMonth() + 1) + "-" + model.getDay();
 		
 		// 물품항목 패널
@@ -243,7 +224,7 @@ public class ReceiptManage extends FrameTemplate {
 		
 		mainPanel.add(paymentPanel);
 		paymentPanel.setLayout(null);
-		paymentPanel.setBackground(new Color(100, 100, 100));
+		paymentPanel.setBackground(new Color(150, 100, 100));
 		paymentPanel.add(paymentTitlePanel);
 		paymentPanel.add(paymentDetail);
 		
@@ -251,25 +232,11 @@ public class ReceiptManage extends FrameTemplate {
 		
 		paymentPanel.add(paymentDetail);
 		paymentDetail.setLayout(null);
-		paymentDetail.setBackground(new Color(30, 144, 255));
+		paymentDetail.setBackground(new Color(55, 144, 255));
 
 		paymentDetail.add(dateSelect);
 		paymentDetail.add(paymentContent);
 		paymentContent.add(dateScrollpane);
-
-	//	paymentContent.add(tableField1);
-	//	tableField1.setBackground(new Color(186, 220, 88));
-	//	tableField1.add(fieldName1);
-		
-	//	paymentContent.add(tableValue1);
-	//	tableValue1.setLayout(null);
-	//	tableValue1.add(payPrice);
-	//	payPrice.setBackground(new Color(223, 228, 234));
-	//	payPrice.add(payPriceLabel);
-	//	tableValue1.add(payTime);
-	//	payTime.add(payTimeLabel);
-				
-
 
 		// 카테고리 패널		
 		
@@ -296,23 +263,7 @@ public class ReceiptManage extends FrameTemplate {
 		totalPanel.setBackground(new Color(236, 204, 104));
 
 		detailContent.add(detailScrollpane);
-		
-	//	detailContent.add(tableField2);
-	//	tableField2.setBackground(new Color(186, 220, 88));
-	//	tableField2.add(fieldName2);
-			
-	//	detailContent.add(tableValue2);
-	//	tableValue2.setLayout(null);
-	
-	//	tableValue2.add(history);
-	//	history.add(historyLabel);
-	//	tableValue2.add(times);
-	//	times.add(timesLabel);
-	//	times.setBackground(new Color(223, 228, 234));
 
-	//	tableValue2.add(price);
-	//	price.add(priceLabel);
-	
 
 	}
 	@Override
@@ -340,6 +291,49 @@ public class ReceiptManage extends FrameTemplate {
 						}	
 				  }
 		});
+		
+		model.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				// TODO Auto-generated method stub
+
+				int beforeday=day;
+	
+				year=model.getYear();
+				month=model.getMonth()+1;
+				day=model.getDay();
+
+				int afterday=day;
+
+				
+				if(beforeday!=afterday) {
+					
+					contents=rm.CreateReceiptJtableContents(year, month, day);					
+					dateTable.setModel(new DefaultTableModel(contents,header));
+					detailTable.setModel(new DefaultTableModel(null,header2));	
+					
+				}
+			}
+		});
+		
+		dateTable.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				contents2=rm.CreateReceiptDetailJtableContents((int)contents[dateTable.getSelectedRow()][2]);
+				detailTable.setModel(new DefaultTableModel(contents2,header2));	
+				
+				int total=0;
+				for(int i=0;i<contents2.length;i++) {
+					total+=(int)contents2[i][2]*(int)contents2[i][1];
+				}
+				totalLabel.setText("합계 "+String.valueOf(total)+" 원");
+			}
+		});
+		
+
 	}
 	
 	@Override
