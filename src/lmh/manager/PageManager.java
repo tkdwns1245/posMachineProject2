@@ -22,8 +22,8 @@ public class PageManager {
 		tmpTemplate.run();
 	}
 	
-	public void goRecieptManagePage() {
-		FrameTemplate tmpTemplate = (FrameTemplate)pageMap.get("lmh.gui.RecieptManage");
+	public void goReceiptManagePage() {
+		FrameTemplate tmpTemplate = (FrameTemplate)pageMap.get("lmh.gui.ReceiptManage");
 		tmpTemplate.setVisible(true);
 		tmpTemplate.run();
 

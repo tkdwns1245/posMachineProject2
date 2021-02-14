@@ -9,12 +9,12 @@ import java.sql.Statement;
 
 public abstract class DatabaseUtil {
 	
-	//DB·Î±×ÀÎ Á¤º¸
+	//DBï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private static final String DB_URL = "jdbc:mysql://ssjdatabase.ceqqrjstuth3.ap-northeast-2.rds.amazonaws.com";
 	private static final String USERNAME = "ssjdbadmin"; // DB ID 
 	private static final String PASSWORD = "tkdwnsDBAdmin"; // DB Password 
 	
-	//Å×ÀÌºí Á¤ÀÇ
+	//ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½
 	private static final String USER_TABLE="posmachine.USER";
 	private static final String MENU_TABLE="posmachine.MENU";
 	private static final String ORDER_TABLE="posmachine.ORDER";
@@ -22,7 +22,7 @@ public abstract class DatabaseUtil {
 	private static final String TABLE_TABLE="posmachine.TABLE";
 	private static final String ORDER_DETAIL_TABLE="posmachine.SALE_DETAILS";
 
-	//DB¿¬°á º¯¼ö
+	//DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public Connection con;
 	public PreparedStatement pstmt;
 	public ResultSet rs;
@@ -44,7 +44,7 @@ public abstract class DatabaseUtil {
 	private void init() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(DB_URL,USERNAME,PASSWORD); // Á¢¼Ó°á°ú¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+			con = DriverManager.getConnection(DB_URL,USERNAME,PASSWORD); // ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -32,5 +32,50 @@ public class VOFactory {
 			e.printStackTrace();
 		}
 	}
-
+	
+	
+	// DB의 데이터 값을 MenuVO에 세팅
+	public void setMenuVO(MenuVO menuVO,ResultSet rs) {
+		try {
+				menuVO.setMenuCategory(rs.getString(2));
+				menuVO.setMenuName(rs.getString(3));
+				menuVO.setMenuPrice(rs.getInt(4));
+				
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setCategoryVO(CategoryVO categoryVO,ResultSet rs) {
+		try {
+				categoryVO.setCategoryName(rs.getString(2));
+								
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+public ReceiptJoinedVO setReceiptJoinedVO(ReceiptJoinedVO rjVO,ResultSet rs) {
+		
+		try {
+			
+			rjVO.setRcNumber(rs.getInt("rcNumber"));
+			rjVO.setSumPrice(rs.getInt("sumPrice"));
+			rjVO.setPayType(rs.getString("payType"));
+			rjVO.setRegTime(rs.getTimestamp("regTime"));
+			rjVO.setStatus(rs.getString("status"));
+			rjVO.setMenu_Category(rs.getString("menu_Category"));
+			rjVO.setMenu_Name(rs.getString("menu_Name"));
+			rjVO.setMenu_Price(rs.getInt("menu_Price"));
+			rjVO.setNumberOf(rs.getInt("numberOf"));
+			rjVO.setRowSum(rs.getInt("rowSum"));
+			rjVO.setRowCount(rs.getInt("rowCount"));
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return rjVO;
+		
+	}
+	
 }

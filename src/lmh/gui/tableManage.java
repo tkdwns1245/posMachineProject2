@@ -1,4 +1,5 @@
 package lmh.gui;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -25,7 +26,6 @@ import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 import gui.util.CreateComponentUtil;
-import lmh.manager.PageManager;
 
 public class tableManage extends FrameTemplate{
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
@@ -66,6 +66,9 @@ public class tableManage extends FrameTemplate{
 		ccUtil.setMainPanel(mainPanel);
 		
 		timePanel=(JPanel)  ccUtil.createJcomponent("p", width*23/100,height*5/100, 50, 50);
+		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
+		time.setForeground(Color.white);
+		time.setFont(new Font("맑은고딕",Font.BOLD, 15));		
 		
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
 		time.setForeground(Color.white);

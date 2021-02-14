@@ -46,7 +46,6 @@ public abstract class FrameTemplate extends JFrame implements Runnable {
 		initComponent();
 		initEvent();
 		addGui();
-//		this.setVisible(true);
 		
 	}
 	public abstract void initComponent();
