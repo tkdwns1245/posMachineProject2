@@ -1,4 +1,4 @@
-package database;
+package database; //�׽�Ʈ �ּ� kukirun3
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import data.*;
 
 public class VOFactory {
 	public void setUserVO(UserVO userVO,ResultSet rs) {
+		//�ּ�
 		try {
 				userVO.setIdNumber(rs.getInt(1));
 				userVO.setId(rs.getString(2));
@@ -55,7 +56,8 @@ public class VOFactory {
 		}
 	}
 	
-public ReceiptJoinedVO setReceiptJoinedVO(ReceiptJoinedVO rjVO,ResultSet rs) {
+
+	public ReceiptJoinedVO setReceiptJoinedVO(ReceiptJoinedVO rjVO,ResultSet rs) {
 		
 		try {
 			
@@ -77,5 +79,5 @@ public ReceiptJoinedVO setReceiptJoinedVO(ReceiptJoinedVO rjVO,ResultSet rs) {
 		return rjVO;
 		
 	}
-	
 }
+

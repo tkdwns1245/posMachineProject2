@@ -66,7 +66,11 @@ public class ReceiptDaoimpl implements ReceiptDao{
 		
 		catch (Exception e) 
 		{ 
+
 			System.out.println(e+"Á¢¼Ó ½ÇÆÐ"); 
+
+			System.out.println(e+"���� ����"); 
+
 		}
 		return null;
 		
@@ -95,4 +99,8 @@ public class ReceiptDaoimpl implements ReceiptDao{
 	}
 		
 	
+
 }
+
+
+
