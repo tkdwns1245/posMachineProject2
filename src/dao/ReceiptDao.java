@@ -9,5 +9,6 @@ public interface ReceiptDao {
 
 	
 	public List<ReceiptJoinedVO> selectJoinedReceiptTable();
+	public void returnThisSale(int rcNumber);
 	public int getRowCount();
 }

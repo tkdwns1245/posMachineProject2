@@ -97,6 +97,28 @@ public class ReceiptDaoimpl implements ReceiptDao{
 		return rowCount;
 
 	}
+
+
+	@Override
+	public void returnThisSale(int rcNumber) {
+		// TODO Auto-generated method stub
+		sql=new StringBuffer();
+		sql.append("UPDATE posmachine.RECEIPT ");
+		sql.append("SET status='return' ");
+		sql.append("WHERE rcNumber= ? ");
+		
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setInt(1, rcNumber);
+				pstmt.executeUpdate();
+				
+			}
+		}.execute();
+		
+	}
 		
 	
 

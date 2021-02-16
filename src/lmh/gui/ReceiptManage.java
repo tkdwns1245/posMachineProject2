@@ -103,6 +103,7 @@ public class ReceiptManage extends FrameTemplate {
 	JDatePanelImpl datePanel;
 	JDatePickerImpl datePicker;
 	
+	DefaultTableModel datetablemodel; 
 	String[] header,header2;
 	Object[][] contents,contents2;
 	
@@ -156,7 +157,7 @@ public class ReceiptManage extends FrameTemplate {
 		header = new String[] {"결제금액","결제시간"};
 		contents=rm.CreateReceiptJtableContents(year, month, day);
 
-    	DefaultTableModel model = new DefaultTableModel(contents,header){
+    	datetablemodel = new DefaultTableModel(contents,header){
 		// 더블클릭해서 수정불가
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
@@ -164,7 +165,7 @@ public class ReceiptManage extends FrameTemplate {
 		};
 		
 		
-		dateTable = new JTable(model);
+		dateTable = new JTable(datetablemodel);
 		dateScrollpane = new JScrollPane(dateTable);
 		dateScrollpane.setPreferredSize(new Dimension(width/1000*195,height/600*235));
 		
@@ -286,8 +287,13 @@ public class ReceiptManage extends FrameTemplate {
 				  String[] st = {"네", "아니오"};
 					int num = JOptionPane.showOptionDialog(null, "반품처리 하시겠습니까?.", "반품 처리", JOptionPane.DEFAULT_OPTION, 1, null, st, st[0]);
 						
-						if(num == 0) {JOptionPane.showMessageDialog(null, "반품처리 되었습니다.");
+						if(num == 0) {
+							rm.returnThisSale((int)contents[dateTable.getSelectedRow()][2]);
+							contents[dateTable.getSelectedRow()][3]="return";
+							detailTable.setModel(new DefaultTableModel(null,header2));	
+							totalLabel.setText("");
 							
+							JOptionPane.showMessageDialog(null, "반품처리 되었습니다.");
 						}	
 				  }
 		});
@@ -297,7 +303,7 @@ public class ReceiptManage extends FrameTemplate {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				// TODO Auto-generated method stub
-
+				String before=""+year+month;
 				int beforeday=day;
 	
 				year=model.getYear();
@@ -305,13 +311,17 @@ public class ReceiptManage extends FrameTemplate {
 				day=model.getDay();
 
 				int afterday=day;
+				String after=""+year+month;
 
 				
-				if(beforeday!=afterday) {
-					
+				if( (beforeday!=afterday) || (beforeday==afterday && !before.equals(after)) ) {
+			
 					contents=rm.CreateReceiptJtableContents(year, month, day);					
 					dateTable.setModel(new DefaultTableModel(contents,header));
-					detailTable.setModel(new DefaultTableModel(null,header2));	
+					
+					dateTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+					dateTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+					
 					
 				}
 			}
@@ -329,7 +339,14 @@ public class ReceiptManage extends FrameTemplate {
 				for(int i=0;i<contents2.length;i++) {
 					total+=(int)contents2[i][2]*(int)contents2[i][1];
 				}
-				totalLabel.setText("합계 "+String.valueOf(total)+" 원");
+				if(contents[dateTable.getSelectedRow()][3].equals("normal")) {
+					totalLabel.setText("합계 "+String.valueOf(total)+" 원");
+					totalPanel.setBackground(new Color(236, 204, 104));
+				}
+				if(contents[dateTable.getSelectedRow()][3].equals("return")) {
+					totalLabel.setText("반품 "+String.valueOf(total)+" 원");
+					totalPanel.setBackground(new Color(200, 80, 80));
+				}
 			}
 		});
 		

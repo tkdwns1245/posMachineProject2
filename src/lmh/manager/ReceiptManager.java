@@ -28,6 +28,9 @@ public class ReceiptManager {
 	public Object[][] CreateReceiptDetailJtableContents(int rcNumber){
 		return lmhrs.CreateReceiptDetailJtableContents(rcNumber);
 	}
+	public void returnThisSale(int rcNumber) {
+		lmhrs.returnThisSale(rcNumber);
+	}
 
 }
 
