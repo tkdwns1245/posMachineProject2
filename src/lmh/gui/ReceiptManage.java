@@ -72,7 +72,7 @@ public class ReceiptManage extends FrameTemplate {
 	JPanel detailContent;
 	
 	JPanel totalPanel;
-	JPanel dateSelect;  // ë‚ ì§œ ì„ íƒì°½ êµ¬í˜„ í•„ìš”
+	JPanel dateSelect;  // ³¯Â¥ ¼±ÅÃÃ¢ ±¸Çö ÇÊ¿ä
 
 	
 	JLabel time;
@@ -115,21 +115,21 @@ public class ReceiptManage extends FrameTemplate {
 	@Override
 	public void initComponent() {
 		mainPanel = new JPanel();
-		//Utilì—  defaultë¡œ ì„¸íŒ…í•´ì•¼ í•˜ëŠ”í•¨
+		//Util¿¡  default·Î ¼¼ÆÃÇØ¾ß ÇÏ´ÂÇÔ
 		ccUtil.setMainPanel(mainPanel);
-		//ì‹œê³„ê¸°ëŠ¥ íŒ¨ë„, ë ˆì´ë¸”
+		//½Ã°è±â´É ÆĞ³Î, ·¹ÀÌºí
 		timePanel=(JPanel)  ccUtil.createJcomponent("p", width*23/100,height*5/100, 50, 50);
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
 		time.setForeground(Color.white);
-		time.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 15));	
+		time.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));	
 
-		// ê²°ì œì •ë³´  íŒ¨ë„
+		// °áÁ¦Á¤º¸  ÆĞ³Î
 		paymentPanel= (JPanel) ccUtil.createJcomponent("p",width*30/100,height*60/100, width*15/100,height*20/100);
 		paymentTitlePanel = (JPanel) ccUtil.createJcomponent("p",width*30/100,height*45/1000, 0,0);
 		paymentDetail=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*955/1000, 0, height*45/1000);
 		paymentContent=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*245, width/1000*50, height/600*65);
 
-		// ìƒì„¸ë‚´ì—­ íŒ¨ë„
+		// »ó¼¼³»¿ª ÆĞ³Î
 		detailTitlePanel = (JPanel) ccUtil.createJcomponent("p", width*30/100,height*45/1000, 0,0);
 		detailPanel= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*60/100, width*55/100,height*20/100);
 		detail= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*955/1000, 0, height*45/1000);
@@ -140,25 +140,25 @@ public class ReceiptManage extends FrameTemplate {
 		times=(JPanel) ccUtil.createJcomponent("p", width/1000*205/3, height/600*575, width/1000*205/3, 0);
 		price=(JPanel) ccUtil.createJcomponent("p", width/1000*205/3, height/600*575, width/1000*205/3*2, 0);
 
-		// ê²°ì œì •ë³´, ìƒì„¸ë‚´ì—­ ë ˆì´ë¸”
+		// °áÁ¦Á¤º¸, »ó¼¼³»¿ª ·¹ÀÌºí
 		dateLabel=(JLabel) ccUtil.createJcomponent("l", width*30/100,height*45/1000, width*0/100, height*0/100);
-		dateLabel.setText("ë‚ ì§œì„ íƒ");
-		dateLabel.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 15));	
+		dateLabel.setText("³¯Â¥¼±ÅÃ");
+		dateLabel.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));	
 		
 		deatailLabel=(JLabel) ccUtil.createJcomponent("l",width*30/100,height*45/1000, width*0/100, height*0/100);
-		deatailLabel.setText("ìƒì„¸ë‚´ì—­");
-		deatailLabel.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 15));	
+		deatailLabel.setText("»ó¼¼³»¿ª");
+		deatailLabel.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));	
 
 		totalLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205, height/600*25, 0, 0);
 		
 
 		
-		// Table ìƒì„±(ê²°ì œê¸ˆì•¡, ê²°ì œì‹œê°„)
-		header = new String[] {"ê²°ì œê¸ˆì•¡","ê²°ì œì‹œê°„"};
+		// Table »ı¼º(°áÁ¦±İ¾×, °áÁ¦½Ã°£)
+		header = new String[] {"°áÁ¦±İ¾×","°áÁ¦½Ã°£"};
 		contents=rm.CreateReceiptJtableContents(year, month, day);
 
     	datetablemodel = new DefaultTableModel(contents,header){
-		// ë”ë¸”í´ë¦­í•´ì„œ ìˆ˜ì •ë¶ˆê°€
+		// ´õºíÅ¬¸¯ÇØ¼­ ¼öÁ¤ºÒ°¡
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
@@ -170,11 +170,11 @@ public class ReceiptManage extends FrameTemplate {
 		dateScrollpane.setPreferredSize(new Dimension(width/1000*195,height/600*235));
 		
 		
-		// Table ìƒì„±(ë‚´ì—­, êµ¬ë§¤íšŸìˆ˜, ê°€ê²©)
-		header2 = new String[] {"ë‚´ ì—­","êµ¬ë§¤íšŸìˆ˜","ê°€ ê²©"};
+		// Table »ı¼º(³»¿ª, ±¸¸ÅÈ½¼ö, °¡°İ)
+		header2 = new String[] {"³» ¿ª","±¸¸ÅÈ½¼ö","°¡ °İ"};
 		contents2=rm.CreateReceiptDetailJtableContents(0);
 		DefaultTableModel model2 = new DefaultTableModel(contents2,header2){
-		// ë”ë¸”í´ë¦­í•´ì„œ ìˆ˜ì •ë¶ˆê°€
+		// ´õºíÅ¬¸¯ÇØ¼­ ¼öÁ¤ºÒ°¡
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
@@ -185,13 +185,13 @@ public class ReceiptManage extends FrameTemplate {
 		detailScrollpane = new JScrollPane(detailTable);
 		detailScrollpane.setPreferredSize(new Dimension(width/1000*195,height/600*180));
 		
-		//ë²„íŠ¼ 
+		//¹öÆ° 
 		receiptPrintButton=(JButton) ccUtil.createJcomponent("b", width/10, height/600*30, width/1000*60, height/600*280);
-		receiptPrintButton.setText("ì˜ìˆ˜ì¦ ì¶œë ¥");
+		receiptPrintButton.setText("¿µ¼öÁõ Ãâ·Â");
 		returnButton=(JButton) ccUtil.createJcomponent("b", width/15, height/600*30, width/1000*185, height/600*280);
-		returnButton.setText("ë°˜ í’ˆ");
+		returnButton.setText("¹İ Ç°");
 
-		//ë‚ ì§œì„ íƒ 
+		//³¯Â¥¼±ÅÃ 
 		dateSelect=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*40, width/1000*50, height/600*20);
 		
 	}
@@ -200,20 +200,20 @@ public class ReceiptManage extends FrameTemplate {
 	public void addGui() {
 		this.add(mainPanel);
 		
-		// ë‚ ì§œì„ íƒì°½
+		// ³¯Â¥¼±ÅÃÃ¢
 		
 		model = new UtilDateModel();
 		datePanel = new JDatePanelImpl(model);
 		datePicker = new JDatePickerImpl(datePanel);
 		datePicker.setPreferredSize(new Dimension(200,25));
-		datePicker.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 15));	
+		datePicker.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));	
 		dateSelect.add(datePicker);
 		dateSelect.setBackground(new Color(30, 144, 255));
 		
 		
-		// ë‹¬ë ¥ì—ì„œ ì„ íƒëœ ê°’ ë°›ê¸° : model.getYear() + "-" + (model.getMonth() + 1) + "-" + model.getDay();
+		// ´Ş·Â¿¡¼­ ¼±ÅÃµÈ °ª ¹Ş±â : model.getYear() + "-" + (model.getMonth() + 1) + "-" + model.getDay();
 		
-		// ë¬¼í’ˆí•­ëª© íŒ¨ë„
+		// ¹°Ç°Ç×¸ñ ÆĞ³Î
 		mainPanel.setLayout(null);
 		mainPanel.setBackground(new Color(155,155,155));
 		mainPanel.setBackground(new Color(223, 228, 234));
@@ -239,7 +239,7 @@ public class ReceiptManage extends FrameTemplate {
 		paymentDetail.add(paymentContent);
 		paymentContent.add(dateScrollpane);
 
-		// ì¹´í…Œê³ ë¦¬ íŒ¨ë„		
+		// Ä«Å×°í¸® ÆĞ³Î		
 		
 		mainPanel.add(detailPanel);
 		detailPanel.setLayout(null);
@@ -258,8 +258,8 @@ public class ReceiptManage extends FrameTemplate {
 		detail.add(returnButton);
 		detail.add(detailContent);
 		detail.add(totalPanel);
-		totalPanel.add(totalLabel);  // ê¸ˆì•¡ ì´í•©ê³„
-		totalLabel.setText("í•©ê³„" + " " + (df.format(totalSum)) +"ì›");
+		totalPanel.add(totalLabel);  // ±İ¾× ÃÑÇÕ°è
+		totalLabel.setText("ÇÕ°è" + " " + (df.format(totalSum)) +"¿ø");
 
 		totalPanel.setBackground(new Color(236, 204, 104));
 
@@ -269,31 +269,36 @@ public class ReceiptManage extends FrameTemplate {
 	}
 	@Override
 	public void initEvent() {
-		//ì˜ìˆ˜ì¦ ì¶œë ¥
+		//¿µ¼öÁõ Ãâ·Â
 		receiptPrintButton.addMouseListener(new MouseAdapter() { 
 			  public void mouseClicked(MouseEvent e) {
-				  String[] st = {"ë„¤", "ì•„ë‹ˆì˜¤"};
-					int num = JOptionPane.showOptionDialog(null, "ì˜ìˆ˜ì¦ì„ ì¶œë ¥  í•˜ì‹œê² ìŠµë‹ˆê¹Œ?.", "ì˜ìˆ˜ì¦ ì¶œë ¥", JOptionPane.DEFAULT_OPTION, 1, null, st, st[0]);
+				  String[] st = {"³×", "¾Æ´Ï¿À"};
+					int num = JOptionPane.showOptionDialog(null, "¿µ¼öÁõÀ» Ãâ·Â  ÇÏ½Ã°Ú½À´Ï±î?.", "¿µ¼öÁõ Ãâ·Â", JOptionPane.DEFAULT_OPTION, 1, null, st, st[0]);
 						
-						if(num == 0) {JOptionPane.showMessageDialog(null, "ì˜ìˆ˜ì¦ì´ ì¶œë ¥ë©ë‹ˆë‹¤.");
+						if(num == 0) {JOptionPane.showMessageDialog(null, "¿µ¼öÁõÀÌ Ãâ·ÂµË´Ï´Ù.");
 							
 						}	
 				  }
 		});
 		
-		//ë°˜í’ˆë²„íŠ¼ 
+		//¹İÇ°¹öÆ° 
 		returnButton.addMouseListener(new MouseAdapter() { 
 			  public void mouseClicked(MouseEvent e) {
-				  String[] st = {"ë„¤", "ì•„ë‹ˆì˜¤"};
-					int num = JOptionPane.showOptionDialog(null, "ë°˜í’ˆì²˜ë¦¬ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?.", "ë°˜í’ˆ ì²˜ë¦¬", JOptionPane.DEFAULT_OPTION, 1, null, st, st[0]);
+				  String[] st = {"³×", "¾Æ´Ï¿À"};
+					int num = JOptionPane.showOptionDialog(null, "¹İÇ°Ã³¸® ÇÏ½Ã°Ú½À´Ï±î?.", "¹İÇ° Ã³¸®", JOptionPane.DEFAULT_OPTION, 1, null, st, st[0]);
 						
 						if(num == 0) {
 							rm.returnThisSale((int)contents[dateTable.getSelectedRow()][2]);
-							contents[dateTable.getSelectedRow()][3]="return";
+							contents=rm.CreateReceiptJtableContents(year, month, day);					
+							dateTable.setModel(new DefaultTableModel(contents,header));
 							detailTable.setModel(new DefaultTableModel(null,header2));	
+							
+							dateTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+							dateTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+							
 							totalLabel.setText("");
 							
-							JOptionPane.showMessageDialog(null, "ë°˜í’ˆì²˜ë¦¬ ë˜ì—ˆìŠµë‹ˆë‹¤.");
+							JOptionPane.showMessageDialog(null, "¹İÇ°Ã³¸® µÇ¾ú½À´Ï´Ù.");
 						}	
 				  }
 		});
@@ -340,11 +345,11 @@ public class ReceiptManage extends FrameTemplate {
 					total+=(int)contents2[i][2]*(int)contents2[i][1];
 				}
 				if(contents[dateTable.getSelectedRow()][3].equals("normal")) {
-					totalLabel.setText("í•©ê³„ "+String.valueOf(total)+" ì›");
+					totalLabel.setText("ÇÕ°è "+String.valueOf(total)+" ¿ø");
 					totalPanel.setBackground(new Color(236, 204, 104));
 				}
 				if(contents[dateTable.getSelectedRow()][3].equals("return")) {
-					totalLabel.setText("ë°˜í’ˆ "+String.valueOf(total)+" ì›");
+					totalLabel.setText("¹İÇ° "+String.valueOf(total)+" ¿ø");
 					totalPanel.setBackground(new Color(200, 80, 80));
 				}
 			}
@@ -368,16 +373,16 @@ public class ReceiptManage extends FrameTemplate {
 				
 							
 			if((min<10) && (sec<10)) {
-				String day1 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":0" + sec );
+				String day1 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":0" + sec );
 				time.setText(day1);
 			} else if((min>10) && (sec<10)) {
-				String day2 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":0" + sec );
+				String day2 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":0" + sec );
 				time.setText(day2);
 			} else if((min<10) && (sec>10)) {
-				String day3 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":" + sec );
+				String day3 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":" + sec );
 				time.setText(day3);
 			} else {
-				String day4 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":" + sec );
+				String day4 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":" + sec );
 				time.setText(day4);
 			}
 			
