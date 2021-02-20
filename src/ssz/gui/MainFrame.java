@@ -220,5 +220,32 @@ public class MainFrame  extends FrameTemplate3{
 	            }
 	        });
 		}
+		salesStatusButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				pageManager.goSalesStatusPage();
+			}
+		});
+		goodsManageButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pageManager.goGoodsManagePage();
+				
+			}
+		});
+		receiptManageButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		tableManageButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pageManager.goTableManagePage();
+				
+			}
+		});
 	}
 }

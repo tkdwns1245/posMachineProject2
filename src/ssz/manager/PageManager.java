@@ -32,7 +32,18 @@ public class PageManager {
 		FrameTemplate3 tmpTemplate = (FrameTemplate3)pageMap.get("ssz.gui.TableFrame");
 		this.tableNumber = tableNum;
 		tmpTemplate.setVisible(true);
-		
+	}
+	public void goTableManagePage() {
+		FrameTemplate3 tmpTemplate = (FrameTemplate3)pageMap.get("lmh.gui.TableManage");
+		tmpTemplate.setVisible(true);
+	}
+	public void goGoodsManagePage() {
+		FrameTemplate3 tmpTemplate = (FrameTemplate3)pageMap.get("lmh.gui.TableManage");
+		tmpTemplate.setVisible(true);
+	}
+	public void goSalesStatusPage() {
+		FrameTemplate3 tmpTemplate = (FrameTemplate3)pageMap.get("kukirun.gui.Sales_Status");
+		tmpTemplate.setVisible(true);
 	}
 	public int getTableNumber() {
 		return this.tableNumber;

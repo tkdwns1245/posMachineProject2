@@ -3,6 +3,7 @@ package ServiceImpl;
 import java.util.List;
 
 import daoImpl.TableDaoImpl;
+import data.OrderDetailVO;
 import data.TableOrderDetailVO;
 import data.TableVO;
 import service.TableService;
@@ -41,5 +42,16 @@ public class TableServiceImpl implements TableService{
 			e.printStackTrace();
 		}
 		return -1;
+	}
+	
+	@Override
+	public void saveOrderDetailList(List<OrderDetailVO> updateList, List<OrderDetailVO> deleteList,List<OrderDetailVO> insertList) {
+		try {
+			tableDao.deleteOrderDetailList(deleteList);
+			tableDao.updateOrderDetailList(updateList);
+			tableDao.insertOrderDetailList(insertList);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

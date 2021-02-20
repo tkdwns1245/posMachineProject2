@@ -3,6 +3,7 @@ package ssz.manager;
 import java.util.List;
 
 import ServiceImpl.TableServiceImpl;
+import data.OrderDetailVO;
 import data.TableOrderDetailVO;
 import data.TableVO;
 import service.TableService;
@@ -21,6 +22,13 @@ public class TableManager {
 	}
 	public int countOfTables() {
 		return tableService.countOfTables();
+	}
+	public void saveOrderDetailList(List<OrderDetailVO> updateList, List<OrderDetailVO> deleteList, List<OrderDetailVO> insertList) {
+		try {
+			tableService.saveOrderDetailList(updateList, deleteList, insertList);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

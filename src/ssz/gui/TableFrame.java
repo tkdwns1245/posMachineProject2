@@ -79,9 +79,11 @@ public class TableFrame extends FrameTemplate3{
 	List<JButton> categoryButtonList;
 	List<OrderDetailVO> updateOrderDetailList = new ArrayList<OrderDetailVO>();
 	List<OrderDetailVO> deleteOrderDetailList = new ArrayList<OrderDetailVO>();
+	List<OrderDetailVO> insertOrderDetailList = new ArrayList<OrderDetailVO>();
 	int selectedTableNum;
 	int selectedSalesTableRow;
 	int selectedGoodsTableRow;
+	int orderNum;
 	public TableFrame() {
 		super.init();
 	}
@@ -139,7 +141,13 @@ public class TableFrame extends FrameTemplate3{
 			{"亲格3","5000","2","10000"},
 			{"亲格4","3000","4","12000"}
 		};
-		DefaultTableModel model = new DefaultTableModel(contents,header);
+		DefaultTableModel model = new DefaultTableModel(contents,header) {
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
 		salesTable = new JTable(model);
 		salesScrollpane = new JScrollPane(salesTable);
 		salesScrollpane.setPreferredSize(new Dimension(350,370));
@@ -175,7 +183,13 @@ public class TableFrame extends FrameTemplate3{
 		String contents2[][] = 
 		{
 		};
-		DefaultTableModel model2 = new DefaultTableModel(contents2,header2);
+		DefaultTableModel model2 = new DefaultTableModel(contents2,header2) {
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
 		goodsTable = new JTable(model2);
 		goodsScrollpane = new JScrollPane(goodsTable);
 		goodsScrollpane.setPreferredSize(new Dimension(280,280));
@@ -204,10 +218,6 @@ public class TableFrame extends FrameTemplate3{
 		mLeftPanel.add(mlMiddlePanel, BorderLayout.CENTER);
 		mLeftPanel.add(mlBottomPanel, BorderLayout.SOUTH);
 		
-		for(int i = 0; i < categoryButtonList.size(); i ++)
-		{
-			mrTopPanel.add(categoryButtonList.get(i));
-		}
 		mrMiddlePanel.add(addButton);
 		mrMiddlePanel.add(goodsScrollpane);
 		
@@ -284,19 +294,31 @@ public class TableFrame extends FrameTemplate3{
 					}
 					
 				}
-				System.out.println("selectedSalesRowNum : " + selectedSalesRowNum);
 				//when is selected goods in salesTable
 				if(isSelectedSalesRow)
 				{
-					int selectedMenuIndexOf = searchOrderDetailListIndex(updateOrderDetailList,selectedMenuName);
-					int selectedMenuNumOf = Integer.parseInt(""+salesTable.getModel().getValueAt(selectedSalesRowNum,2));
-					System.out.println("selectedMenuNumOf : " + selectedMenuNumOf);
-					OrderDetailVO tmpOrderDetail = updateOrderDetailList.get(selectedMenuIndexOf);
-					tmpOrderDetail.setNumOf(selectedMenuNumOf + 1);
-					
-					//update updateOrderDetailList
-					updateOrderDetailList.set(selectedMenuIndexOf,tmpOrderDetail);
-					
+					int selectedMenuIndexOf;
+					int selectedMenuNumOf;
+					//update updateOrderDetailList or insertOrderDetailList
+					if(searchOrderDetailListIndex(insertOrderDetailList,selectedMenuName) != -1)
+					{
+						selectedMenuIndexOf = searchOrderDetailListIndex(insertOrderDetailList,selectedMenuName);
+						selectedMenuNumOf = Integer.parseInt(""+salesTable.getModel().getValueAt(selectedSalesRowNum,2));
+						OrderDetailVO tmpOrderDetail = insertOrderDetailList.get(selectedMenuIndexOf);
+						tmpOrderDetail.setNumOf(selectedMenuNumOf + 1);
+						tmpOrderDetail.setOrderNum(orderNum);
+						
+						insertOrderDetailList.set(selectedMenuIndexOf,tmpOrderDetail);
+					}else
+					{
+						selectedMenuIndexOf = searchOrderDetailListIndex(updateOrderDetailList,selectedMenuName);
+						selectedMenuNumOf = Integer.parseInt(""+salesTable.getModel().getValueAt(selectedSalesRowNum,2));
+						OrderDetailVO tmpOrderDetail = updateOrderDetailList.get(selectedMenuIndexOf);
+						tmpOrderDetail.setNumOf(selectedMenuNumOf + 1);
+						tmpOrderDetail.setOrderNum(orderNum);
+						//update updateOrderDetailList or insertOrderDetailList
+						updateOrderDetailList.set(selectedMenuIndexOf,tmpOrderDetail);
+					}
 					//update saletable
 					DefaultTableModel updateTableModel = (DefaultTableModel) salesTable.getModel();
 					updateTableModel.setValueAt("" + (selectedMenuNumOf + 1), selectedSalesRowNum, 2);
@@ -311,15 +333,12 @@ public class TableFrame extends FrameTemplate3{
 					OrderDetailVO tmpOrderDetail = new OrderDetailVO();
 					tmpOrderDetail.setMenuName(selectedMenuName);
 					tmpOrderDetail.setNumOf(0);
-					updateOrderDetailList.add(tmpOrderDetail);
+					tmpOrderDetail.setOrderNum(orderNum);
+					insertOrderDetailList.add(tmpOrderDetail);
 					DefaultTableModel updateTableModel = (DefaultTableModel) salesTable.getModel();
 					updateTableModel.addRow(new String[]{selectedMenuName,selectedMenuPrice,"1",selectedMenuPrice});
 				
-					//check deleteOrderDetailList and delete item in deleteOrderDetailList
-					if(deleteMenuIndexOf != -1)
-					{
-						deleteOrderDetailList.remove(deleteMenuIndexOf);
-					}
+					
 				}
 				salesTable.repaint(); 
 			}
@@ -354,12 +373,24 @@ public class TableFrame extends FrameTemplate3{
 				{
 					if(selectedMenuNumOf > 1)
 					{
-						int selectedMenuIndexOf = searchOrderDetailListIndex(updateOrderDetailList,selectedMenuName);
-						OrderDetailVO tmpOrderDetail = updateOrderDetailList.get(selectedMenuIndexOf);
-						tmpOrderDetail.setNumOf(selectedMenuNumOf - 1);
-						
-						//update updateOrderDetailList
-						updateOrderDetailList.set(selectedMenuIndexOf,tmpOrderDetail);
+						int selectedMenuIndexOf;
+						OrderDetailVO tmpOrderDetail;
+						//update updateOrderDetailList or insertOrderDetailList
+						if(searchOrderDetailListIndex(insertOrderDetailList,selectedMenuName) != -1)
+						{
+							selectedMenuIndexOf = searchOrderDetailListIndex(insertOrderDetailList,selectedMenuName);
+							tmpOrderDetail = insertOrderDetailList.get(selectedMenuIndexOf);
+							tmpOrderDetail.setNumOf(selectedMenuNumOf - 1);
+							tmpOrderDetail.setOrderNum(orderNum);
+							insertOrderDetailList.set(selectedMenuIndexOf,tmpOrderDetail);
+						}else
+						{
+							selectedMenuIndexOf = searchOrderDetailListIndex(updateOrderDetailList,selectedMenuName);
+							tmpOrderDetail = updateOrderDetailList.get(selectedMenuIndexOf);
+							tmpOrderDetail.setNumOf(selectedMenuNumOf - 1);
+							tmpOrderDetail.setOrderNum(orderNum);
+							updateOrderDetailList.set(selectedMenuIndexOf, tmpOrderDetail);
+						}
 						DefaultTableModel updateTableModel = (DefaultTableModel) salesTable.getModel();
 						
 						//update salesTable
@@ -368,15 +399,24 @@ public class TableFrame extends FrameTemplate3{
 					}
 					else
 					{
-						int selectedMenuIndexOf = searchOrderDetailListIndex(updateOrderDetailList,selectedMenuName);
+						int selectedMenuIndexOf;
 						
 						//remove item in updateOrderDetailList
-						updateOrderDetailList.remove(selectedMenuIndexOf);
+						if(searchOrderDetailListIndex(insertOrderDetailList,selectedMenuName) != -1)
+						{
+							selectedMenuIndexOf = searchOrderDetailListIndex(insertOrderDetailList,selectedMenuName);
+							insertOrderDetailList.remove(selectedMenuIndexOf);
+						}else
+						{
+							selectedMenuIndexOf = searchOrderDetailListIndex(updateOrderDetailList,selectedMenuName);
+							updateOrderDetailList.remove(selectedMenuIndexOf);
+						}
 						DefaultTableModel updateTableModel = (DefaultTableModel) salesTable.getModel();
 						
 						//add item in deleteOrderDetailList
 						OrderDetailVO tmpOrderDetail = new OrderDetailVO();
 						tmpOrderDetail.setMenuName(selectedMenuName);
+						tmpOrderDetail.setOrderNum(orderNum);
 						tmpOrderDetail.setNumOf(0);
 						deleteOrderDetailList.add(tmpOrderDetail);
 						
@@ -386,18 +426,17 @@ public class TableFrame extends FrameTemplate3{
 					}
 				}
 				salesTable.repaint(); 
-				System.out.println(updateOrderDetailList);
-				System.out.println(deleteOrderDetailList);
 			}
 		});
 		
 		gobackButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//save salesList
-				
-				
-				//move mainPage
+				//林巩郴开 历厘
+				tm.saveOrderDetailList(updateOrderDetailList, deleteOrderDetailList,insertOrderDetailList);
+				updateOrderDetailList.removeAll(updateOrderDetailList);
+				deleteOrderDetailList.removeAll(deleteOrderDetailList);
+				insertOrderDetailList.removeAll(insertOrderDetailList);
 				dispose();
             	pageManager.goMainPage();	
 			}
@@ -420,18 +459,26 @@ public class TableFrame extends FrameTemplate3{
 					int menuPrice = tableOrderDetailList.get(i).getMenuPrice();
 					int numOf = tableOrderDetailList.get(i).getNumOf();
 					int sumOfPrice = menuPrice * numOf;
+					orderNum = tableOrderDetailList.get(i).getOrderNum();
 					
 					//set updateOrderDetailMap
 					OrderDetailVO tmpOrderDetail = new OrderDetailVO();
 					tmpOrderDetail.setMenuName(menuName);
 					tmpOrderDetail.setNumOf(numOf);
+					tmpOrderDetail.setOrderNum(orderNum);
 					updateOrderDetailList.add(tmpOrderDetail);
 					contents[i][0] = menuName;
 					contents[i][1] = "" + menuPrice;
 					contents[i][2] = "" + numOf;
 					contents[i][3] = "" + sumOfPrice; 
 				}
-				DefaultTableModel model = new DefaultTableModel(contents,header);
+				DefaultTableModel model = new DefaultTableModel(contents,header) {
+					@Override
+				    public boolean isCellEditable(int row, int column) {
+				       //all cells false
+				       return false;
+				    }
+				};
 				salesTable.setModel(model);
 				
 				////////////// setting categoryButtonList and repaint mrTopPanel /////////////
@@ -460,7 +507,13 @@ public class TableFrame extends FrameTemplate3{
 								contents[i][0] = menuName;
 								contents[i][1] = "" + menuPrice;
 							}
-							DefaultTableModel model = new DefaultTableModel(contents,header);
+							DefaultTableModel model = new DefaultTableModel(contents,header) {
+								@Override
+							    public boolean isCellEditable(int row, int column) {
+							       //all cells false
+							       return false;
+							    }
+							};
 							goodsTable.setModel(model);
 						}
 					});
@@ -475,7 +528,6 @@ public class TableFrame extends FrameTemplate3{
 				{
 					mrTopPanel.add(categoryButtonList.get(j));
 				}
-				mrTopPanel.repaint();
 	        }public void componentHidden(ComponentEvent e) {
 
 	        }

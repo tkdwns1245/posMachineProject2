@@ -5,10 +5,12 @@ import java.util.List;
 
 import dao.TableDao;
 import data.CountVO;
+import data.OrderDetailVO;
 import data.TableOrderDetailVO;
 import data.TableVO;
 import database.DatabaseUtil;
 import database.VOFactory;
+import userTable.AbstractDAO;
 
 public class TableDaoImpl implements TableDao{
 	
@@ -74,10 +76,9 @@ public class TableDaoImpl implements TableDao{
 		sql.append("FROM posmachine.TABLE t ");
 		sql.append("LEFT JOIN posmachine.ORDER o ON t.num = o.table_num ");
 		sql.append("LEFT JOIN posmachine.ORDER_DETAIL od ON o.num = od.order_num ");
-		sql.append("LEFT JOIN posmachine.MENU m ON od.menu_num = m.num ");
+		sql.append("LEFT JOIN posmachine.MENU m ON od.menu_name = m.menu_name ");
 		
-		sql.append("WHERE t.num = ? ");
-		System.out.println(sql);
+		sql.append("WHERE t.num = ? ORDER BY od.num ASC ");
 		new DatabaseUtil() {
 			TableOrderDetailVO tmpTableOrderDetailVo;
 			@Override
@@ -94,7 +95,72 @@ public class TableDaoImpl implements TableDao{
 				
 			}
 		}.execute();
-		System.out.println(tableOrderDetailVoList);
 		return tableOrderDetailVoList;
+	}
+	@Override
+	public void deleteOrderDetailList(List<OrderDetailVO> orderDetailList) throws Exception {
+		
+		List<OrderDetailVO> OrderDetailList = orderDetailList;
+		for(OrderDetailVO od : OrderDetailList)
+		{
+			StringBuffer sql=new StringBuffer();
+			sql.append("DELETE FROM ");
+			sql.append("posmachine.ORDER_DETAIL ");
+			sql.append("WHERE menu_name=? AND order_num=?");
+			new DatabaseUtil() {
+				@Override
+				public void query() throws Exception {
+					// TODO Auto-generated method stub
+					pstmt=con.prepareStatement(sql.toString());
+					pstmt.setString(1, od.getMenuName());
+					pstmt.setInt(2, od.getOrderNum());
+					pstmt.executeUpdate();	
+				}
+			}.execute();
+		}
+	}
+	@Override
+	public void updateOrderDetailList(List<OrderDetailVO> orderDetailList) throws Exception {
+		List<OrderDetailVO> OrderDetailList = orderDetailList;
+		for(OrderDetailVO od : OrderDetailList)
+		{
+			StringBuffer sql=new StringBuffer();
+			sql.append("UPDATE posmachine.ORDER_DETAIL SET ");
+			sql.append("num_of=? ");
+			sql.append("WHERE order_num=? AND menu_name=?");
+			new DatabaseUtil() {
+				@Override
+				public void query() throws Exception {
+					// TODO Auto-generated method stub
+					pstmt=con.prepareStatement(sql.toString());
+					pstmt.setInt(1, od.getNumOf());
+					pstmt.setInt(2, od.getOrderNum());
+					pstmt.setString(3, od.getMenuName());
+					pstmt.executeUpdate();					
+				}
+			}.execute();
+		}
+	}
+	@Override
+	public void insertOrderDetailList(List<OrderDetailVO> orderDetailList) throws Exception {
+		List<OrderDetailVO> OrderDetailList = orderDetailList;
+		for(OrderDetailVO od : OrderDetailList)
+		{
+			StringBuffer sql=new StringBuffer();
+			sql.append("INSERT INTO posmachine.ORDER_DETAIL");
+			sql.append("(order_num,num_of,menu_name) ");
+			sql.append("VALUES (?,?,?)");
+			new DatabaseUtil() {
+				@Override
+				public void query() throws Exception {
+					// TODO Auto-generated method stub
+					pstmt=con.prepareStatement(sql.toString());
+					pstmt.setInt(1, od.getOrderNum());
+					pstmt.setInt(2, od.getNumOf());
+					pstmt.setString(3, od.getMenuName());
+					pstmt.executeUpdate();					
+				}
+			}.execute();
+		}
 	}
 }
