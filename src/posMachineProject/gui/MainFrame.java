@@ -237,6 +237,7 @@ public class MainFrame  extends FrameTemplate{
 		receiptManageButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				pageManager.goReceiptManagePage();
 				
 			}
 		});

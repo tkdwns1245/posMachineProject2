@@ -21,7 +21,7 @@ public class Test {
 //		TableDaoImpl tdi = new TableDaoImpl();
 		List<FrameTemplate> templateList = new ArrayList<FrameTemplate>();
 		templateList.add(new GoodsManageFrame());
-//		templateList.add(new ReceiptManageFrame());
+		templateList.add(new ReceiptManageFrame());
 		templateList.add(new SalesStatusFrame());
 		templateList.add(new TableManageFrame());
 		templateList.add(new LoginFrame());
