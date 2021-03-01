@@ -4,7 +4,7 @@ public class TablePagingManager {
 	TableManager tm;
 	
 	int totalTableCount;
-	int pagePerTable;
+	int TablePerPage;
 	int totalPageCount;
 	int curruntPage;
 	int prevPage;
@@ -14,22 +14,28 @@ public class TablePagingManager {
 		init();
 	}
 	public void init() {
+		TablePerPage = 15;
 		totalTableCount = tm.countOfTables();
-		pagePerTable = 20;
-		totalPageCount =  totalTableCount / pagePerTable +1;
+		totalPageCount = ((totalTableCount-1) / TablePerPage) +1;
 		curruntPage = 1;
 	}
 	public int getTotalPageCount() {
 		return totalPageCount;
 	}
+	public void setTotalPageCount() {
+		this.totalPageCount = ((totalTableCount-1) / TablePerPage) +1;
+	}
 	public int getTotalTableCount() {
 		return totalTableCount;
+	}
+	public void setTotalTableCount(int totalTableCount) {
+		this.totalTableCount = totalTableCount;
 	}
 	public int getCurruntPage() {
 		return curruntPage;
 	}
-	public int getPagePerTable() {
-		return pagePerTable;
+	public int getTablePerPage() {
+		return TablePerPage;
 	}
 	public int getPrevPage() {
 		int pageCount = curruntPage - 1;
@@ -49,5 +55,9 @@ public class TablePagingManager {
 			else
 				this.curruntPage = pageCount;
 		return curruntPage;
+	}
+	public int getLastPage() {
+		this.curruntPage = this.totalPageCount;
+	return curruntPage;
 	}
 }

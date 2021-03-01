@@ -30,5 +30,13 @@ public class TableManager {
 			e.printStackTrace();
 		}
 	}
-	
+	public void insertTable(int tableNum) {
+		tableService.insertTable(tableNum);
+	}
+	public void deleteTable(int deleteNum) {
+		tableService.deleteTable(deleteNum);
+	}
+	public void moveTable(int from, int to) {
+		tableService.moveTable(from, to);
+	}
 }

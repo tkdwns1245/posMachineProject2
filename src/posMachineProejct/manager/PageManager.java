@@ -45,6 +45,10 @@ public class PageManager {
 		FrameTemplate tmpTemplate = (FrameTemplate)pageMap.get("posMachineProject.gui.SalesStatusFrame");
 		tmpTemplate.setVisible(true);
 	}
+	public void goReceiptManagePage() {
+		FrameTemplate tmpTemplate = (FrameTemplate)pageMap.get("posMachineProject.gui.ReceiptManageFrame");
+		tmpTemplate.setVisible(true);
+	}
 	public int getTableNumber() {
 		return this.tableNumber;
 	}
