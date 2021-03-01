@@ -160,16 +160,16 @@ public class MainFrame  extends FrameTemplate{
 			if(i != tpm.getTotalPageCount())
 			{
 				//페이지당 버튼 개수로 패널 세팅
-				for(int j=0; j < tpm.getPagePerTable(); j++)
+				for(int j=0; j < tpm.getTablePerPage(); j++)
 				{
-					middlePanelarr[i].add(tableButtonList.get(j+((i-1)*20)));
+					middlePanelarr[i].add(tableButtonList.get(j+((i-1)*15)));
 				}
 			//마지막 패널일 경우
 			}else {
 				//남는버튼으로 패널 세팅
-				for(int j=0; j < tpm.getTotalTableCount() % tpm.getPagePerTable(); j++)
+				for(int j=0; j < tpm.getTotalTableCount() % tpm.getTablePerPage(); j++)
 				{
-					middlePanelarr[i].add(tableButtonList.get(j+((i-1)*20)));
+					middlePanelarr[i].add(tableButtonList.get(j+((i-1)*15)));
 				}
 			}
 		}
@@ -230,6 +230,7 @@ public class MainFrame  extends FrameTemplate{
 		goodsManageButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 				pageManager.goGoodsManagePage();
 				
 			}
@@ -237,12 +238,14 @@ public class MainFrame  extends FrameTemplate{
 		receiptManageButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				dispose();
+				pageManager.goReceiptManagePage();
 			}
 		});
 		tableManageButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 				pageManager.goTableManagePage();
 				
 			}

@@ -11,4 +11,7 @@ public interface TableService {
 	public abstract int countOfTables();
 	public abstract List<TableOrderDetailVO> selectTableOrderDetail(int tableNum);
 	public abstract void saveOrderDetailList(List<OrderDetailVO> updateList,List<OrderDetailVO> deleteList,List<OrderDetailVO> insertList);
+	public abstract void insertTable(int tableNum);
+	public abstract void deleteTable(int tableNum);
+	public abstract void moveTable(int from, int to);
 }

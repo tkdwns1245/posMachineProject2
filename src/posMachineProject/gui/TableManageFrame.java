@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -16,26 +18,28 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import data.TableVO;
 import gui.util.CreateComponentUtil;
+import posMachineProejct.manager.TableManager;
+import posMachineProejct.manager.TablePagingManager;
 
 public class TableManageFrame extends FrameTemplate implements Runnable{
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
+	TableManager tm = new TableManager();
+	TablePagingManager tpm = new TablePagingManager(tm);
 	
 	JPanel mainPanel;
 	JPanel timePanel;
 	
-	
 	JPanel numberListPanel;
-	JPanel numberListPanel_2;
-	JPanel numberListPanel_3;
-	JPanel numberListPanel_4;
+	ArrayList<JPanel> tablePanelList;
 	
 	JLabel title;		
 	JLabel time;
 	JLabel page;
 	
 	List<JButton> tableButtonList;
-
+	
 
 	JButton tableAddBtn;
 	JButton tableDelBtn;
@@ -43,7 +47,8 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 	JButton PrePageMove;
 	JButton NextPageMove;
 	JButton selectedBtn;
-
+	Color bc = new Color(27, 156, 252);
+	Color cc = new Color(241, 196, 15);
 	public TableManageFrame() {
 		init();
 	}
@@ -51,42 +56,58 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 	@Override
 	public void initComponent() {
 		tableButtonList = new ArrayList<JButton>();
-
+		tablePanelList = new ArrayList<JPanel>();
+		
 		mainPanel = new JPanel();
-		//Util?óê  defaultÎ°? ?Ñ∏?åÖ?ï¥?ïº ?ïò?äî?ï®
 		ccUtil.setMainPanel(mainPanel);
 		
 		timePanel=(JPanel)  ccUtil.createJcomponent("p", width*23/100,height*5/100, 50, 50);
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
 		time.setForeground(Color.white);
-		time.setFont(new Font("ÎßëÏ?Í≥†Îîï",Font.BOLD, 15));		
+		time.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 15));		
 		
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
 		time.setForeground(Color.white);
-		time.setFont(new Font("ÎßëÏ?Í≥†Îîï",Font.BOLD, 15));
+		time.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 15));
 		
 		
 		title=(JLabel) ccUtil.createJcomponent("l", 200, 50,435, 25);
 		page=(JLabel) ccUtil.createJcomponent("l", 70, 40, 479, 490);
-		page.setFont(new Font("ÎßëÏ?Í≥†Îîï",Font.BOLD, 18));
+		page.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 18));
 
 		
 		tableAddBtn=(JButton) ccUtil.createJcomponent("b",100, 30, 560, 50);
-		tableAddBtn.setText("?Öå?ù¥Î∏? Ï∂îÍ?");
+		tableAddBtn.setText("≈◊¿Ã∫Ì √ﬂ∞°");
 		
 		tableDelBtn=(JButton) ccUtil.createJcomponent("b",100, 30, 680, 50);
-		tableDelBtn.setText("?Öå?ù¥Î∏? ?Ç≠?†ú");
+		tableDelBtn.setText("≈◊¿Ã∫Ì ªË¡¶");
 		PrePageMove= (JButton) ccUtil.createJcomponent("bw",50, 30, 20, 260);
 		NextPageMove= (JButton) ccUtil.createJcomponent("be",50, 30, 915, 260);
-
 		
 		tableMoveBtn=(JButton) ccUtil.createJcomponent("b",100, 30, 800, 50);
-		tableMoveBtn.setText("?Öå?ù¥Î∏? ?ù¥?èô");
-		
+		tableMoveBtn.setText("≈◊¿Ã∫Ì ¿Ãµø");
 		numberListPanel=(JPanel) ccUtil.createJcomponent("p", 810, 370, 85, 100);
-		numberListPanel_2=(JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
-		numberListPanel_3=(JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
-		numberListPanel_4=(JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
+		numberListPanel.setLayout(null);
+		numberListPanel.setBackground(new Color(223, 228, 234));
+		
+		List<TableVO> tableList = tm.selectTableList();
+		for(int i =0; i < tpm.getTotalTableCount(); i++)
+		{
+			
+			JButton tmpButton = new JButton(tableList.get(i).getTableNumber()+"π¯ TABLE");
+			tmpButton.setPreferredSize(new Dimension(150, 100));
+			tmpButton.setVerticalAlignment(SwingConstants.TOP);
+			tmpButton.setBackground(bc);
+			tmpButton.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 16));	
+			tmpButton.setForeground(Color.white);
+			tableButtonList.add(tmpButton);
+		}
+		/*
+		 * ;
+		 * numberListPanel_2=(JPanel) 
+		 * numberListPanel_3=(JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
+		 * numberListPanel_4=(JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
+		 */
 
 		
 
@@ -103,38 +124,58 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 		timePanel.setBackground(new Color(116, 125, 140));
 		
 		
-		// page ?ù¥?èôÎ≤ÑÌäº
 		mainPanel.add(PrePageMove);
+		mainPanel.add(numberListPanel);
 		mainPanel.add(NextPageMove);
 
 		mainPanel.add(tableAddBtn);
 		mainPanel.add(tableDelBtn);
 		mainPanel.add(tableMoveBtn);
-		mainPanel.add(numberListPanel);
 		mainPanel.add(page);
 			
 		mainPanel.add(title);
 		title.setForeground(Color.white);
-		title.setFont(new Font("ÎßëÏ?Í≥†Îîï",Font.BOLD, 20));
+		title.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 20));
 
 
-		numberListPanel.setLayout(null);
-		numberListPanel.setBackground(new Color(223, 228, 234));
-		numberListPanel.add(numberListPanel_2);
-		numberListPanel.add(numberListPanel_3);
-		numberListPanel.add(numberListPanel_4);
-
-		numberListPanel_2.setLayout(new FlowLayout(FlowLayout.LEFT, 9, 15));
-		numberListPanel_2.setBackground(new Color(223, 228, 234));
-		numberListPanel_3.setLayout(new FlowLayout(FlowLayout.LEFT, 9, 15));
-		numberListPanel_3.setBackground(new Color(223, 228, 234));
-		numberListPanel_4.setLayout(new FlowLayout(FlowLayout.LEFT, 9, 15));
-		numberListPanel_4.setBackground(new Color(223, 228, 234));
-
-		
-
-		//numberListPanel.set
-		
+		for(int i = 0 ; i < tpm.getTotalPageCount(); i++)
+		{
+			JPanel tmpJPanel = (JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
+			tmpJPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 9, 15));
+			//∏∂¡ˆ∏∑ ∆–≥Œ¿Ã æ∆¥“ ∞ÊøÏ
+			if(i != tpm.getTotalPageCount()-1)
+			{
+				//∆‰¿Ã¡ˆ¥Á πˆ∆∞ ∞≥ºˆ∑Œ ∆–≥Œ ºº∆√
+				for(int j=0; j < tpm.getTablePerPage(); j++)
+				{
+					tmpJPanel.add(tableButtonList.get(j+(i*15)));
+					
+				}
+			//∏∂¡ˆ∏∑ ∆–≥Œ¿œ ∞ÊøÏ
+			}else {
+				//¿¸√º ≈◊¿Ã∫Ìºˆ / ∆‰¿Ã¡ˆ¥Á ≈◊¿Ã∫Ìºˆ ∞° ≥™¥©æÓ ∂≥æÓ¡ˆ¡ˆ æ ¿ª ∞ÊøÏ 
+				if(tpm.getTotalTableCount() % tpm.getTablePerPage() != 0)
+				{
+					//≥≤¥¬πˆ∆∞¿∏∑Œ ∆–≥Œ ºº∆√
+					for(int j=0; j < tpm.getTotalTableCount() % tpm.getTablePerPage(); j++)
+					{
+						tmpJPanel.add(tableButtonList.get(j+(i*15)));
+					}
+				//¿¸√º ≈◊¿Ã∫Ìºˆ / ∆‰¿Ã¡ˆ¥Á ≈◊¿Ã∫Ìºˆ ∞° ≥™¥©æÓ ∂≥æÓ¡˙∞ÊøÏ
+				} else {
+					for(int j=0; j < tpm.getTablePerPage(); j++)
+					{
+						tmpJPanel.add(tableButtonList.get(j+(i*15)));
+					}
+				}
+			}
+			tablePanelList.add(tmpJPanel);
+			if(i==0)
+			{
+				numberListPanel.add(tmpJPanel);
+				page.setText(tpm.getCurruntPage() + " / " + tpm.getTotalPageCount());
+			}
+		}
 		
 	}
 	@Override
@@ -152,16 +193,16 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 				
 							
 			if((min<10) && (sec<10)) {
-				String day1 = (year +"?ÖÑ " + month + "?õî " + date + "?ùº " + ampm + " " + hour + ":0" + min + ":0" + sec );
+				String day1 = (year +"≥‚ " + month + "ø˘ " + date + "¿œ " + ampm + " " + hour + ":0" + min + ":0" + sec );
 				time.setText(day1);
 			} else if((min>10) && (sec<10)) {
-				String day2 = (year +"?ÖÑ " + month + "?õî " + date + "?ùº " + ampm + " " + hour + ":" + min + ":0" + sec );
+				String day2 = (year +"≥‚ " + month + "ø˘ " + date + "¿œ " + ampm + " " + hour + ":" + min + ":0" + sec );
 				time.setText(day2);
 			} else if((min<10) && (sec>10)) {
-				String day3 = (year +"?ÖÑ " + month + "?õî " + date + "?ùº " + ampm + " " + hour + ":0" + min + ":" + sec );
+				String day3 = (year +"≥‚ " + month + "ø˘ " + date + "¿œ " + ampm + " " + hour + ":0" + min + ":" + sec );
 				time.setText(day3);
 			} else {
-				String day4 = (year +"?ÖÑ " + month + "?õî " + date + "?ùº " + ampm + " " + hour + ":" + min + ":" + sec );
+				String day4 = (year +"≥‚ " + month + "ø˘ " + date + "¿œ " + ampm + " " + hour + ":" + min + ":" + sec );
 				time.setText(day4);
 			}
 			
@@ -179,167 +220,168 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 	
 	@Override
 	public void initEvent() {
-		Color bc = new Color(27, 156, 252); 
-		// Î≥?Í≤ΩÎêú ?Éâ?ÉÅ
-		Color cc = new Color(241, 196, 15);
 		
-				
-		//?Öå?ù¥Î∏? Ï∂îÍ?Î≤ÑÌäº
 		tableAddBtn.addMouseListener(new MouseAdapter() {
 		      
-			  public void mouseClicked(MouseEvent e) {
-				  	int i = tableButtonList.size();
-					JButton tmpButton = new JButton((i+1)+"Î≤? TABLE");
-					tableButtonList.add(tmpButton);
-					
+			public void mouseClicked(MouseEvent e) {
+				
+				//when this page is not last page
+				if(tpm.getCurruntPage() != tpm.getTotalPageCount())
+				{
+					JPanel tmpJPanel = tablePanelList.get(tpm.getTotalPageCount()-1);
+
+					tm.insertTable(tpm.getTotalTableCount()+1);
+					tpm.setTotalTableCount(tpm.getTotalTableCount()+1);
+					JButton tmpButton = new JButton(tpm.getTotalTableCount()+"π¯ TABLE");
 					tmpButton.setPreferredSize(new Dimension(150, 100));
 					tmpButton.setVerticalAlignment(SwingConstants.TOP);
 					tmpButton.setBackground(bc);
-					tmpButton.setFont(new Font("?èã??",Font.BOLD, 16));	
+					tmpButton.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 16));	
 					tmpButton.setForeground(Color.white);
-
-					if(tableButtonList.size() <= 15) {
-						numberListPanel_2.add(tmpButton);
-						page.setText("1/3");
+					tableButtonList.add(tmpButton);
+					tmpJPanel.add(tmpButton);
+					//repaint current panel
+					numberListPanel.remove(tablePanelList.get(tpm.getCurruntPage()-1));
+					numberListPanel.add(tablePanelList.get(tpm.getLastPage()-1));
+					System.out.println(tpm.getLastPage()-1);
+					page.setText(tpm.getCurruntPage() + " / " + tpm.getTotalPageCount());
+				
+					repaint();
+					numberListPanel.setVisible(false);
+					numberListPanel.setVisible(true);
+				}else {
+					//add table in database and init tmpButton
+					tm.insertTable(tpm.getTotalTableCount()+1);
+					tpm.setTotalTableCount(tpm.getTotalTableCount()+1);
+					tpm.setTotalPageCount();
+					JPanel tmpJPanel;
+					try {
+						tmpJPanel = tablePanelList.get(tpm.getTotalPageCount()-1);
+					}catch(IndexOutOfBoundsException ioobe)
+					{
+						tmpJPanel = null;
 					}
-					if(tableButtonList.size() > 15 && tableButtonList.size() <31){
-						numberListPanel_2.setVisible(false);
-						numberListPanel_3.setVisible(true);
-						numberListPanel_3.add(tmpButton);
-						page.setText("2/3");
-					} 
-					if(tableButtonList.size() > 30 && tableButtonList.size() <46) {
-						numberListPanel_2.setVisible(false);
-						numberListPanel_3.setVisible(false);
-						numberListPanel_4.setVisible(true);
-						numberListPanel_4.add(tmpButton);
-						page.setText("3/3");
-
+					System.out.println(tmpJPanel);
+					//if is the last pagePanel then show last pagePanel
+					if(tmpJPanel != null) {
+						JButton tmpButton = new JButton(tpm.getTotalTableCount()+"π¯ TABLE");
+						tmpButton.setPreferredSize(new Dimension(150, 100));
+						tmpButton.setVerticalAlignment(SwingConstants.TOP);
+						tmpButton.setBackground(bc);
+						tmpButton.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 16));	
+						tmpButton.setForeground(Color.white);
+						tableButtonList.add(tmpButton);
+						JPanel tmpPanel = tablePanelList.get(tpm.getLastPage()-1);
+						tmpPanel.add(tmpButton);
+					//else init last pagePanel
+					} else {
+						tmpJPanel = (JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
+						tmpJPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 9, 15));
+						JButton tmpButton = new JButton(tpm.getTotalTableCount()+"π¯ TABLE");
+						tmpButton.setPreferredSize(new Dimension(150, 100));
+						tmpButton.setVerticalAlignment(SwingConstants.TOP);
+						tmpButton.setBackground(bc);
+						tmpButton.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 16));	
+						tmpButton.setForeground(Color.white);
+						tableButtonList.add(tmpButton);
+						tmpJPanel.add(tmpButton);
+						
+						tablePanelList.add(tmpJPanel);
 					}
-					if(tableButtonList.size() == 46) {
-						JOptionPane.showMessageDialog(null, "?Öå?ù¥Î∏îÏ? 45Í∞úÍπåÏß? ÎßåÎì§?àò ?ûà?äµ?ãà?ã§.", "Ï£? ?ùò",JOptionPane.WARNING_MESSAGE);
-						tableButtonList.remove(45);
-					}
-					
-			// ?Å¥Î¶??ãú Î≤ÑÌäº?Éâ?ÉÅ Î≥?Í≤? Î∞? ?Öå?ù¥Î∏? ?ù¥?èô
-			tmpButton.addMouseListener(new MouseAdapter() {
-				  public void mouseClicked(MouseEvent e) {
-					  if(tmpButton.getBackground() == bc) {
-							tmpButton.setBackground(cc);
-							String[] st = {"?Ñ§", "?ïÑ?ãà?ò§", "?ù¥?èô"};
-							int num = JOptionPane.showOptionDialog(null, "?Öå?ù¥Î∏îÏùÑ ?ù¥?èô?ïò?ãúÍ≤†Ïäµ?ãàÍπ??.", "?Öå?ù¥Î∏? ?ù¥?èô", JOptionPane.DEFAULT_OPTION, 1, null, st, st[0]);
-								
-								if(num == 0) {JOptionPane.showMessageDialog(null, "Î≥?Í≤ΩÌï† ?Öå?ù¥Î∏îÏùÑ ?Ñ†?Éù?ï¥ Ï£ºÏÑ∏?öî.");
-									tmpButton.setBackground(bc);}		
-								else if(num==1) {tmpButton.setBackground(bc);}
-								else if(num==2) {
-									JOptionPane.showMessageDialog(null, "?Öå?ù¥Î∏îÏù¥ ?ù¥?èô?êò?óà?äµ?ãà?ã§.");
-									tmpButton.setBackground(bc);}
-								
-							 }		
-						 else if(tmpButton.getBackground() == cc) {
-							 	tmpButton.setBackground(bc);
-									 }
-					  	  
-					  }
-				  
-			});
-		
+					//repaint current panel
+					System.out.println(tpm.getCurruntPage());
+					numberListPanel.remove(tablePanelList.get(tpm.getCurruntPage()-1));
+					numberListPanel.add(tmpJPanel);
+					page.setText(tpm.getTotalPageCount() + " / " + tpm.getTotalPageCount());
+					repaint();
+					numberListPanel.setVisible(false);
+					numberListPanel.setVisible(true);
+				}
 			}
 			  
 		});
 		
-		// ?Öå?ù¥Î∏? ?Ç≠?†úÎ≤ÑÌäº
 		tableDelBtn.addMouseListener(new MouseAdapter() { 
-			  public void mouseClicked(MouseEvent e) {
-					JOptionPane.showMessageDialog(null, "?†ïÎßêÎ°ú ?Öå?ù¥Î∏îÏùÑ ?Ç≠?†ú?ïò?ãúÍ≤†Ïäµ?ãàÍπ??", "Ï£? ?ùò",JOptionPane.WARNING_MESSAGE);
-				int i = tableButtonList.size();
-				tableButtonList.get(i-1).setVisible(false);
-				tableButtonList.remove(i-1);		
-					if(tableButtonList.size()==15) {
-						numberListPanel_3.setVisible(false);
-						numberListPanel_2.setVisible(true);
-						page.setText("1/3");
+			
+			public void mouseClicked(MouseEvent e) {
+				//when this page is not last page
+				if(tpm.getCurruntPage() != tpm.getTotalPageCount())
+				{
+					JPanel tmpJPanel = tablePanelList.get(tpm.getTotalPageCount()-1);
+					tm.deleteTable(tpm.getTotalTableCount());
+					tpm.setTotalTableCount(tpm.getTotalTableCount()-1);
+					tpm.setTotalPageCount();
+					tableButtonList.remove(tableButtonList.size()-1);
+					//repaint current panel
+					numberListPanel.remove(tablePanelList.get(tpm.getCurruntPage()-1));
+					numberListPanel.add(tablePanelList.get(tpm.getLastPage()-1));
+					System.out.println(tpm.getLastPage());
+					page.setText(tpm.getCurruntPage() + " / " + tpm.getTotalPageCount());
+					repaint();
+					numberListPanel.setVisible(false);
+					numberListPanel.setVisible(true);
+				}else {
+					//delete table in database
+					tm.deleteTable(tpm.getTotalTableCount());
+					tpm.setTotalTableCount(tpm.getTotalTableCount()-1);
+					tpm.setTotalPageCount();
+					JPanel tmpJPanel;
+					try {
+						tmpJPanel = tablePanelList.get(tpm.getTotalPageCount()-1);
+					}catch(IndexOutOfBoundsException ioobe)
+					{
+						tmpJPanel = null;
 					}
-					else if(tableButtonList.size() == 30) {
-						numberListPanel_4.setVisible(false);
-						numberListPanel_3.setVisible(true);
-						page.setText("2/3");
+					System.out.println(tmpJPanel);
+					//if is the last pagePanel then show last pagePanel
+					if(tmpJPanel != null) {
+						tmpJPanel.remove(tableButtonList.remove(tableButtonList.size()-1));
+					//else init last pagePanel
+					} else {
+						JOptionPane.showMessageDialog(null, "¥ı¿ÃªÛ ªË¡¶«“ ≈◊¿Ã∫Ì¿Ã æ¯Ω¿¥œ¥Ÿ.");
 					}
-		
-			  }
+					//repaint current panel
+					numberListPanel.remove(tablePanelList.get(tablePanelList.size()-1));
+					numberListPanel.add(tmpJPanel);
+					
+					//if last page not equals repaint Panel 
+					if(!tablePanelList.get(tablePanelList.size()-1).equals(tmpJPanel))
+					{
+						tpm.getPrevPage();
+						tablePanelList.remove(tablePanelList.size()-1);
+					}
+					page.setText(tpm.getTotalPageCount() + " / " + tpm.getTotalPageCount());
+					numberListPanel.repaint();
+					numberListPanel.setVisible(false);
+					numberListPanel.setVisible(true);
+				}
+			}
 		});
 	 
 		
-		// ?Öå?ù¥Î∏? ?ù¥?èôÎ≤ÑÌäº
 		tableMoveBtn.addMouseListener(new MouseAdapter() {
 			  public void mouseClicked(MouseEvent e) {
-				  JOptionPane.showMessageDialog(null, "?ù¥?èô?ï† ?Öå?ù¥Î∏îÏùÑ ?Ñ†?Éù?ï¥ Ï£ºÏÑ∏?öî.");
-			  				 	
+				  JOptionPane.showMessageDialog(null, "¿Ãµø«“ ≈◊¿Ã∫Ì¿ª º±≈√«ÿ ¡÷ººø‰.");
 			  }
 			  
 		});
-		// ?ù¥?†Ñ ?éò?ù¥Ïß?
 		PrePageMove.addMouseListener(new MouseAdapter() {
-			  public void mouseClicked(MouseEvent e) {
-					if(tableButtonList.size() <15) {
-						numberListPanel_2.setVisible(true);
-						JOptionPane.showMessageDialog(null, "?ù¥?†Ñ ?éò?ù¥Ïß?Í∞? Ï°¥Ïû¨?ïòÏß? ?ïä?äµ?ãà?ã§.");
-					}
-					else if(tableButtonList.size() >15 && tableButtonList.size() < 31) {
-						numberListPanel_3.setVisible(false);
-						numberListPanel_2.setVisible(true);
-						page.setText("1/3");
-
-					}
-					else if(tableButtonList.size() > 30 && tableButtonList.size() < 46) {
-						if(numberListPanel_3.isVisible() == false && numberListPanel_4.isVisible() == true) {
-							numberListPanel_4.setVisible(false);
-							numberListPanel_3.setVisible(true);
-							page.setText("2/3");
-
-						} else if(numberListPanel_3.isVisible() == true && numberListPanel_4.isVisible() == false){
-							numberListPanel_2.setVisible(true);
-							numberListPanel_3.setVisible(false);
-							page.setText("1/3");
-
-						} 
-										
-					}
-			  }
+			public void mouseClicked(MouseEvent e) {
+				numberListPanel.remove(tablePanelList.get(tpm.getCurruntPage()-1));
+				numberListPanel.add(tablePanelList.get(tpm.getPrevPage()-1));
+				page.setText(tpm.getCurruntPage() + " / " + tpm.getTotalPageCount());
+				repaint();
+			}
 		});
 		
-		// ?ã§?ùå ?éò?ù¥Ïß?
 		NextPageMove.addMouseListener(new MouseAdapter() {
-			  public void mouseClicked(MouseEvent e) {
-				    if(tableButtonList.size() <15) {
-						numberListPanel_2.setVisible(true);
-
-					}
-					else if(tableButtonList.size() >15 && tableButtonList.size() < 31) {
-						numberListPanel_2.setVisible(false);
-						numberListPanel_3.setVisible(true);
-						page.setText("2/3");
-
-					}
-					else if(tableButtonList.size() > 30) {
-						if(numberListPanel_3.isVisible() == false && numberListPanel_4.isVisible() == true) {
-							page.setText("2/3");
-							JOptionPane.showMessageDialog(null, "?ã§?ùå ?éò?ù¥Ïß?Í∞? Ï°¥Ïû¨?ïòÏß? ?ïä?äµ?ãà?ã§.");
-						}  else if(numberListPanel_3.isVisible() == true && numberListPanel_4.isVisible() == false){
-							numberListPanel_3.setVisible(false);
-							numberListPanel_4.setVisible(true);
-							page.setText("3/3");
-						}  else if(numberListPanel_2.isVisible() == true && numberListPanel_3.isVisible() == false){
-							numberListPanel_2.setVisible(false);
-							numberListPanel_3.setVisible(true);
-							page.setText("2/3");
-						}
-					}
-		
-			  }
+			public void mouseClicked(MouseEvent e) {
+				numberListPanel.remove(tablePanelList.get(tpm.getCurruntPage()-1));
+				numberListPanel.add(tablePanelList.get(tpm.getNextPage()-1));
+				page.setText(tpm.getCurruntPage() + " / " + tpm.getTotalPageCount());
+				repaint();
+			}
 		});
-		
 	}
 
 }

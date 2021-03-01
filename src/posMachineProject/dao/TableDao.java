@@ -13,4 +13,7 @@ public interface TableDao {
 	public abstract void updateOrderDetailList(List<OrderDetailVO> orderDetailList) throws Exception;
 	public abstract void deleteOrderDetailList(List<OrderDetailVO> orderDetailList) throws Exception;
 	public abstract void insertOrderDetailList(List<OrderDetailVO> orderDetailList) throws Exception;
+	public abstract void insertTable(int tableNum) throws Exception;
+	public abstract void deleteTable(int tableNum) throws Exception;
+	public abstract void moveTable(int from, int to) throws Exception;
 }

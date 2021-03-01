@@ -162,4 +162,57 @@ public class TableDaoImpl implements TableDao{
 			}.execute();
 		}
 	}
+	
+	@Override
+	public void deleteTable(int tableNum) throws Exception {
+		StringBuffer sql=new StringBuffer();
+		sql.append("DELETE FROM ");
+		sql.append("posmachine.TABLE ");
+		sql.append("WHERE table_num=?");
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setInt(1, tableNum);
+				pstmt.executeUpdate();	
+			}
+		}.execute();
+	}
+	
+	@Override
+	public void insertTable(int tableNum) throws Exception {
+		StringBuffer sql=new StringBuffer();
+		sql.append("INSERT INTO posmachine.TABLE");
+		sql.append("(table_num,use_yn) ");
+		sql.append("VALUES (?,?)");
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setInt(1, tableNum);
+				pstmt.setString(2, "N");
+				pstmt.executeUpdate();					
+			}
+		}.execute();
+	}
+	
+	@Override
+	public void moveTable(int from, int to) throws Exception {
+		StringBuffer sql=new StringBuffer();
+		sql.append("UPDATE posmachine.ORDER SET ");
+		sql.append("table_num=? ");
+		sql.append("WHERE table_num=?");
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setInt(1, to);
+				pstmt.setInt(2, from);
+				pstmt.executeUpdate();					
+			}
+		}.execute();
+	}
 }

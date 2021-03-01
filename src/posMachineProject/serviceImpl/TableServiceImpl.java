@@ -54,4 +54,29 @@ public class TableServiceImpl implements TableService{
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void deleteTable(int tableNum) {
+		try {
+			tableDao.deleteTable(tableNum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void insertTable(int tableNum) {
+		try {
+			tableDao.insertTable(tableNum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void moveTable(int from, int to) {
+		try {
+			tableDao.moveTable(from,to);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
