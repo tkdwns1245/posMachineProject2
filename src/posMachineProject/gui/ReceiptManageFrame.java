@@ -1,33 +1,56 @@
 package posMachineProject.gui;
 
 import java.awt.Color;
+
+
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities; 
+import javax.swing.event.AncestorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
+import data.MenuVO;
 import data.ReceiptJoinedVO;
+import data.ReceiptVO;
 import gui.util.CreateComponentUtil;
+import posMachineProejct.manager.ReceiptManager;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
-import posMachineProejct.manager.ReceiptManager;
 
-public class ReceiptManageFrame extends FrameTemplate implements Runnable {
+public class ReceiptManageFrame extends FrameTemplate {
 	ReceiptManager rm = new ReceiptManager();
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
 	DecimalFormat df = new DecimalFormat("###,###");
+	
+	int year,month,day;
 
 	
 	JPanel mainPanel;
@@ -38,14 +61,7 @@ public class ReceiptManageFrame extends FrameTemplate implements Runnable {
 	JPanel paymentDetail;
 	JPanel paymentContent;
 	JPanel tableContent;
- //	JPanel tableField1;
- //	JPanel tableValue1;	 
- //	JPanel payPrice;
- //	JPanel payTime;
-	
- //	JPanel tableField2;
- //	JPanel tableValue2;
- //	JPanel total;
+
 	JPanel history;
 	JPanel times;
 	JPanel price;
@@ -57,7 +73,7 @@ public class ReceiptManageFrame extends FrameTemplate implements Runnable {
 	JPanel detailContent;
 	
 	JPanel totalPanel;
-	JPanel dateSelect;  // ?Ç†Ïß? ?Ñ†?ÉùÏ∞? Íµ¨ÌòÑ ?ïÑ?öî
+	JPanel dateSelect;  // ≥Ø¬• º±≈√√¢ ±∏«ˆ « ø‰
 
 	
 	JLabel time;
@@ -65,8 +81,7 @@ public class ReceiptManageFrame extends FrameTemplate implements Runnable {
 	JLabel fieldName1;
 	JLabel fieldName2;
 	JLabel deatailLabel;
-//	JLabel payPriceLabel;
-//	JLabel payTimeLabel;
+
 	
 	JLabel totalLabel;
 	JLabel historyLabel;
@@ -81,9 +96,19 @@ public class ReceiptManageFrame extends FrameTemplate implements Runnable {
 		
 	JButton receiptPrintButton;
 	JButton returnButton;
+	JButton goBackBtn;
+	
 	int size;
 	int size2;
 	int totalSum;
+	
+	UtilDateModel model;
+	JDatePanelImpl datePanel;
+	JDatePickerImpl datePicker;
+	
+	DefaultTableModel datetablemodel; 
+	String[] header,header2;
+	Object[][] contents,contents2;
 	
 	public ReceiptManageFrame() {
 		init();
@@ -93,118 +118,86 @@ public class ReceiptManageFrame extends FrameTemplate implements Runnable {
 	@Override
 	public void initComponent() {
 		mainPanel = new JPanel();
-		//Util?óê  defaultÎ°? ?Ñ∏?åÖ?ï¥?ïº ?ïò?äî?ï®
+		//Utilø°  default∑Œ ºº∆√«ÿæﬂ «œ¥¬«‘
 		ccUtil.setMainPanel(mainPanel);
-		//?ãúÍ≥ÑÍ∏∞?ä• ?å®?Ñê, ?†à?ù¥Î∏?
+		//Ω√∞Ë±‚¥… ∆–≥Œ, ∑π¿Ã∫Ì
 		timePanel=(JPanel)  ccUtil.createJcomponent("p", width*23/100,height*5/100, 50, 50);
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
 		time.setForeground(Color.white);
-		time.setFont(new Font("ÎßëÏ?Í≥†Îîï",Font.BOLD, 15));	
+		time.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 15));	
 
-		// Í≤∞Ï†ú?†ïÎ≥?  ?å®?Ñê
+		// ∞·¡¶¡§∫∏  ∆–≥Œ
 		paymentPanel= (JPanel) ccUtil.createJcomponent("p",width*30/100,height*60/100, width*15/100,height*20/100);
 		paymentTitlePanel = (JPanel) ccUtil.createJcomponent("p",width*30/100,height*45/1000, 0,0);
 		paymentDetail=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*955/1000, 0, height*45/1000);
 		paymentContent=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*245, width/1000*50, height/600*65);
-	//	tableField1=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*25, 0, 0);
-	//	tableValue1=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*575, 0, height/600*25);
-		
-	//	payPrice=(JPanel) ccUtil.createJcomponent("p", width/1000*205/2, height/600*575, 0, 0);
-	//	payTime=(JPanel) ccUtil.createJcomponent("p", width/1000*205/2, height/600*575, width/1000*205/2, 0);
-		
-		
-		// ?ÉÅ?Ñ∏?Ç¥?ó≠ ?å®?Ñê
+
+		// ªÛºº≥ªø™ ∆–≥Œ
 		detailTitlePanel = (JPanel) ccUtil.createJcomponent("p", width*30/100,height*45/1000, 0,0);
 		detailPanel= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*60/100, width*55/100,height*20/100);
 		detail= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*955/1000, 0, height*45/1000);
 		detailContent=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*190, width/1000*50, height/600*40);
 		totalPanel=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*25, width/1000*50,height/600*230);
 
-	//	tableField2=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*25, 0, 0);
-	//	tableValue2=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*170, 0, height/600*25);
-	//	total=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*25, 0, height/600*195);
-
 		history=(JPanel) ccUtil.createJcomponent("p", width/1000*205/3, height/600*575, 0, 0);
 		times=(JPanel) ccUtil.createJcomponent("p", width/1000*205/3, height/600*575, width/1000*205/3, 0);
 		price=(JPanel) ccUtil.createJcomponent("p", width/1000*205/3, height/600*575, width/1000*205/3*2, 0);
 
-		// Í≤∞Ï†ú?†ïÎ≥?, ?ÉÅ?Ñ∏?Ç¥?ó≠ ?†à?ù¥Î∏?
+		// ∞·¡¶¡§∫∏, ªÛºº≥ªø™ ∑π¿Ã∫Ì
 		dateLabel=(JLabel) ccUtil.createJcomponent("l", width*30/100,height*45/1000, width*0/100, height*0/100);
-		dateLabel.setText("?Ç†ÏßúÏÑ†?Éù");
-		dateLabel.setFont(new Font("ÎßëÏ?Í≥†Îîï",Font.BOLD, 15));	
+		dateLabel.setText("≥Ø¬•º±≈√");
+		dateLabel.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 15));	
 		
-	//	fieldName1=(JLabel) ccUtil.createJcomponent("l", width/1000*00, height/600*200, width/1000*50, height/600*60);
-	//	fieldName1.setText("   Í≤∞Ï†úÍ∏àÏï°                  Í≤∞Ï†ú?ãúÍ∞?   ");
-	//	payPriceLabel=(JLabel) ccUtil.createJcomponent("l", width/1000*205/2, height/600*575, width*0/100, height*0/100);
-	//	payPriceLabel.setText("20,000d?õê");
-	//	payTimeLabel=(JLabel) ccUtil.createJcomponent("l", width/1000*205/2, height/600*575, width*0/100, height*0/100);
-	//	payTimeLabel.setText("17:55");
 		deatailLabel=(JLabel) ccUtil.createJcomponent("l",width*30/100,height*45/1000, width*0/100, height*0/100);
-		deatailLabel.setText("?ÉÅ?Ñ∏?Ç¥?ó≠");
-		deatailLabel.setFont(new Font("ÎßëÏ?Í≥†Îîï",Font.BOLD, 15));	
-		
-		
-	//	fieldName2=(JLabel) ccUtil.createJcomponent("l",width/1000*00, height/600*200, width/1000*50, height/600*60);
-	//	fieldName2.setText(" ?Ç¥ ?ó≠           Íµ¨Îß§?öü?àò          Í∞? Í≤?  ");
+		deatailLabel.setText("ªÛºº≥ªø™");
+		deatailLabel.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 15));	
+
 		totalLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205, height/600*25, 0, 0);
 		
-	//	historyLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
-	//	historyLabel.setText("?ï≠ Î™?");
-	//	timesLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
-	//	timesLabel.setText("1");
-	//	priceLabel=(JLabel) ccUtil.createJcomponent("l",width/1000*205/3, height/600*575, width*0/100, height*0/100);
-	//	priceLabel.setText("20,000?õê");
+
 		
-		// Table ?Éù?Ñ±(Í≤∞Ï†úÍ∏àÏï°, Í≤∞Ï†ú?ãúÍ∞?)
-		String header[] = {"Í≤∞Ï†úÍ∏àÏï°","Í≤∞Ï†ú?ãúÍ∞?"};
-		size = rm.selecttReceipt().size();
-		ArrayList<ReceiptJoinedVO> List= (ArrayList)rm.selecttReceipt();
-		String[][] contents = new String[size][2];  // Î¶¨Ïä§?ä∏ ?Ç¨?ù¥Ï¶àÎ?? Î®ºÏ? ?Ñ†?ñ∏
-		for(int i=0; i < List.size(); i++) {
-			contents[i][0] =  "" + List.get(i).getSumPrice();
-			contents[i][1] = "" + List.get(i).getRegTime();
-		}
-		
-    	DefaultTableModel model = new DefaultTableModel(contents,header){
-		// ?çîÎ∏îÌÅ¥Î¶??ï¥?Ñú ?àò?†ïÎ∂àÍ?
+		// Table ª˝º∫(∞·¡¶±›æ◊, ∞·¡¶Ω√∞£)
+		header = new String[] {"∞·¡¶±›æ◊","∞·¡¶Ω√∞£"};
+		contents=rm.CreateReceiptJtableContents(year, month, day);
+
+    	datetablemodel = new DefaultTableModel(contents,header){
+		// ¥ı∫Ì≈¨∏Ø«ÿº≠ ºˆ¡§∫“∞°
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
 		};
+		
+		
+		dateTable = new JTable(datetablemodel);
 		dateScrollpane = new JScrollPane(dateTable);
 		dateScrollpane.setPreferredSize(new Dimension(width/1000*195,height/600*235));
 		
 		
-		// Table ?Éù?Ñ±(?Ç¥?ó≠, Íµ¨Îß§?öü?àò, Í∞?Í≤?)
-		String header2[] = {"?Ç¥ ?ó≠","Íµ¨Îß§?öü?àò","Í∞? Í≤?"};
-		size2 = rm.selecttReceipt_Details().size();
-		ArrayList<ReceiptJoinedVO> List2 = (ArrayList)rm.selecttReceipt();
-		String[][] contents2 = new String[size2][3];  // Î¶¨Ïä§?ä∏ ?Ç¨?ù¥Ï¶àÎ?? Î®ºÏ? ?Ñ†?ñ∏
-		for(int i=0; i < List2.size(); i++) {
-			contents2[i][0] = List2.get(i).getMenu_Name();
-			contents2[i][1] = "" + List2.get(i).getNumberOf();
-			contents2[i][2] = "" + List2.get(i).getMenu_Price();
-			
-			totalSum += List2.get(i).getMenu_Price(); 
-		}
-		
+		// Table ª˝º∫(≥ªø™, ±∏∏≈»Ωºˆ, ∞°∞›)
+		header2 = new String[] {"≥ª ø™","±∏∏≈»Ωºˆ","∞° ∞›"};
+		contents2=rm.CreateReceiptDetailJtableContents(0);
 		DefaultTableModel model2 = new DefaultTableModel(contents2,header2){
-		// ?çîÎ∏îÌÅ¥Î¶??ï¥?Ñú ?àò?†ïÎ∂àÍ?
+		// ¥ı∫Ì≈¨∏Ø«ÿº≠ ºˆ¡§∫“∞°
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
 		};
+		
+		
 		detailTable = new JTable(model2);
 		detailScrollpane = new JScrollPane(detailTable);
 		detailScrollpane.setPreferredSize(new Dimension(width/1000*195,height/600*180));
 		
-		//Î≤ÑÌäº 
+		//πˆ∆∞ 
 		receiptPrintButton=(JButton) ccUtil.createJcomponent("b", width/10, height/600*30, width/1000*60, height/600*280);
-		receiptPrintButton.setText("?òÅ?àòÏ¶? Ï∂úÎ†•");
+		receiptPrintButton.setText("øµºˆ¡ı √‚∑¬");
 		returnButton=(JButton) ccUtil.createJcomponent("b", width/15, height/600*30, width/1000*185, height/600*280);
-		returnButton.setText("Î∞? ?íà");
+		returnButton.setText("π› «∞");
+		goBackBtn=(JButton)ccUtil.createJcomponent("b",80, 50, 805,35);
+		goBackBtn.setText("µ⁄∑Œ∞°±‚");
+		goBackBtn.setFont(new Font("∏º¿∫ ∞ÌµÒ",Font.BOLD, 10));
 
-		//?Ç†ÏßúÏÑ†?Éù 
+		//≥Ø¬•º±≈√ 
 		dateSelect=(JPanel) ccUtil.createJcomponent("p", width/1000*205, height/600*40, width/1000*50, height/600*20);
 		
 	}
@@ -213,22 +206,25 @@ public class ReceiptManageFrame extends FrameTemplate implements Runnable {
 	public void addGui() {
 		this.add(mainPanel);
 		
-		// ?Ç†ÏßúÏÑ†?ÉùÏ∞?
+		// ≥Ø¬•º±≈√√¢
 		
-		UtilDateModel model = new UtilDateModel();
-		JDatePanelImpl datePanel = new JDatePanelImpl(model);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
-		datePicker.setPreferredSize(new Dimension(width/1000*200,height/600*25));
-		datePicker.setFont(new Font("ÎßëÏ?Í≥†Îîï",Font.BOLD, 15));	
+		model = new UtilDateModel();
+		datePanel = new JDatePanelImpl(model);
+		datePicker = new JDatePickerImpl(datePanel);
+		datePicker.setPreferredSize(new Dimension(200,25));
+		datePicker.setFont(new Font("∏º¿∫∞ÌµÒ",Font.BOLD, 15));	
 		dateSelect.add(datePicker);
 		dateSelect.setBackground(new Color(30, 144, 255));
-
-		// ?ã¨?†•?óê?Ñú ?Ñ†?Éù?êú Í∞? Î∞õÍ∏∞ : model.getYear() + "-" + (model.getMonth() + 1) + "-" + model.getDay();
 		
-		// Î¨ºÌíà?ï≠Î™? ?å®?Ñê
+		
+		// ¥ﬁ∑¬ø°º≠ º±≈√µ» ∞™ πﬁ±‚ : model.getYear() + "-" + (model.getMonth() + 1) + "-" + model.getDay();
+		
+		// π∞«∞«◊∏Ò ∆–≥Œ
 		mainPanel.setLayout(null);
 		mainPanel.setBackground(new Color(155,155,155));
 		mainPanel.setBackground(new Color(223, 228, 234));
+		
+		mainPanel.add(goBackBtn);
 
 		mainPanel.add(timePanel);
 		timePanel.add(time);
@@ -237,7 +233,7 @@ public class ReceiptManageFrame extends FrameTemplate implements Runnable {
 		
 		mainPanel.add(paymentPanel);
 		paymentPanel.setLayout(null);
-		paymentPanel.setBackground(new Color(100, 100, 100));
+		paymentPanel.setBackground(new Color(150, 100, 100));
 		paymentPanel.add(paymentTitlePanel);
 		paymentPanel.add(paymentDetail);
 		
@@ -245,27 +241,13 @@ public class ReceiptManageFrame extends FrameTemplate implements Runnable {
 		
 		paymentPanel.add(paymentDetail);
 		paymentDetail.setLayout(null);
-		paymentDetail.setBackground(new Color(30, 144, 255));
+		paymentDetail.setBackground(new Color(55, 144, 255));
 
 		paymentDetail.add(dateSelect);
 		paymentDetail.add(paymentContent);
 		paymentContent.add(dateScrollpane);
 
-	//	paymentContent.add(tableField1);
-	//	tableField1.setBackground(new Color(186, 220, 88));
-	//	tableField1.add(fieldName1);
-		
-	//	paymentContent.add(tableValue1);
-	//	tableValue1.setLayout(null);
-	//	tableValue1.add(payPrice);
-	//	payPrice.setBackground(new Color(223, 228, 234));
-	//	payPrice.add(payPriceLabel);
-	//	tableValue1.add(payTime);
-	//	payTime.add(payTimeLabel);
-				
-
-
-		// Ïπ¥ÌÖåÍ≥†Î¶¨ ?å®?Ñê		
+		// ƒ´≈◊∞Ì∏Æ ∆–≥Œ		
 		
 		mainPanel.add(detailPanel);
 		detailPanel.setLayout(null);
@@ -284,96 +266,157 @@ public class ReceiptManageFrame extends FrameTemplate implements Runnable {
 		detail.add(returnButton);
 		detail.add(detailContent);
 		detail.add(totalPanel);
-		totalPanel.add(totalLabel);  // Í∏àÏï° Ï¥ùÌï©Í≥?
-		totalLabel.setText("?ï©Í≥?" + " " + (df.format(totalSum)) +"?õê");
+		totalPanel.add(totalLabel);  // ±›æ◊ √—«’∞Ë
+		totalLabel.setText("«’∞Ë" + " " + (df.format(totalSum)) +"ø¯");
 
 		totalPanel.setBackground(new Color(236, 204, 104));
 
 		detailContent.add(detailScrollpane);
-		
-	//	detailContent.add(tableField2);
-	//	tableField2.setBackground(new Color(186, 220, 88));
-	//	tableField2.add(fieldName2);
-			
-	//	detailContent.add(tableValue2);
-	//	tableValue2.setLayout(null);
-	
-	//	tableValue2.add(history);
-	//	history.add(historyLabel);
-	//	tableValue2.add(times);
-	//	times.add(timesLabel);
-	//	times.setBackground(new Color(223, 228, 234));
 
-	//	tableValue2.add(price);
-	//	price.add(priceLabel);
-	
 
 	}
 	@Override
 	public void initEvent() {
-		//?òÅ?àòÏ¶? Ï∂úÎ†•
+		//øµºˆ¡ı √‚∑¬
 		receiptPrintButton.addMouseListener(new MouseAdapter() { 
 			  public void mouseClicked(MouseEvent e) {
-				  String[] st = {"?Ñ§", "?ïÑ?ãà?ò§"};
-					int num = JOptionPane.showOptionDialog(null, "?òÅ?àòÏ¶ùÏùÑ Ï∂úÎ†•  ?ïò?ãúÍ≤†Ïäµ?ãàÍπ??.", "?òÅ?àòÏ¶? Ï∂úÎ†•", JOptionPane.DEFAULT_OPTION, 1, null, st, st[0]);
+				  String[] st = {"≥◊", "æ∆¥œø¿"};
+					int num = JOptionPane.showOptionDialog(null, "øµºˆ¡ı¿ª √‚∑¬  «œΩ√∞⁄Ω¿¥œ±Ó?.", "øµºˆ¡ı √‚∑¬", JOptionPane.DEFAULT_OPTION, 1, null, st, st[0]);
 						
-						if(num == 0) {JOptionPane.showMessageDialog(null, "?òÅ?àòÏ¶ùÏù¥ Ï∂úÎ†•?ê©?ãà?ã§.");
+						if(num == 0) {JOptionPane.showMessageDialog(null, "øµºˆ¡ı¿Ã √‚∑¬µÀ¥œ¥Ÿ.");
 							
 						}	
 				  }
 		});
 		
-		//Î∞òÌíàÎ≤ÑÌäº 
+		//π›«∞πˆ∆∞ 
 		returnButton.addMouseListener(new MouseAdapter() { 
 			  public void mouseClicked(MouseEvent e) {
-				  String[] st = {"?Ñ§", "?ïÑ?ãà?ò§"};
-					int num = JOptionPane.showOptionDialog(null, "Î∞òÌíàÏ≤òÎ¶¨ ?ïò?ãúÍ≤†Ïäµ?ãàÍπ??.", "Î∞òÌíà Ï≤òÎ¶¨", JOptionPane.DEFAULT_OPTION, 1, null, st, st[0]);
+				  String[] st = {"≥◊", "æ∆¥œø¿"};
+					int num = JOptionPane.showOptionDialog(null, "π›«∞√≥∏Æ «œΩ√∞⁄Ω¿¥œ±Ó?.", "π›«∞ √≥∏Æ", JOptionPane.DEFAULT_OPTION, 1, null, st, st[0]);
 						
-						if(num == 0) {JOptionPane.showMessageDialog(null, "Î∞òÌíàÏ≤òÎ¶¨ ?êò?óà?äµ?ãà?ã§.");
+						if(num == 0) {
+							rm.returnThisSale((int)contents[dateTable.getSelectedRow()][2]);
+							contents=rm.CreateReceiptJtableContents(year, month, day);					
+							dateTable.setModel(new DefaultTableModel(contents,header));
+							detailTable.setModel(new DefaultTableModel(null,header2));	
 							
+							dateTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+							dateTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+							
+							totalLabel.setText("");
+							
+							JOptionPane.showMessageDialog(null, "π›«∞√≥∏Æ µ«æ˙Ω¿¥œ¥Ÿ.");
 						}	
 				  }
 		});
+		
+		model.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				// TODO Auto-generated method stub
+				String before=""+year+month;
+				int beforeday=day;
+	
+				year=model.getYear();
+				month=model.getMonth()+1;
+				day=model.getDay();
+
+				int afterday=day;
+				String after=""+year+month;
+
+				
+				if( (beforeday!=afterday) || (beforeday==afterday && !before.equals(after)) ) {
+			
+					contents=rm.CreateReceiptJtableContents(year, month, day);					
+					dateTable.setModel(new DefaultTableModel(contents,header));
+					
+					dateTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+					dateTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+					
+					
+				}
+			}
+		});
+		
+		dateTable.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				contents2=rm.CreateReceiptDetailJtableContents((int)contents[dateTable.getSelectedRow()][2]);
+				detailTable.setModel(new DefaultTableModel(contents2,header2));	
+				
+				int total=0;
+				for(int i=0;i<contents2.length;i++) {
+					total+=(int)contents2[i][2]*(int)contents2[i][1];
+				}
+				if(contents[dateTable.getSelectedRow()][3].equals("normal")) {
+					totalLabel.setText("«’∞Ë "+String.valueOf(total)+" ø¯");
+					totalPanel.setBackground(new Color(236, 204, 104));
+				}
+				if(contents[dateTable.getSelectedRow()][3].equals("return")) {
+					totalLabel.setText("π›«∞ "+String.valueOf(total)+" ø¯");
+					totalPanel.setBackground(new Color(200, 80, 80));
+				}
+			}
+		});
+		
+		goBackBtn.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) { 
+				// TODO Auto-generated method stub
+				
+				dispose();
+		    	pageManager.goMainPage();
+			}
+				
+		});
+		
+
 	}
 	
-	@Override
-	public void run() {
-		while(true) {
-			Calendar t = Calendar.getInstance();
-			int year = t.get(Calendar.YEAR);
-			int month = t.get(Calendar.MONTH)+1;
-			int date = t.get(Calendar.DATE);
-			int amPm = t.get(Calendar.AM_PM);
-			int hour = t.get(Calendar.HOUR);
-			int min = t.get(Calendar.MINUTE);
-			int sec = (t.get(Calendar.SECOND) < 10) ? 0 + t.get(Calendar.SECOND) : t.get(Calendar.SECOND);
-			String ampm=amPm==Calendar.AM? "AM":"PM";
-				
-							
-			if((min<10) && (sec<10)) {
-				String day1 = (year +"?ÖÑ " + month + "?õî " + date + "?ùº " + ampm + " " + hour + ":0" + min + ":0" + sec );
-				time.setText(day1);
-			} else if((min>10) && (sec<10)) {
-				String day2 = (year +"?ÖÑ " + month + "?õî " + date + "?ùº " + ampm + " " + hour + ":" + min + ":0" + sec );
-				time.setText(day2);
-			} else if((min<10) && (sec>10)) {
-				String day3 = (year +"?ÖÑ " + month + "?õî " + date + "?ùº " + ampm + " " + hour + ":0" + min + ":" + sec );
-				time.setText(day3);
-			} else {
-				String day4 = (year +"?ÖÑ " + month + "?õî " + date + "?ùº " + ampm + " " + hour + ":" + min + ":" + sec );
-				time.setText(day4);
-			}
-			
-			
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-				
-		}
-				
-		}
+//	@Override
+//	public void run() {
+//		while(true) {
+//			Calendar t = Calendar.getInstance();
+//			int year = t.get(Calendar.YEAR);
+//			int month = t.get(Calendar.MONTH)+1;
+//			int date = t.get(Calendar.DATE);
+//			int amPm = t.get(Calendar.AM_PM);
+//			int hour = t.get(Calendar.HOUR);
+//			int min = t.get(Calendar.MINUTE);
+//			int sec = (t.get(Calendar.SECOND) < 10) ? 0 + t.get(Calendar.SECOND) : t.get(Calendar.SECOND);
+//			String ampm=amPm==Calendar.AM? "AM":"PM";
+//				
+//							
+//			if((min<10) && (sec<10)) {
+//				String day1 = (year +"≥‚ " + month + "ø˘ " + date + "¿œ " + ampm + " " + hour + ":0" + min + ":0" + sec );
+//				time.setText(day1);
+//			} else if((min>10) && (sec<10)) {
+//				String day2 = (year +"≥‚ " + month + "ø˘ " + date + "¿œ " + ampm + " " + hour + ":" + min + ":0" + sec );
+//				time.setText(day2);
+//			} else if((min<10) && (sec>10)) {
+//				String day3 = (year +"≥‚ " + month + "ø˘ " + date + "¿œ " + ampm + " " + hour + ":0" + min + ":" + sec );
+//				time.setText(day3);
+//			} else {
+//				String day4 = (year +"≥‚ " + month + "ø˘ " + date + "¿œ " + ampm + " " + hour + ":" + min + ":" + sec );
+//				time.setText(day4);
+//			}
+//			
+//			
+//			try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//				
+//		}
+//				
+//		}
+	
 	
 		
 }

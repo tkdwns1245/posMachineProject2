@@ -9,5 +9,8 @@ import data.ReceiptJoinedVO;
 public interface ReceiptService {
  
 	public abstract List<ReceiptJoinedVO> selectJoinedReceiptTable();
+	public Object[][] CreateReceiptDetailJtableContents(int rcNumber);
+	public Object[][] CreateReceiptJtableContents(int year,int month,int day);
+	public void returnThisSale(int rcNumber);
 	public int getRowCount();
 }

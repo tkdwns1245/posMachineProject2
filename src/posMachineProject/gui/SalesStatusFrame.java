@@ -47,6 +47,8 @@ public class SalesStatusFrame extends FrameTemplate{
 	
 	public JButton checkBtn;
 	
+	public JButton goBackBtn;
+	
 	public JTabbedPane tab;
 	public JPanel contentPanel;
 	public JLabel contentNowLabel;
@@ -105,6 +107,10 @@ public class SalesStatusFrame extends FrameTemplate{
 		checkBtn=(JButton)ccUtil.createJcomponent("b",80, 20, 505,15);
 		checkBtn.setText("Á¶È¸");
 		checkBtn.setFont(new Font("¸¼Àº °íµñ",Font.BOLD, 10));
+		
+		goBackBtn=(JButton)ccUtil.createJcomponent("b",80, 20, 605,15);
+		goBackBtn.setText("µÚ·Î°¡±â");
+		goBackBtn.setFont(new Font("¸¼Àº °íµñ",Font.BOLD, 10));
 				
 		tab=new JTabbedPane();
 		
@@ -161,6 +167,7 @@ public class SalesStatusFrame extends FrameTemplate{
 		mainPanel.add(yearLabel);
 		mainPanel.add(monthLabel);
 		mainPanel.add(checkBtn);
+		mainPanel.add(goBackBtn);
 		mainPanel.add(contentPanel);
 		mainPanel.add(contentNowLabel);
 		mainPanel.add(titleLabel);
@@ -218,6 +225,17 @@ public class SalesStatusFrame extends FrameTemplate{
 			
 		});
 		
+		goBackBtn.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) { 
+				// TODO Auto-generated method stub
+				
+				dispose();
+		    	pageManager.goMainPage();
+			}
+				
+		});
 		
 	}
 	

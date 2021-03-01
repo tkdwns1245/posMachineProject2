@@ -238,8 +238,13 @@ public class MainFrame  extends FrameTemplate{
 		receiptManageButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< .merge_file_a10448
 				dispose();
 				pageManager.goReceiptManagePage();
+=======
+				pageManager.goReceiptManagePage();
+				
+>>>>>>> .merge_file_a16396
 			}
 		});
 		tableManageButton.addActionListener(new ActionListener() {

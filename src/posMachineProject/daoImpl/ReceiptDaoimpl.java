@@ -1,12 +1,28 @@
 package posMachineProject.daoImpl;
 
+import java.awt.Color;
+
+
+import java.awt.GridLayout;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.ReceiptJoinedVO;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+
+
+import posMachineProject.dao.ReceiptDao;
 import database.DatabaseUtil;
 import database.VOFactory;
-import posMachineProject.dao.ReceiptDao;
+import data.*;
 
 public class ReceiptDaoimpl implements ReceiptDao{
 	
@@ -80,6 +96,28 @@ public class ReceiptDaoimpl implements ReceiptDao{
 		}.execute();
 		return rowCount;
 
+	}
+
+
+	@Override
+	public void returnThisSale(int rcNumber) {
+		// TODO Auto-generated method stub
+		sql=new StringBuffer();
+		sql.append("UPDATE posmachine.RECEIPT ");
+		sql.append("SET status='return' ");
+		sql.append("WHERE rcNumber= ? ");
+		
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setInt(1, rcNumber);
+				pstmt.executeUpdate();
+				
+			}
+		}.execute();
+		
 	}
 		
 	
