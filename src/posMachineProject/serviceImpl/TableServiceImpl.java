@@ -79,4 +79,30 @@ public class TableServiceImpl implements TableService{
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public List<String> selectTableStatusList(){
+		try {
+			return tableDao.selectTableStatusList();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@Override
+	public void settingTable(int tableNum){
+		try {
+			tableDao.settingTable(tableNum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void unSettingTable(int tableNum){
+		try {
+			tableDao.unSettingTable(tableNum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

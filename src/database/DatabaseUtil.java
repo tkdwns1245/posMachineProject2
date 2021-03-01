@@ -7,14 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public abstract class DatabaseUtil {
+public class DatabaseUtil {
 	
-	//DBï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private static final String DB_URL = "jdbc:mysql://ssjdatabase.ceqqrjstuth3.ap-northeast-2.rds.amazonaws.com";
 	private static final String USERNAME = "ssjdbadmin"; // DB ID 
 	private static final String PASSWORD = "tkdwnsDBAdmin"; // DB Password 
 	
-	//ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½
 	private static final String USER_TABLE="posmachine.USER";
 	private static final String MENU_TABLE="posmachine.MENU";
 	private static final String ORDER_TABLE="posmachine.ORDER";
@@ -22,10 +20,9 @@ public abstract class DatabaseUtil {
 	private static final String TABLE_TABLE="posmachine.TABLE";
 	private static final String ORDER_DETAIL_TABLE="posmachine.SALE_DETAILS";
 
-	//DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-	public Connection con;
-	public PreparedStatement pstmt;
-	public ResultSet rs;
+	public static Connection con;
+	public static PreparedStatement pstmt;
+	public static ResultSet rs;
 	
 	
 	public DatabaseUtil() {
@@ -33,26 +30,26 @@ public abstract class DatabaseUtil {
 	}
 	public final void execute() {
 		try {
-			init();
 			query();
-			close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void init() {
+	public static void init() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(DB_URL,USERNAME,PASSWORD); // ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+			con = DriverManager.getConnection(DB_URL,USERNAME,PASSWORD); 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			System.out.println("µ¥ÀÌÅÍº£ÀÌ½º ½ÃÀÛ");
 		}
 	}
 	
-	public abstract void query() throws Exception;
-	private void close() {
+	public void query() throws Exception{};
+	public static void close() {
 		try {
 			if(rs!=null) rs.close();
 			if(pstmt!=null) pstmt.close();
@@ -60,6 +57,8 @@ public abstract class DatabaseUtil {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			System.out.println("µ¥ÀÌÅÍº£ÀÌ½º Á¾·á");
 		}
 		
 	}

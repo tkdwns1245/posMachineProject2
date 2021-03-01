@@ -528,7 +528,8 @@ public class TableFrame extends FrameTemplate{
 				{
 					mrTopPanel.add(categoryButtonList.get(j));
 				}
-	        }public void componentHidden(ComponentEvent e) {
+	        }
+			public void componentHidden(ComponentEvent e) {
 
 	        }
 

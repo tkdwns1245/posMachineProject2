@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -39,7 +37,7 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 	JLabel page;
 	
 	List<JButton> tableButtonList;
-	
+	List<String> tableStatusList;
 
 	JButton tableAddBtn;
 	JButton tableDelBtn;
@@ -47,17 +45,32 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 	JButton PrePageMove;
 	JButton NextPageMove;
 	JButton selectedBtn;
+	/**
+	 * pageStatus == 0 : setting status,
+	 * pageStatus == 1 : select table status
+	 * pageStatus == 2 : changing table status
+	**/
+	int pageStatus;
+	int fromTableNum;
+	int toTableNum;
+	JButton fromTable;
+	JButton toTable;
+	
 	Color bc = new Color(27, 156, 252);
 	Color cc = new Color(241, 196, 15);
+	Color dc = Color.GREEN;
 	public TableManageFrame() {
 		init();
 	}
 	
 	@Override
 	public void initComponent() {
+		pageStatus = 0;
 		tableButtonList = new ArrayList<JButton>();
 		tablePanelList = new ArrayList<JPanel>();
+		tableStatusList = new ArrayList<String>();
 		
+		tableStatusList = tm.selectTableStatusList();
 		mainPanel = new JPanel();
 		ccUtil.setMainPanel(mainPanel);
 		
@@ -97,18 +110,15 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 			JButton tmpButton = new JButton(tableList.get(i).getTableNumber()+"번 TABLE");
 			tmpButton.setPreferredSize(new Dimension(150, 100));
 			tmpButton.setVerticalAlignment(SwingConstants.TOP);
-			tmpButton.setBackground(bc);
+			if(tableStatusList.get(i).equals("Y")) {
+				tmpButton.setBackground(dc);
+			} else {
+				tmpButton.setBackground(bc);
+			}
 			tmpButton.setFont(new Font("맑은고딕",Font.BOLD, 16));	
 			tmpButton.setForeground(Color.white);
 			tableButtonList.add(tmpButton);
 		}
-		/*
-		 * ;
-		 * numberListPanel_2=(JPanel) 
-		 * numberListPanel_3=(JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
-		 * numberListPanel_4=(JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
-		 */
-
 		
 
 		
@@ -221,6 +231,58 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 	@Override
 	public void initEvent() {
 		
+		for(int i =0; i <tableButtonList.size(); i++)
+		{
+			int tableNum = i+1;
+			tableButtonList.get(i).addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(pageStatus == 0) {
+						if(tableStatusList.get(tableNum-1).equals("Y"))
+						{
+							JButton settingTable = (JButton)e.getSource();
+							JOptionPane.showMessageDialog(null, "테이블 세팅이 해제되었습니다.");
+							tm.unSettingTable(tableNum);
+							settingTable.setBackground(bc);
+							tableStatusList.add(tableNum-1,"N");
+						}else {
+							JButton settingTable = (JButton)e.getSource();
+							JOptionPane.showMessageDialog(null, "테이블이 세팅되었습니다.");
+							tm.settingTable(tableNum);
+							settingTable.setBackground(dc);
+							tableStatusList.add(tableNum-1,"Y");
+						}
+					}else if(pageStatus == 1) {
+						if(tableStatusList.get(tableNum-1).equals("N")) {
+							JOptionPane.showMessageDialog(null, "세팅 되어 있는 테이블만 이동 가능합니다.");
+						} else {
+							fromTable = (JButton)e.getSource();
+							JOptionPane.showMessageDialog(null, "이동될 테이블을 선택해 주세요.");
+							fromTableNum = tableNum;
+							fromTable.setBackground(cc);
+							pageStatus = 2;
+						}
+					}else {
+						if(tableStatusList.get(tableNum-1).equals("Y")) {
+							JOptionPane.showMessageDialog(null, "세팅 되어 있는 테이블에는 이동 할 수 없습니다.");
+						} else {
+							toTable = (JButton)e.getSource();
+							toTable.setBackground(cc);
+							JOptionPane.showMessageDialog(null, "테이블이 이동되었습니다.");
+							toTableNum = tableNum;
+							fromTable.setBackground(bc);
+							toTable.setBackground(dc);
+							
+							tm.moveTable(fromTableNum, toTableNum);
+							tableStatusList.add(fromTableNum-1,"N");
+							tableStatusList.add(toTableNum-1,"Y");
+							
+							pageStatus = 0;
+						}
+					}
+				}
+			});
+		}
+		
 		tableAddBtn.addMouseListener(new MouseAdapter() {
 		      
 			public void mouseClicked(MouseEvent e) {
@@ -231,6 +293,7 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 					JPanel tmpJPanel = tablePanelList.get(tpm.getTotalPageCount()-1);
 
 					tm.insertTable(tpm.getTotalTableCount()+1);
+					tableStatusList.add("N");
 					tpm.setTotalTableCount(tpm.getTotalTableCount()+1);
 					JButton tmpButton = new JButton(tpm.getTotalTableCount()+"번 TABLE");
 					tmpButton.setPreferredSize(new Dimension(150, 100));
@@ -243,7 +306,6 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 					//repaint current panel
 					numberListPanel.remove(tablePanelList.get(tpm.getCurruntPage()-1));
 					numberListPanel.add(tablePanelList.get(tpm.getLastPage()-1));
-					System.out.println(tpm.getLastPage()-1);
 					page.setText(tpm.getCurruntPage() + " / " + tpm.getTotalPageCount());
 				
 					repaint();
@@ -252,6 +314,7 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 				}else {
 					//add table in database and init tmpButton
 					tm.insertTable(tpm.getTotalTableCount()+1);
+					tableStatusList.add("N");
 					tpm.setTotalTableCount(tpm.getTotalTableCount()+1);
 					tpm.setTotalPageCount();
 					JPanel tmpJPanel;
@@ -261,7 +324,6 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 					{
 						tmpJPanel = null;
 					}
-					System.out.println(tmpJPanel);
 					//if is the last pagePanel then show last pagePanel
 					if(tmpJPanel != null) {
 						JButton tmpButton = new JButton(tpm.getTotalTableCount()+"번 TABLE");
@@ -309,6 +371,7 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 				{
 					JPanel tmpJPanel = tablePanelList.get(tpm.getTotalPageCount()-1);
 					tm.deleteTable(tpm.getTotalTableCount());
+					tableStatusList.remove(tpm.getTotalTableCount()-1);
 					tpm.setTotalTableCount(tpm.getTotalTableCount()-1);
 					tpm.setTotalPageCount();
 					tableButtonList.remove(tableButtonList.size()-1);
@@ -323,6 +386,7 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 				}else {
 					//delete table in database
 					tm.deleteTable(tpm.getTotalTableCount());
+					tableStatusList.remove(tpm.getTotalTableCount()-1);
 					tpm.setTotalTableCount(tpm.getTotalTableCount()-1);
 					tpm.setTotalPageCount();
 					JPanel tmpJPanel;
@@ -332,7 +396,6 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 					{
 						tmpJPanel = null;
 					}
-					System.out.println(tmpJPanel);
 					//if is the last pagePanel then show last pagePanel
 					if(tmpJPanel != null) {
 						tmpJPanel.remove(tableButtonList.remove(tableButtonList.size()-1));
@@ -362,6 +425,7 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 		tableMoveBtn.addMouseListener(new MouseAdapter() {
 			  public void mouseClicked(MouseEvent e) {
 				  JOptionPane.showMessageDialog(null, "이동할 테이블을 선택해 주세요.");
+				  pageStatus = 1;
 			  }
 			  
 		});

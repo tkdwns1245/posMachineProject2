@@ -39,4 +39,13 @@ public class TableManager {
 	public void moveTable(int from, int to) {
 		tableService.moveTable(from, to);
 	}
+	public List<String> selectTableStatusList(){
+		return tableService.selectTableStatusList();
+	}
+	public void settingTable(int tableNum) {
+		tableService.settingTable(tableNum);
+	}
+	public void unSettingTable(int tableNum) {
+		tableService.unSettingTable(tableNum);
+	}
 }

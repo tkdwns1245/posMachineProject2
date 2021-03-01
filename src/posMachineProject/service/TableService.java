@@ -14,4 +14,7 @@ public interface TableService {
 	public abstract void insertTable(int tableNum);
 	public abstract void deleteTable(int tableNum);
 	public abstract void moveTable(int from, int to);
+	public abstract List<String> selectTableStatusList();
+	public abstract void settingTable(int tableNum);
+	public abstract void unSettingTable(int tableNum);
 }

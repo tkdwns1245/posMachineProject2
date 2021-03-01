@@ -214,5 +214,119 @@ public class TableDaoImpl implements TableDao{
 				pstmt.executeUpdate();					
 			}
 		}.execute();
+		sql.setLength(0);
+		sql.append("UPDATE posmachine.TABLE SET ");
+		sql.append("use_yn=? ");
+		sql.append("WHERE table_num=?");
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setString(1, "N");
+				pstmt.setInt(2, from);
+				pstmt.executeUpdate();					
+			}
+		}.execute();
+		sql.setLength(0);
+		sql.append("UPDATE posmachine.TABLE SET ");
+		sql.append("use_yn=? ");
+		sql.append("WHERE table_num=?");
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setString(1, "Y");
+				pstmt.setInt(2, to);
+				pstmt.executeUpdate();					
+			}
+		}.execute();
+	}
+	@Override
+	public void settingTable(int tableNum) throws Exception {
+		StringBuffer sql=new StringBuffer();
+		sql.append("INSERT INTO posmachine.ORDER ");
+		sql.append("(table_num,status) ");
+		sql.append("VALUES (?,?)");
+		
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setInt(1, tableNum);
+				pstmt.setString(2, "0");
+				pstmt.executeUpdate();					
+			}
+		}.execute();
+		sql.setLength(0);
+		sql.append("UPDATE posmachine.TABLE SET ");
+		sql.append("use_yn=? ");
+		sql.append("WHERE table_num=?");
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setString(1, "Y");
+				pstmt.setInt(2, tableNum);
+				pstmt.executeUpdate();					
+			}
+		}.execute();
+	}
+	@Override
+	public void unSettingTable(int tableNum) throws Exception {
+		StringBuffer sql=new StringBuffer();
+		sql.append("UPDATE posmachine.ORDER SET ");
+		sql.append("status = '1' ");
+		sql.append("WHERE table_num = ?");
+		
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setInt(1, tableNum);
+				pstmt.executeUpdate();					
+			}
+		}.execute();
+		sql.setLength(0);
+		sql.append("UPDATE posmachine.TABLE SET ");
+		sql.append("use_yn=? ");
+		sql.append("WHERE table_num=?");
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setString(1, "N");
+				pstmt.setInt(2, tableNum);
+				pstmt.executeUpdate();					
+			}
+		}.execute();
+	}
+	
+	@Override
+	public List<String> selectTableStatusList() throws Exception {
+		StringBuffer sql=new StringBuffer();
+		CountVO tmpCount = new CountVO();
+		sql.append("SELECT use_yn ");
+		sql.append("FROM posmachine.TABLE ");
+		ArrayList<String> tableStatusList = new ArrayList<String>();
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					tableStatusList.add(rs.getString(1));
+				}
+				
+			}
+		}.execute();
+		return tableStatusList;
 	}
 }
