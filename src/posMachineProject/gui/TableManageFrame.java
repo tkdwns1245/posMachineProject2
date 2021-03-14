@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -38,7 +40,8 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 	
 	List<JButton> tableButtonList;
 	List<String> tableStatusList;
-
+	
+	JButton gobackButton;
 	JButton tableAddBtn;
 	JButton tableDelBtn;
 	JButton tableMoveBtn;
@@ -61,6 +64,8 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 	Color dc = Color.GREEN;
 	public TableManageFrame() {
 		init();
+		Thread t1 = new Thread(this);
+		t1.start();
 	}
 	
 	@Override
@@ -77,28 +82,30 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 		timePanel=(JPanel)  ccUtil.createJcomponent("p", width*23/100,height*5/100, 50, 50);
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
 		time.setForeground(Color.white);
-		time.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));		
+		time.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 15));		
 		
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
 		time.setForeground(Color.white);
-		time.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));
+		time.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 15));
 		
 		
 		title=(JLabel) ccUtil.createJcomponent("l", 200, 50,435, 25);
 		page=(JLabel) ccUtil.createJcomponent("l", 70, 40, 479, 490);
-		page.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 18));
-
+		page.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 18));
 		
-		tableAddBtn=(JButton) ccUtil.createJcomponent("b",100, 30, 560, 50);
-		tableAddBtn.setText("Å×ÀÌºí Ãß°¡");
+		tableAddBtn=(JButton) ccUtil.createJcomponent("b",100, 40, 400, 50);
+		tableAddBtn.setText("<html><div style='text-align:center'>í…Œì´ë¸”ì¶”ê°€</div></html>");
 		
-		tableDelBtn=(JButton) ccUtil.createJcomponent("b",100, 30, 680, 50);
-		tableDelBtn.setText("Å×ÀÌºí »èÁ¦");
+		tableDelBtn=(JButton) ccUtil.createJcomponent("b",100, 40, 520, 50);
+		tableDelBtn.setText("<html><div style='text-align:center'>í…Œì´ë¸”ì‚­ì œ</div></html>");
 		PrePageMove= (JButton) ccUtil.createJcomponent("bw",50, 30, 20, 260);
 		NextPageMove= (JButton) ccUtil.createJcomponent("be",50, 30, 915, 260);
 		
-		tableMoveBtn=(JButton) ccUtil.createJcomponent("b",100, 30, 800, 50);
-		tableMoveBtn.setText("Å×ÀÌºí ÀÌµ¿");
+		tableMoveBtn=(JButton) ccUtil.createJcomponent("b",100, 40, 640, 50);
+		tableMoveBtn.setText("<html><div style='text-align:center'>í…Œì´ë¸”ì´ë™</div></html>");
+		
+		gobackButton = (JButton) ccUtil.createJcomponent("b",100, 40, 800, 50);
+		gobackButton.setText("<html><div style='text-align:center'>ë’¤ë¡œê°€ê¸°</div></html>");
 		numberListPanel=(JPanel) ccUtil.createJcomponent("p", 810, 370, 85, 100);
 		numberListPanel.setLayout(null);
 		numberListPanel.setBackground(new Color(223, 228, 234));
@@ -107,7 +114,7 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 		for(int i =0; i < tpm.getTotalTableCount(); i++)
 		{
 			
-			JButton tmpButton = new JButton(tableList.get(i).getTableNumber()+"¹ø TABLE");
+			JButton tmpButton = new JButton(tableList.get(i).getTableNumber()+"ë²ˆ TABLE");
 			tmpButton.setPreferredSize(new Dimension(150, 100));
 			tmpButton.setVerticalAlignment(SwingConstants.TOP);
 			if(tableStatusList.get(i).equals("Y")) {
@@ -115,7 +122,7 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 			} else {
 				tmpButton.setBackground(bc);
 			}
-			tmpButton.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 16));	
+			tmpButton.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 16));	
 			tmpButton.setForeground(Color.white);
 			tableButtonList.add(tmpButton);
 		}
@@ -141,37 +148,38 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 		mainPanel.add(tableAddBtn);
 		mainPanel.add(tableDelBtn);
 		mainPanel.add(tableMoveBtn);
+		mainPanel.add(gobackButton);
 		mainPanel.add(page);
 			
 		mainPanel.add(title);
 		title.setForeground(Color.white);
-		title.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 20));
+		title.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 20));
 
 
 		for(int i = 0 ; i < tpm.getTotalPageCount(); i++)
 		{
 			JPanel tmpJPanel = (JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
 			tmpJPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 9, 15));
-			//¸¶Áö¸· ÆĞ³ÎÀÌ ¾Æ´Ò °æ¿ì
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ³ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 			if(i != tpm.getTotalPageCount()-1)
 			{
-				//ÆäÀÌÁö´ç ¹öÆ° °³¼ö·Î ÆĞ³Î ¼¼ÆÃ
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ³ï¿½ ï¿½ï¿½ï¿½ï¿½
 				for(int j=0; j < tpm.getTablePerPage(); j++)
 				{
 					tmpJPanel.add(tableButtonList.get(j+(i*15)));
 					
 				}
-			//¸¶Áö¸· ÆĞ³ÎÀÏ °æ¿ì
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			}else {
-				//ÀüÃ¼ Å×ÀÌºí¼ö / ÆäÀÌÁö´ç Å×ÀÌºí¼ö °¡ ³ª´©¾î ¶³¾îÁöÁö ¾ÊÀ» °æ¿ì 
+				//ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ / ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 				if(tpm.getTotalTableCount() % tpm.getTablePerPage() != 0)
 				{
-					//³²´Â¹öÆ°À¸·Î ÆĞ³Î ¼¼ÆÃ
+					//ï¿½ï¿½ï¿½Â¹ï¿½Æ°ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ³ï¿½ ï¿½ï¿½ï¿½ï¿½
 					for(int j=0; j < tpm.getTotalTableCount() % tpm.getTablePerPage(); j++)
 					{
 						tmpJPanel.add(tableButtonList.get(j+(i*15)));
 					}
-				//ÀüÃ¼ Å×ÀÌºí¼ö / ÆäÀÌÁö´ç Å×ÀÌºí¼ö °¡ ³ª´©¾î ¶³¾îÁú°æ¿ì
+				//ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ / ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				} else {
 					for(int j=0; j < tpm.getTablePerPage(); j++)
 					{
@@ -203,16 +211,16 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 				
 							
 			if((min<10) && (sec<10)) {
-				String day1 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":0" + sec );
+				String day1 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":0" + sec );
 				time.setText(day1);
 			} else if((min>10) && (sec<10)) {
-				String day2 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":0" + sec );
+				String day2 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":0" + sec );
 				time.setText(day2);
 			} else if((min<10) && (sec>10)) {
-				String day3 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":" + sec );
+				String day3 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":" + sec );
 				time.setText(day3);
 			} else {
-				String day4 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":" + sec );
+				String day4 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":" + sec );
 				time.setText(day4);
 			}
 			
@@ -230,7 +238,13 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 	
 	@Override
 	public void initEvent() {
-		
+		gobackButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+            	pageManager.goMainPage();	
+			}
+		});
 		for(int i =0; i <tableButtonList.size(); i++)
 		{
 			int tableNum = i+1;
@@ -240,34 +254,34 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 						if(tableStatusList.get(tableNum-1).equals("Y"))
 						{
 							JButton settingTable = (JButton)e.getSource();
-							JOptionPane.showMessageDialog(null, "Å×ÀÌºí ¼¼ÆÃÀÌ ÇØÁ¦µÇ¾ú½À´Ï´Ù.");
+							JOptionPane.showMessageDialog(null, "í…Œì´ë¸” ì„¸íŒ…ì´ í—¤ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
 							tm.unSettingTable(tableNum);
 							settingTable.setBackground(bc);
 							tableStatusList.add(tableNum-1,"N");
 						}else {
 							JButton settingTable = (JButton)e.getSource();
-							JOptionPane.showMessageDialog(null, "Å×ÀÌºíÀÌ ¼¼ÆÃµÇ¾ú½À´Ï´Ù.");
+							JOptionPane.showMessageDialog(null, "í…Œì´ë¸”ì´ ì„¸íŒ…ë˜ì—ˆìŠµë‹ˆë‹¤.");
 							tm.settingTable(tableNum);
 							settingTable.setBackground(dc);
 							tableStatusList.add(tableNum-1,"Y");
 						}
 					}else if(pageStatus == 1) {
 						if(tableStatusList.get(tableNum-1).equals("N")) {
-							JOptionPane.showMessageDialog(null, "¼¼ÆÃ µÇ¾î ÀÖ´Â Å×ÀÌºí¸¸ ÀÌµ¿ °¡´ÉÇÕ´Ï´Ù.");
+							JOptionPane.showMessageDialog(null, "ì„¸íŒ… ë˜ì–´ ìˆëŠ” í…Œì´ë¸”ë§Œ ì´ë™ì´ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
 						} else {
 							fromTable = (JButton)e.getSource();
-							JOptionPane.showMessageDialog(null, "ÀÌµ¿µÉ Å×ÀÌºíÀ» ¼±ÅÃÇØ ÁÖ¼¼¿ä.");
+							JOptionPane.showMessageDialog(null, "ì´ë™ë  í…Œì´ë¸”ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
 							fromTableNum = tableNum;
 							fromTable.setBackground(cc);
 							pageStatus = 2;
 						}
 					}else {
 						if(tableStatusList.get(tableNum-1).equals("Y")) {
-							JOptionPane.showMessageDialog(null, "¼¼ÆÃ µÇ¾î ÀÖ´Â Å×ÀÌºí¿¡´Â ÀÌµ¿ ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+							JOptionPane.showMessageDialog(null, "ì„¸íŒ… ë˜ì–´ ìˆëŠ” í…Œì´ë¸”ì—ëŠ” ì´ë™ í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 						} else {
 							toTable = (JButton)e.getSource();
 							toTable.setBackground(cc);
-							JOptionPane.showMessageDialog(null, "Å×ÀÌºíÀÌ ÀÌµ¿µÇ¾ú½À´Ï´Ù.");
+							JOptionPane.showMessageDialog(null, "í…Œì´ë¸”ì´ ì´ë™ë˜ì—ˆìŠµë‹ˆë‹¤.");
 							toTableNum = tableNum;
 							fromTable.setBackground(bc);
 							toTable.setBackground(dc);
@@ -295,11 +309,11 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 					tm.insertTable(tpm.getTotalTableCount()+1);
 					tableStatusList.add("N");
 					tpm.setTotalTableCount(tpm.getTotalTableCount()+1);
-					JButton tmpButton = new JButton(tpm.getTotalTableCount()+"¹ø TABLE");
+					JButton tmpButton = new JButton(tpm.getTotalTableCount()+"ë²ˆ TABLE");
 					tmpButton.setPreferredSize(new Dimension(150, 100));
 					tmpButton.setVerticalAlignment(SwingConstants.TOP);
 					tmpButton.setBackground(bc);
-					tmpButton.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 16));	
+					tmpButton.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 16));	
 					tmpButton.setForeground(Color.white);
 					tableButtonList.add(tmpButton);
 					tmpJPanel.add(tmpButton);
@@ -326,11 +340,11 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 					}
 					//if is the last pagePanel then show last pagePanel
 					if(tmpJPanel != null) {
-						JButton tmpButton = new JButton(tpm.getTotalTableCount()+"¹ø TABLE");
+						JButton tmpButton = new JButton(tpm.getTotalTableCount()+"ë²ˆ TABLE");
 						tmpButton.setPreferredSize(new Dimension(150, 100));
 						tmpButton.setVerticalAlignment(SwingConstants.TOP);
 						tmpButton.setBackground(bc);
-						tmpButton.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 16));	
+						tmpButton.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 16));	
 						tmpButton.setForeground(Color.white);
 						tableButtonList.add(tmpButton);
 						JPanel tmpPanel = tablePanelList.get(tpm.getLastPage()-1);
@@ -339,11 +353,11 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 					} else {
 						tmpJPanel = (JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
 						tmpJPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 9, 15));
-						JButton tmpButton = new JButton(tpm.getTotalTableCount()+"¹ø TABLE");
+						JButton tmpButton = new JButton(tpm.getTotalTableCount()+"ï¿½ï¿½ TABLE");
 						tmpButton.setPreferredSize(new Dimension(150, 100));
 						tmpButton.setVerticalAlignment(SwingConstants.TOP);
 						tmpButton.setBackground(bc);
-						tmpButton.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 16));	
+						tmpButton.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 16));	
 						tmpButton.setForeground(Color.white);
 						tableButtonList.add(tmpButton);
 						tmpJPanel.add(tmpButton);
@@ -401,7 +415,7 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 						tmpJPanel.remove(tableButtonList.remove(tableButtonList.size()-1));
 					//else init last pagePanel
 					} else {
-						JOptionPane.showMessageDialog(null, "´õÀÌ»ó »èÁ¦ÇÒ Å×ÀÌºíÀÌ ¾ø½À´Ï´Ù.");
+						JOptionPane.showMessageDialog(null, "ë” ì´ìƒ ì‚­ì œí•  í…Œì´ë¸”ì´ ì—†ìŠµë‹ˆë‹¤.");
 					}
 					//repaint current panel
 					numberListPanel.remove(tablePanelList.get(tablePanelList.size()-1));
@@ -423,11 +437,16 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 	 
 		
 		tableMoveBtn.addMouseListener(new MouseAdapter() {
-			  public void mouseClicked(MouseEvent e) {
-				  JOptionPane.showMessageDialog(null, "ÀÌµ¿ÇÒ Å×ÀÌºíÀ» ¼±ÅÃÇØ ÁÖ¼¼¿ä.");
-				  pageStatus = 1;
-			  }
-			  
+			public void mouseClicked(MouseEvent e) {
+				if(pageStatus ==0)
+				{
+					JOptionPane.showMessageDialog(null, "ì´ë™í•  í…Œì´ë¸”ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
+					pageStatus = 1;
+				}else {
+					JOptionPane.showMessageDialog(null, "í…Œì´ë¸” ì´ë™ì„ í•´ì œí•©ë‹ˆë‹¤.");
+					pageStatus = 0;
+				}
+			}
 		});
 		PrePageMove.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
