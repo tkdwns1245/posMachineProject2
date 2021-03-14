@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -59,7 +61,6 @@ public class MainFrame  extends FrameTemplate{
 	JButton receiptManageButton;
 	JButton tableManageButton;
 	
-	
 	public MainFrame() {
 		super.init();
 	}
@@ -105,7 +106,12 @@ public class MainFrame  extends FrameTemplate{
 		for(int i =0; i < tpm.getTotalTableCount(); i++)
 		{
 			JButton tmpButton = new JButton("table " + tableList.get(i).getTableNumber());
-			tmpButton.setPreferredSize(new Dimension(100, 50));
+			
+			tmpButton.setFont(new Font("맑은고딕",Font.BOLD, 16));	
+			tmpButton.setForeground(Color.white);
+			tmpButton.setPreferredSize(new Dimension(150, 100));
+			tmpButton.setBackground(new Color(27, 156, 252));
+			tmpButton.setVerticalAlignment(SwingConstants.TOP);
 			tableButtonList.add(tmpButton);
 		}
 		
@@ -130,9 +136,12 @@ public class MainFrame  extends FrameTemplate{
 		rightPanel.setLayout(new FlowLayout(FlowLayout.CENTER,5,220));
 		rightPanel.setBackground(new Color(255, 0, 0, 0));
 		
+
+		
 		//button 초기화
-		leftPagingButton = new JButton("<<<");
+		leftPagingButton = (JButton) ccUtil.createJcomponent("bw",150, 30, 20, 260);
 		leftPagingButton.setVerticalAlignment(SwingConstants.CENTER);
+		
 		rightPagingButton = new JButton(">>>");
 		
 		salesStatusButton = new JButton("매출현황");
@@ -146,13 +155,19 @@ public class MainFrame  extends FrameTemplate{
 	public void addGui() {
 		this.add(mainPanel);
 		
+		JPanel tmpa = new JPanel();
+		tmpa.setLayout(new GridLayout());
+		tmpa.add(leftPagingButton);
+		tmpa.setSize(50,50);
+
+		
 		timePanel.add(dayLabel);
 		timePanel.add(timeLabel);
 		topPanel.add(timePanel);
 		topPanel.add(idLabel);
 		topPanel.add(logoutButton);
 		
-		leftPanel.add(leftPagingButton);
+		//leftPanel.add(leftPagingButton);
 		rightPanel.add(rightPagingButton);
 		for(int i = 1; i <= tpm.getTotalPageCount(); i++)
 		{
@@ -182,11 +197,21 @@ public class MainFrame  extends FrameTemplate{
 		bottomPanel.add(bottomFirstPanel);
 		bottomPanel.add(bottomSecondPanel);
 		
-		mainPanel.add(topPanel, BorderLayout.NORTH);
+
+
+
+		middlePanelarr[tpm.getCurruntPage()].setLayout(new FlowLayout(FlowLayout.CENTER,10,35));
+		middlePanelarr[tpm.getCurruntPage()].setBackground(new Color(255,255,255));
+		
+		
 		mainPanel.add(middlePanelarr[tpm.getCurruntPage()], BorderLayout.CENTER);
+		mainPanel.add(topPanel, BorderLayout.NORTH);
 		mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 		mainPanel.add(leftPanel, BorderLayout.WEST);
 		mainPanel.add(rightPanel, BorderLayout.EAST);
+		
+		
+
 	}
 	
 	@Override
