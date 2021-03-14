@@ -19,4 +19,5 @@ public interface TableDao {
 	public abstract void unSettingTable(int tableNum) throws Exception;
 	public abstract void deleteTable(int tableNum) throws Exception;
 	public abstract void moveTable(int from, int to) throws Exception;
+	public abstract int selectOrderNum(int tableNum) throws Exception;
 }

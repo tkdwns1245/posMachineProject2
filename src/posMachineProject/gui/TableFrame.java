@@ -274,7 +274,7 @@ public class TableFrame extends FrameTemplate{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int selectedSalesRowNum = 0;
-				boolean isSelectedSalesRow = true;
+				boolean isSelectedSalesRow = false;
 				String selectedMenuName = ""+goodsTable.getModel().getValueAt(selectedGoodsTableRow,0);
 				String selectedMenuPrice = ""+goodsTable.getModel().getValueAt(selectedGoodsTableRow,1);
 				DefaultTableModel tmpSalesModel = (DefaultTableModel) salesTable.getModel();
@@ -311,6 +311,7 @@ public class TableFrame extends FrameTemplate{
 						insertOrderDetailList.set(selectedMenuIndexOf,tmpOrderDetail);
 					}else
 					{
+						System.out.println(salesTable.getModel().getValueAt(selectedSalesRowNum,2));
 						selectedMenuIndexOf = searchOrderDetailListIndex(updateOrderDetailList,selectedMenuName);
 						selectedMenuNumOf = Integer.parseInt(""+salesTable.getModel().getValueAt(selectedSalesRowNum,2));
 						OrderDetailVO tmpOrderDetail = updateOrderDetailList.get(selectedMenuIndexOf);
@@ -448,29 +449,34 @@ public class TableFrame extends FrameTemplate{
 				//////////////salesTablePaint/////////////
 				//select tableOrderDetailList
 				tableOrderDetailList = tm.selectTableOrderDetail(pageManager.getTableNumber());
+				System.out.println(tm.selectTableOrderDetail(pageManager.getTableNumber()));
 				int tableOrderSize = tableOrderDetailList.size();
 				
 				//set contents from tableOrderDetailList
 				String[][] contents = new String[tableOrderSize][4];
 				String header[] = {"이름","가격","개수","금액"};
-				for(int i = 0; i < tableOrderSize; i ++)
-				{
-					String menuName = tableOrderDetailList.get(i).getMenuName();
-					int menuPrice = tableOrderDetailList.get(i).getMenuPrice();
-					int numOf = tableOrderDetailList.get(i).getNumOf();
-					int sumOfPrice = menuPrice * numOf;
-					orderNum = tableOrderDetailList.get(i).getOrderNum();
-					
-					//set updateOrderDetailMap
-					OrderDetailVO tmpOrderDetail = new OrderDetailVO();
-					tmpOrderDetail.setMenuName(menuName);
-					tmpOrderDetail.setNumOf(numOf);
-					tmpOrderDetail.setOrderNum(orderNum);
-					updateOrderDetailList.add(tmpOrderDetail);
-					contents[i][0] = menuName;
-					contents[i][1] = "" + menuPrice;
-					contents[i][2] = "" + numOf;
-					contents[i][3] = "" + sumOfPrice; 
+				if(tableOrderSize != 0) {
+					for(int i = 0; i < tableOrderSize; i ++)
+					{
+						String menuName = tableOrderDetailList.get(i).getMenuName();
+						int menuPrice = tableOrderDetailList.get(i).getMenuPrice();
+						int numOf = tableOrderDetailList.get(i).getNumOf();
+						int sumOfPrice = menuPrice * numOf;
+						orderNum = tableOrderDetailList.get(i).getOrderNum();
+						
+						//set updateOrderDetailMap
+						OrderDetailVO tmpOrderDetail = new OrderDetailVO();
+						tmpOrderDetail.setMenuName(menuName);
+						tmpOrderDetail.setNumOf(numOf);
+						tmpOrderDetail.setOrderNum(orderNum);
+						updateOrderDetailList.add(tmpOrderDetail);
+						contents[i][0] = menuName;
+						contents[i][1] = "" + menuPrice;
+						contents[i][2] = "" + numOf;
+						contents[i][3] = "" + sumOfPrice; 
+					}
+				} else {
+					orderNum = tm.selectOrderNum(pageManager.getTableNumber());
 				}
 				DefaultTableModel model = new DefaultTableModel(contents,header) {
 					@Override

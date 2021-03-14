@@ -105,4 +105,15 @@ public class TableServiceImpl implements TableService{
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public int selectOrderNum(int tableNum) {
+		int orderNum = 0;
+		try {
+			orderNum = tableDao.selectOrderNum(tableNum);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return orderNum;
+	}
 }

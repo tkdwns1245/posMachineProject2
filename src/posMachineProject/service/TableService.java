@@ -17,4 +17,5 @@ public interface TableService {
 	public abstract List<String> selectTableStatusList();
 	public abstract void settingTable(int tableNum);
 	public abstract void unSettingTable(int tableNum);
+	public abstract int selectOrderNum(int tableNum);
 }

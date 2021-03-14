@@ -48,4 +48,8 @@ public class TableManager {
 	public void unSettingTable(int tableNum) {
 		tableService.unSettingTable(tableNum);
 	}
+	public int selectOrderNum(int tableNum) {
+		return tableService.selectOrderNum(tableNum);
+	}
+	
 }
