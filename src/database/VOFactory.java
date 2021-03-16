@@ -1,4 +1,4 @@
-package database; //占쌓쏙옙트 占쌍쇽옙 kukirun3
+package database; 
 
 import java.sql.ResultSet;
 
@@ -11,7 +11,7 @@ import data.UserVO;
 
 public class VOFactory {
 	public void setUserVO(UserVO userVO,ResultSet rs) {
-		//占쌍쇽옙
+
 		try {
 				userVO.setIdNumber(rs.getInt(1));
 				userVO.setId(rs.getString(2));
@@ -38,12 +38,13 @@ public class VOFactory {
 	}
 	
 	
-	// DB�쓽 �뜲�씠�꽣 媛믪쓣 MenuVO�뿉 �꽭�똿
 	public void setMenuVO(MenuVO menuVO,ResultSet rs) {
 		try {
-				menuVO.setMenuCategory(rs.getString(2));
-				menuVO.setMenuName(rs.getString(3));
-				menuVO.setMenuPrice(rs.getInt(4));
+				menuVO.setCategory_num(rs.getInt("category_num"));
+				menuVO.setMenuName(rs.getString("menu_name"));
+				menuVO.setMenuPrice(rs.getInt("menu_price"));
+				menuVO.setSequence(rs.getInt("sequence"));
+				
 				
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -52,8 +53,8 @@ public class VOFactory {
 	
 	public void setCategoryVO(CategoryVO categoryVO,ResultSet rs) {
 		try {
-				categoryVO.setCategoryName(rs.getString(2));
-								
+				categoryVO.setCategoryName(rs.getString("category_name"));
+				categoryVO.setNum(rs.getInt("num"));
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
