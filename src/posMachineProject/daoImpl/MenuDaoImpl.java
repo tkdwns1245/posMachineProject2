@@ -5,6 +5,7 @@ import java.util.List;
 
 import data.CategoryVO;
 import data.MenuVO;
+import data.OrderDetailVO;
 import database.DatabaseUtil;
 import database.VOFactory;
 import posMachineProject.dao.MenuDao;
@@ -13,12 +14,14 @@ public class MenuDaoImpl implements MenuDao{
 	
 	final VOFactory voFactory = new VOFactory();
 	@Override
-	// 荑쇰━臾�,  MenuVO(由ъ뒪�듃)
+
 	public List<MenuVO> menuList() throws Exception {
 		StringBuffer sql=new StringBuffer();
 		List<MenuVO> menuList = new ArrayList<MenuVO>();
 		sql.append("SELECT * ");
 		sql.append("FROM posmachine.MENU ");
+		sql.append("INNER JOIN posmachine.MENU_CATEGORY ON posmachine.MENU.category_num = posmachine.MENU_CATEGORY.num");
+
 		
 		new DatabaseUtil() {
 			@Override
@@ -88,5 +91,86 @@ public class MenuDaoImpl implements MenuDao{
 		return menuList;
 	}
 
+	@Override
+//	public void insertItemDetailList(List<MenuVO> itemDetailList) throws Exception {
+	public void insertItemDetail(MenuVO vo) throws Exception {
+			StringBuffer sql=new StringBuffer();
+			sql.append("INSERT INTO posmachine.MENU");
+			sql.append("(category_num,menu_name,menu_price,sequence)");
+			sql.append("VALUES (?,?,?,?)");
+			new DatabaseUtil() {
+				@Override
+				public void query() throws Exception {
+					// TODO Auto-generated method stub
+					pstmt=con.prepareStatement(sql.toString());
+					pstmt.setInt(1, vo.getCategory_num());
+					pstmt.setString(2, vo.getMenuName());
+					pstmt.setInt(3, vo.getMenuPrice());
+					pstmt.setInt(4, vo.getSequence());
+					pstmt.executeUpdate();					
+				}
+				
+			}.execute();
+		}
+	
+	
+	public void insertCategoryDetail(CategoryVO vo) throws Exception {
+		StringBuffer sql=new StringBuffer();
+		sql.append("INSERT INTO posmachine.MENU_CATEGORY");
+		sql.append("(num,category_name)");
+		sql.append("VALUES (?,?)");
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setInt(1, vo.getNum());
+				pstmt.setString(2, vo.getCategoryName());
+				pstmt.executeUpdate();					
+			}
+			
+		}.execute();
+	}
+	
+	@Override
+	public void deleteItemDetail(MenuVO vo) throws Exception {
+		StringBuffer sql=new StringBuffer();
+		sql.append("DELETE FROM ");
+		sql.append("posmachine.MENU ");
+		sql.append("WHERE menu_name= ?");
+		
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setString(1, vo.getMenuName());
+				pstmt.executeUpdate();					
+			}
+			
+		}.execute();
+		
+	}
+	
+	@Override
+	public void deleteCategoryDetail(CategoryVO vo) throws Exception {
+		StringBuffer sql=new StringBuffer();
+		sql.append("DELETE FROM ");
+		sql.append("posmachine.MENU_CATEGORY ");
+		sql.append("WHERE category_name= ?");
+		
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString());
+				pstmt.setString(1, vo.getCategoryName());
+				pstmt.executeUpdate();					
+			}
+			
+		}.execute();
+		
+	}
 }
+
 
