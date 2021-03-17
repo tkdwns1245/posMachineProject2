@@ -1,3 +1,4 @@
+  
 package posMachineProject.gui;
 
 import java.awt.Color;
@@ -480,7 +481,7 @@ public class GoodsManageFrame extends FrameTemplate {
 
 
 	}
-	
+	/*
 	@Override
 	public void run() {
 		Calendar t = Calendar.getInstance();
@@ -518,6 +519,5 @@ public class GoodsManageFrame extends FrameTemplate {
 		}
 				
 		}
-		
+		*/
 }	
-
