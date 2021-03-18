@@ -1,4 +1,3 @@
-  
 package posMachineProject.gui;
 
 import java.awt.Color;
@@ -353,8 +352,8 @@ public class GoodsManageFrame extends FrameTemplate {
 					DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 					int selectedRow = itemTable.getSelectedRow();
 					String menuName = itemTable.getValueAt(selectedRow,0).toString();
-					System.out.println(menuName);
-					mm.deleteItemDetail(menuName + "삭제");
+					System.out.println(menuName + "삭제");
+					mm.deleteItemDetail(menuName);
 					model.removeRow(itemTable.getSelectedRow());
 					
 
