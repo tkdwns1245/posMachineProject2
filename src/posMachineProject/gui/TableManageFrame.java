@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -463,6 +465,34 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 				numberListPanel.add(tablePanelList.get(tpm.getNextPage()-1));
 				page.setText(tpm.getCurruntPage() + " / " + tpm.getTotalPageCount());
 				repaint();
+			}
+		});
+		this.addComponentListener(new ComponentListener() {
+			public void componentShown(ComponentEvent e) {
+				tableStatusList = tm.selectTableStatusList();
+				for(int i =0; i < tableButtonList.size(); i++)
+				{
+					if(tableStatusList.get(i).equals("Y")) {
+						tableButtonList.get(i).setBackground(dc);
+					} else {
+						tableButtonList.get(i).setBackground(bc);
+					}
+				}
+			}
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void componentResized(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}

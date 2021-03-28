@@ -111,6 +111,9 @@ public class ReceiptServiceImpl implements ReceiptService{
 		return 0;
 	}
 
-
+	@Override
+	public void insertReceiptAndReceiptDetail(Object[][] payItems,String payType, int totalPrice) {
+		ReceiptDao.insertReceiptAndReceiptDetail(payItems,payType,totalPrice);
+	}
 
 }

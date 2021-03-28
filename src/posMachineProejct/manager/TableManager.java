@@ -5,12 +5,14 @@ import java.util.List;
 import data.OrderDetailVO;
 import data.TableOrderDetailVO;
 import data.TableVO;
+import posMachineProject.service.ReceiptService;
 import posMachineProject.service.TableService;
+import posMachineProject.serviceImpl.ReceiptServiceImpl;
 import posMachineProject.serviceImpl.TableServiceImpl;
 
 public class TableManager {
 	TableService tableService = new TableServiceImpl();
-	
+	ReceiptService receiptService = new ReceiptServiceImpl();
 	public TableManager() {
 		// TODO Auto-generated constructor stub
 	}
@@ -50,6 +52,10 @@ public class TableManager {
 	}
 	public int selectOrderNum(int tableNum) {
 		return tableService.selectOrderNum(tableNum);
+	}
+	public void payTable(int tableNum,Object[][] payItems,String payType,int totalPrice) {
+		tableService.unSettingTable(tableNum);
+		receiptService.insertReceiptAndReceiptDetail(payItems,payType,totalPrice);
 	}
 	
 }

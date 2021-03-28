@@ -1,28 +1,16 @@
 package posMachineProject.daoImpl;
 
-import java.awt.Color;
-
-
-import java.awt.GridLayout;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
-
-
-import posMachineProject.dao.ReceiptDao;
+import data.ReceiptJoinedVO;
+import data.ReceiptVO;
 import database.DatabaseUtil;
 import database.VOFactory;
-import data.*;
+import posMachineProject.dao.ReceiptDao;
 
 public class ReceiptDaoimpl implements ReceiptDao{
 	
@@ -118,9 +106,61 @@ public class ReceiptDaoimpl implements ReceiptDao{
 			}
 		}.execute();
 		
-	}
 		
+	}
 	
+	@Override
+	public void insertReceiptAndReceiptDetail(Object[][] payItems,String payType, int totalPrice) {
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
+		StringBuffer sql=new StringBuffer();
+		sql.append("INSERT INTO posmachine.RECEIPT");
+		sql.append("(sumPrice,payType,regTime,status)");
+		sql.append("VALUES (?,?,?,?)");
+		
+		StringBuffer sql2=new StringBuffer();
+		sql2.append("INSERT INTO posmachine.RECEIPT_DETAILS");
+		sql2.append("(rcNumber,menu_Name,menu_Price,numberOf,rowSum)");
+		sql2.append("VALUES (?,?,?,?,?)");
+		
+		ReceiptVO receiptVO = new ReceiptVO();;
+		new DatabaseUtil() {
+			@Override
+			public void query() throws Exception {
+				// TODO Auto-generated method stub
+				pstmt=con.prepareStatement(sql.toString(),Statement.RETURN_GENERATED_KEYS);
+				pstmt.setInt(1, totalPrice);
+				pstmt.setString(2, payType);
+				pstmt.setTimestamp(3, timestamp);
+				pstmt.setString(4, "normal");
+				pstmt.executeUpdate();			
+				
+				rs = pstmt.getGeneratedKeys();
+				rs.next();
+				vofactory.setReceiptId(receiptVO,rs);
+			}
+			
+		}.execute();
+		
+		for(int i= 0; i <payItems.length; i++)
+		{
+			int j = i;
+			new DatabaseUtil() {
+				@Override
+				public void query() throws Exception {
+					// TODO Auto-generated method stub
+					pstmt=con.prepareStatement(sql2.toString());
+					pstmt.setInt(1, receiptVO.getRcNumber());
+					pstmt.setString(2, payItems[j][0].toString());
+					pstmt.setInt(3,Integer.parseInt(payItems[j][1].toString()));
+					pstmt.setInt(4,Integer.parseInt(payItems[j][2].toString()));
+					pstmt.setInt(5,Integer.parseInt(payItems[j][3].toString()));
+					pstmt.executeUpdate();
+				}
+			}.execute();
+		}
+	}
 
 }
 

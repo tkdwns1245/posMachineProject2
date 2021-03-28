@@ -9,6 +9,7 @@ public interface ReceiptDao {
 
 	
 	public List<ReceiptJoinedVO> selectJoinedReceiptTable();
+	public void insertReceiptAndReceiptDetail(Object[][] payItems,String payType,int totalPrice);
 	public void returnThisSale(int rcNumber);
 	public int getRowCount();
 }

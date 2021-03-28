@@ -13,4 +13,5 @@ public interface ReceiptService {
 	public Object[][] CreateReceiptJtableContents(int year,int month,int day);
 	public void returnThisSale(int rcNumber);
 	public int getRowCount();
+	public void insertReceiptAndReceiptDetail(Object[][] payItems,String payType,int totalPrice);
 }

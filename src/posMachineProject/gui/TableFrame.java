@@ -12,11 +12,13 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,7 +32,7 @@ import gui.util.CreateComponentUtil;
 import posMachineProejct.manager.MenuManager;
 import posMachineProejct.manager.TableManager;
 
-public class TableFrame extends FrameTemplate{
+public class TableFrame extends FrameTemplate implements Runnable{
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
 	TableManager tm = new TableManager();
 	MenuManager mm = new MenuManager();
@@ -61,9 +63,8 @@ public class TableFrame extends FrameTemplate{
 	JPanel timePanel;
 	
 	JLabel dayLabel;
-	JLabel timeLabel;
+	JLabel time;
 	JLabel tableLabel;
-	JLabel idLabel;
 	JLabel mlTitleLabel;
 	
 	JScrollPane salesScrollpane;
@@ -75,7 +76,6 @@ public class TableFrame extends FrameTemplate{
 	JButton cancelButton;
 	JButton payButton;
 	JButton addButton;
-	JButton logoutButton;
 	List<JButton> categoryButtonList;
 	List<OrderDetailVO> updateOrderDetailList = new ArrayList<OrderDetailVO>();
 	List<OrderDetailVO> deleteOrderDetailList = new ArrayList<OrderDetailVO>();
@@ -84,8 +84,11 @@ public class TableFrame extends FrameTemplate{
 	int selectedSalesTableRow;
 	int selectedGoodsTableRow;
 	int orderNum;
+	int totalPrice;
 	public TableFrame() {
 		super.init();
+		Thread t1 = new Thread(this);
+		t1.start();
 	}
 	@Override
 	public void initComponent() {
@@ -100,18 +103,19 @@ public class TableFrame extends FrameTemplate{
 		//topPanel 초기화
 		topPanel = new JPanel();
 		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT,30,10));
-		topPanel.setBackground(Color.BLUE);
-		logoutButton = new JButton("로그아웃");
-		gobackButton = new JButton("나가기");
+		topPanel.setBackground(new Color(223, 228, 234));
+		gobackButton = new JButton("뒤로가기");
 		//time패널 초기화
 		timePanel = new JPanel();
-		
+		timePanel.setBackground(new Color(116, 125, 140));
+		timePanel.setPreferredSize(new Dimension(250,30));
+		time= new JLabel();
+		time.setForeground(Color.white);
+		time.setPreferredSize(new Dimension(230,25));
+		time.setFont(new Font("맑은고딕",Font.BOLD, 15));
 		//label초기화
-		dayLabel = new JLabel("2021/01/01");
-		timeLabel = new JLabel("PM 04:09");
-		tableLabel = new JLabel("table ");
+		tableLabel = new JLabel("번 테이블");
 		tableLabel.setBorder(BorderFactory.createEmptyBorder(0, 200,0, 200));
-		idLabel = new JLabel("아이디");
 		
 		//middlePanel초기화
 		middlePanel = new JPanel();
@@ -119,7 +123,7 @@ public class TableFrame extends FrameTemplate{
 		middleLayout.setHgap(50);
 		middlePanel.setBorder(BorderFactory.createEmptyBorder(50,0,0,0));
 		middlePanel.setLayout(middleLayout);
-		
+		middlePanel.setBackground(new Color(223, 228, 234));
 		//mLeftPanel 초기화
 		mLeftPanel = new JPanel();
 		mLeftPanel.setPreferredSize(new Dimension(350,400));
@@ -128,9 +132,8 @@ public class TableFrame extends FrameTemplate{
 		mlTopPanel = new JPanel();
 		mlMiddlePanel = new JPanel();
 		mlBottomPanel = new JPanel();
-		mlTopPanel.setBackground(Color.BLUE);
 		mlMiddlePanel.setBackground(Color.WHITE);
-		mlBottomPanel.setBackground(Color.RED);
+		mlBottomPanel.setBackground(new Color(55, 144, 255));
 		mlTitleLabel = new JLabel("구매목록");
 		
 		String header[] = {"이름","가격","개수","금액"};
@@ -164,9 +167,8 @@ public class TableFrame extends FrameTemplate{
 		
 		mrTopPanel.setPreferredSize(new Dimension(350,100));
 		mrTopPanel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
-		mrTopPanel.setBackground(Color.BLUE);
 		mrTopPanel.setLayout(mrTopFlowLayout);
-		mrMiddlePanel.setBackground(Color.WHITE);
+		mrMiddlePanel.setBackground(new Color(55, 144, 255));
 		mrMiddlePanel.setBorder(BorderFactory.createEmptyBorder(5,0,0,0));
 		mrMiddlePanel.setLayout(mrMiddleFlowLayout);
 
@@ -175,7 +177,7 @@ public class TableFrame extends FrameTemplate{
 		for(int i =0; i < 6; i++)
 		{
 			JButton tmpButton = new JButton("category" + (i+1));
-			tmpButton.setPreferredSize(new Dimension(70, 30));
+			tmpButton.setPreferredSize(new Dimension(100, 50));
 			categoryButtonList.add(tmpButton);
 		}
 		
@@ -202,12 +204,9 @@ public class TableFrame extends FrameTemplate{
 	public void addGui() {
 		this.add(mainPanel);
 		
-		timePanel.add(dayLabel);
-		timePanel.add(timeLabel);
+		timePanel.add(time);
 		topPanel.add(timePanel);
 		topPanel.add(tableLabel);
-		topPanel.add(idLabel);
-		topPanel.add(logoutButton);		
 		topPanel.add(gobackButton);
 		mlTopPanel.add(mlTitleLabel);
 		mlMiddlePanel.add(salesScrollpane);
@@ -442,9 +441,36 @@ public class TableFrame extends FrameTemplate{
             	pageManager.goMainPage();	
 			}
 		});
+		payButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int tableNum;
+				totalPrice = 0;
+				DefaultTableModel salesModel = (DefaultTableModel)salesTable.getModel();
+				int nRow = salesModel.getRowCount(), nCol = salesModel.getColumnCount();
+				Object[][] tableData = new Object[nRow][nCol];
+				for (int i = 0 ; i < nRow ; i++)
+			        for (int j = 0 ; j < nCol ; j++)
+			            tableData[i][j] = salesModel.getValueAt(i,j);
+				for(int count = 0; count < salesModel.getRowCount(); count++){
+					totalPrice += Integer.parseInt((String)salesModel.getValueAt(count, 3));
+				}
+				int result = JOptionPane.showConfirmDialog(null, totalPrice+"원을 정말로 결제하시겠습니까?","결제하기",JOptionPane.YES_NO_OPTION);
+				if(result == JOptionPane.CLOSED_OPTION) {
+					JOptionPane.showMessageDialog(null, "결제를 취소하였습니다.");
+				}else if(result == JOptionPane.YES_OPTION) {
+					tm.payTable(pageManager.getTableNumber(),tableData,"card",totalPrice);
+					JOptionPane.showMessageDialog(null, "결제에 성공하였습니다.");
+					dispose();
+	            	pageManager.goMainPage();
+				}else {
+					JOptionPane.showMessageDialog(null, "결제를 취소하였습니다.");
+				}
+			}
+		});
 		this.addComponentListener(new ComponentListener() {
 			public void componentShown(ComponentEvent e) {
-				tableLabel.setText("table " + pageManager.getTableNumber());
+				tableLabel.setText(pageManager.getTableNumber()+ "번 테이블");
 				List<TableOrderDetailVO> tableOrderDetailList = new ArrayList<TableOrderDetailVO>();
 				//////////////salesTablePaint/////////////
 				//select tableOrderDetailList
@@ -523,7 +549,7 @@ public class TableFrame extends FrameTemplate{
 							goodsTable.setModel(model);
 						}
 					});
-					tmpButton.setPreferredSize(new Dimension(70, 30));
+					tmpButton.setPreferredSize(new Dimension(90, 30));
 					categoryButtonList.add(tmpButton);
 				}
 				//remove all components in mrTopPanel
@@ -559,4 +585,43 @@ public class TableFrame extends FrameTemplate{
 		}
 		return -1;
 	}
+	@Override
+	public void run() {
+		while(true) {
+			Calendar t = Calendar.getInstance();
+			int year = t.get(Calendar.YEAR);
+			int month = t.get(Calendar.MONTH)+1;
+			int date = t.get(Calendar.DATE);
+			int amPm = t.get(Calendar.AM_PM);
+			int hour = t.get(Calendar.HOUR);
+			int min = t.get(Calendar.MINUTE);
+			int sec = (t.get(Calendar.SECOND) < 10) ? 0 + t.get(Calendar.SECOND) : t.get(Calendar.SECOND);
+			String ampm=amPm==Calendar.AM? "AM":"PM";
+				
+							
+			if((min<10) && (sec<10)) {
+				String day1 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":0" + min + ":0" + sec );
+				time.setText(day1);
+			} else if((min>10) && (sec<10)) {
+				String day2 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":" + min + ":0" + sec );
+				time.setText(day2);
+			} else if((min<10) && (sec>10)) {
+				String day3 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":0" + min + ":" + sec );
+				time.setText(day3);
+			} else {
+				String day4 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":" + min + ":" + sec );
+				time.setText(day4);
+			}
+			
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+		}
+				
+	}
+	
 }

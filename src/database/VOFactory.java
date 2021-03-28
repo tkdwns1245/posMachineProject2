@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import data.CategoryVO;
 import data.MenuVO;
 import data.ReceiptJoinedVO;
+import data.ReceiptVO;
 import data.TableOrderDetailVO;
 import data.TableVO;
 import data.UserVO;
@@ -36,7 +37,13 @@ public class VOFactory {
 			e.printStackTrace();
 		}
 	}
-	
+	public void setReceiptId(ReceiptVO receiptVO,ResultSet rs) {
+		try {
+			receiptVO.setRcNumber(rs.getInt(1));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void setMenuVO(MenuVO menuVO,ResultSet rs) {
 		try {

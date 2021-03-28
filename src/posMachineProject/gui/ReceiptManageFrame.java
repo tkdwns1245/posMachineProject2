@@ -45,7 +45,7 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
-public class ReceiptManageFrame extends FrameTemplate {
+public class ReceiptManageFrame extends FrameTemplate implements Runnable{
 	ReceiptManager rm = new ReceiptManager();
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
 	DecimalFormat df = new DecimalFormat("###,###");
@@ -112,6 +112,8 @@ public class ReceiptManageFrame extends FrameTemplate {
 	
 	public ReceiptManageFrame() {
 		init();
+		Thread t1 = new Thread(this);
+		t1.start();
 	}
 	
  
@@ -378,44 +380,44 @@ public class ReceiptManageFrame extends FrameTemplate {
 
 	}
 	
-//	@Override
-//	public void run() {
-//		while(true) {
-//			Calendar t = Calendar.getInstance();
-//			int year = t.get(Calendar.YEAR);
-//			int month = t.get(Calendar.MONTH)+1;
-//			int date = t.get(Calendar.DATE);
-//			int amPm = t.get(Calendar.AM_PM);
-//			int hour = t.get(Calendar.HOUR);
-//			int min = t.get(Calendar.MINUTE);
-//			int sec = (t.get(Calendar.SECOND) < 10) ? 0 + t.get(Calendar.SECOND) : t.get(Calendar.SECOND);
-//			String ampm=amPm==Calendar.AM? "AM":"PM";
-//				
-//							
-//			if((min<10) && (sec<10)) {
-//				String day1 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":0" + min + ":0" + sec );
-//				time.setText(day1);
-//			} else if((min>10) && (sec<10)) {
-//				String day2 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":" + min + ":0" + sec );
-//				time.setText(day2);
-//			} else if((min<10) && (sec>10)) {
-//				String day3 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":0" + min + ":" + sec );
-//				time.setText(day3);
-//			} else {
-//				String day4 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":" + min + ":" + sec );
-//				time.setText(day4);
-//			}
-//			
-//			
-//			try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//				
-//		}
-//				
-//		}
+	@Override
+	public void run() {
+		while(true) {
+			Calendar t = Calendar.getInstance();
+			int year = t.get(Calendar.YEAR);
+			int month = t.get(Calendar.MONTH)+1;
+			int date = t.get(Calendar.DATE);
+			int amPm = t.get(Calendar.AM_PM);
+			int hour = t.get(Calendar.HOUR);
+			int min = t.get(Calendar.MINUTE);
+			int sec = (t.get(Calendar.SECOND) < 10) ? 0 + t.get(Calendar.SECOND) : t.get(Calendar.SECOND);
+			String ampm=amPm==Calendar.AM? "AM":"PM";
+				
+							
+			if((min<10) && (sec<10)) {
+				String day1 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":0" + min + ":0" + sec );
+				time.setText(day1);
+			} else if((min>10) && (sec<10)) {
+				String day2 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":" + min + ":0" + sec );
+				time.setText(day2);
+			} else if((min<10) && (sec>10)) {
+				String day3 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":0" + min + ":" + sec );
+				time.setText(day3);
+			} else {
+				String day4 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":" + min + ":" + sec );
+				time.setText(day4);
+			}
+			
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+				
+		}
+				
+		}
 	
 	
 		

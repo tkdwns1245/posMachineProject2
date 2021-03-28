@@ -78,7 +78,7 @@ public class SalesStatusFrame extends FrameTemplate{
 		ccUtil.setMainPanel(mainPanel);
 
 		mainPanel.setLayout(null);
-		mainPanel.setBackground(new Color(0x4F81BD));
+		mainPanel.setBackground(new Color(223, 228, 234));
 		
 		titleLabel=(JLabel)ccUtil.createJcomponent("l",200, 50,10, 0);
 		titleLabel.setText("∏≈√‚ «ˆ»≤");
@@ -113,14 +113,12 @@ public class SalesStatusFrame extends FrameTemplate{
 		goBackBtn.setFont(new Font("∏º¿∫ ∞ÌµÒ",Font.BOLD, 10));
 				
 		tab=new JTabbedPane();
-		
 		contentPanel=(JPanel)ccUtil.createJcomponent("p",955, 495, 15, 55);
 		contentPanel.setLayout(new GridLayout());
-		contentPanel.setBackground(new Color(0x4F81BD));
+		contentPanel.setBackground(new Color(223, 228, 234));
 		
 		contentNowLabel=(JLabel)ccUtil.createJcomponent("l",200, 50, 850, 15);
 		contentNowLabel.setForeground(Color.white);
-		contentNowLabel.setText("æ»≥Á");
 		contentNowLabel.setFont(new Font("∏º¿∫ ∞ÌµÒ",Font.BOLD, 25));
 				
 		saleCalendarPanel=new JPanel();
@@ -129,13 +127,13 @@ public class SalesStatusFrame extends FrameTemplate{
 		
 		detailPanel=new JPanel();
 		detailPanel.setLayout(new GridLayout());
-		detailPanel.setBackground(new Color(0x4F81BD));
+		detailPanel.setBackground(Color.white);
 		
 		sale_table=new JTable();
 		
 		summaryPanel=new JPanel();
 		summaryPanel.setLayout(null);
-		summaryPanel.setBackground(new Color(0x4F81BD));
+		summaryPanel.setBackground(new Color(223, 228, 234));
 		
 		summary_Count_Panel=(JPanel)ccUtil.createJcomponent("p",300, 50, 80, 80);
 		summary_Count_Panel.setLayout(new GridLayout());

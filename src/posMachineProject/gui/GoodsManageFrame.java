@@ -31,7 +31,7 @@ import posMachineProejct.manager.MenuManager;
 import posMachineProject.daoImpl.MenuDaoImpl;
 
 
-public class GoodsManageFrame extends FrameTemplate {
+public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	MenuManager mm = new MenuManager();
 	CreateComponentUtil ccUtil = new CreateComponentUtil();
 	
@@ -95,20 +95,22 @@ public class GoodsManageFrame extends FrameTemplate {
 	
 	public GoodsManageFrame() {
 		super.init();
+		Thread t1 = new Thread(this);
+		t1.start();
 	}
 
 	@Override
 	public void initComponent() {
 		mainPanel = new JPanel();
-		//Util에  default로 세팅해야 하는함
+		//Util�뿉  default濡� �꽭�똿�빐�빞 �븯�뒗�븿
 		ccUtil.setMainPanel(mainPanel);
-		//시계기능 패널, 레이블
+		//�떆怨꾧린�뒫 �뙣�꼸, �젅�씠釉�
 		timePanel=(JPanel)  ccUtil.createJcomponent("p", width*23/100,height*5/100, 50, 50);
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
 		time.setForeground(Color.white);
-		time.setFont(new Font("맑은고딕",Font.BOLD, 15));
+		time.setFont(new Font("留묒�怨좊뵓",Font.BOLD, 15));
 		
-		//물품항목  패널
+		//臾쇳뭹�빆紐�  �뙣�꼸
 		itemPanel= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*60/100, width*15/100,height*20/100);
 		itemTitlePanel =(JPanel)  ccUtil.createJcomponent("p", width*30/100,height*45/1000, 0,0);
 		itemDetail=(JPanel) ccUtil.createJcomponent("p", width*30/100,height*955/1000, 0, height*45/1000);
@@ -117,44 +119,44 @@ public class GoodsManageFrame extends FrameTemplate {
 
 
 
-		// 카테고리 패널
+		// 移댄뀒怨좊━ �뙣�꼸
 		categoryTitlePanel =(JPanel) ccUtil.createJcomponent("p",width*30/100,height*45/1000, 0,0);
 		categoryPanel=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*60/100, width*55/100,height*20/100);
 		categoryDetail=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*955/1000, 0, height*45/1000);
 		categoryContent=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*200, width/1000*50, height/600*60);
 
 
-		//물품항목, 카테고리 레이플 
+		//臾쇳뭹�빆紐�, 移댄뀒怨좊━ �젅�씠�뵆 
 		itemLabel=(JLabel) ccUtil.createJcomponent("l", width*30/100,height*45/1000, 0, 0);
-		itemLabel.setText("판매항목()");
-		itemLabel.setFont(new Font("맑은고딕",Font.BOLD, 15));
+		itemLabel.setText("�뙋留ㅽ빆紐�()");
+		itemLabel.setFont(new Font("留묒�怨좊뵓",Font.BOLD, 15));
 		
 		itemName =(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*15, height/600*10);
-		itemName.setText("이 름:");
-		itemName.setFont(new Font("맑은고딕",Font.BOLD, 12));
+		itemName.setText("�씠 由�:");
+		itemName.setFont(new Font("留묒�怨좊뵓",Font.BOLD, 12));
 		itemPrice=(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*105, height/600*10);
-		itemPrice.setText("가 격:");
+		itemPrice.setText("媛� 寃�:");
 		itemSequence=(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*195, height/600*10);
-		itemSequence.setText("순 서:");
+		itemSequence.setText("�닚 �꽌:");
 
 		
 		categoryLabel=(JLabel) ccUtil.createJcomponent("l",width*30/100,height*45/1000, width*0/100, height*0/100);
-		categoryLabel.setText("카테고리");
-		categoryLabel.setFont(new Font("맑은고딕",Font.BOLD, 15));
+		categoryLabel.setText("移댄뀒怨좊━");
+		categoryLabel.setFont(new Font("留묒�怨좊뵓",Font.BOLD, 15));
 		
-		//버튼 
+		//踰꾪듉 
 		goBackButton=(JButton) ccUtil.createJcomponent("b",width/10, height/600*30, width/10*8, height/60*5);
-		goBackButton.setText("뒤로가기");
+		goBackButton.setText("�뮘濡쒓�湲�");
 		itemAddButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*60, height/600*280);
-		itemAddButton.setText("추 가");
+		itemAddButton.setText("異� 媛�");
 		categoryAddButton=(JButton) ccUtil.createJcomponent("b",width/15, height/600*30, width/1000*190, height/600*15);
-		categoryAddButton.setText("추 가");
+		categoryAddButton.setText("異� 媛�");
 		itemDelButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*165, height/600*280);
-		itemDelButton.setText("삭 제");
+		itemDelButton.setText("�궘 �젣");
 		categoryDelButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*165, height/600*280);
-		categoryDelButton.setText("삭 제");
+		categoryDelButton.setText("�궘 �젣");
 				
-		//텍스트 필드
+		//�뀓�뒪�듃 �븘�뱶
 	 	itemTextField1=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*50, height/600*20);
 	 	itemTextField2=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*140, height/600*20);
 	 	itemTextField3=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*230, height/600*20);
@@ -162,18 +164,18 @@ public class GoodsManageFrame extends FrameTemplate {
 				
 	
 		
-	//itemTable 생성
-		String header[] = {"이 름","가 격","순 서"};
+	//itemTable �깮�꽦
+		String header[] = {"�씠 由�","媛� 寃�","�닚 �꽌"};
 		menuSize = mm.selectMenuList().size();   
 		ArrayList<MenuVO> menuList= (ArrayList)mm.selectMenuList();
-		String[][] contents = new String[menuSize][3];  // 리스트 사이즈를 먼저 선언
+		String[][] contents = new String[menuSize][3];  // 由ъ뒪�듃 �궗�씠利덈�� 癒쇱� �꽑�뼵
 		for(int i=0; i < menuList.size(); i++) {
-			contents[i][0] = null;   // i번째 열의 MenuName
-			contents[i][1] = null;  // i번째 열의 MenuPrice
-			contents[i][2] = null; // i번째 열의 MenuCategory
+			contents[i][0] = null;   // i踰덉㎏ �뿴�쓽 MenuName
+			contents[i][1] = null;  // i踰덉㎏ �뿴�쓽 MenuPrice
+			contents[i][2] = null; // i踰덉㎏ �뿴�쓽 MenuCategory
 		}
 		DefaultTableModel model = new DefaultTableModel(contents,header) {
-		// 더블클릭해서 수정불가
+		// �뜑釉뷀겢由��빐�꽌 �닔�젙遺덇�
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
@@ -186,9 +188,9 @@ public class GoodsManageFrame extends FrameTemplate {
 		salesScrollpane.setPreferredSize(new Dimension(width/1000*200,height/600*195));
 		
 	
-		//CategoryTable 생성
+		//CategoryTable �깮�꽦
 
-		String header2[] = {"카 테 고 리"};
+		String header2[] = {"移� �뀒 怨� 由�"};
 		categorySize = mm.selectCategoryList().size();   
 		ArrayList<CategoryVO> categoryList = (ArrayList)mm.selectCategoryList();
 		String[][] contents2 = new String[categorySize][1];
@@ -197,7 +199,7 @@ public class GoodsManageFrame extends FrameTemplate {
 
 		}
 		DefaultTableModel model2 = new DefaultTableModel(contents2,header2){
-		// 더블클릭해서 수정불가
+		// �뜑釉뷀겢由��빐�꽌 �닔�젙遺덇�
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
@@ -214,7 +216,7 @@ public class GoodsManageFrame extends FrameTemplate {
 	public void addGui() {
 		this.add(mainPanel);
 		
-		// 물품항목 패널
+		// 臾쇳뭹�빆紐� �뙣�꼸
 		mainPanel.setLayout(null);
 		mainPanel.setBackground(new Color(223, 228, 234));
 		
@@ -250,7 +252,7 @@ public class GoodsManageFrame extends FrameTemplate {
 
 
 		
-		// 카테고리 패널		
+		// 移댄뀒怨좊━ �뙣�꼸		
 		
 		mainPanel.add(categoryPanel);
 		categoryPanel.setLayout(null);
@@ -275,7 +277,7 @@ public class GoodsManageFrame extends FrameTemplate {
 	@Override
 	public void initEvent() {
 		
-		//테이블 선택시 테이블 열
+		//�뀒�씠釉� �꽑�깮�떆 �뀒�씠釉� �뿴
 		itemTable.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -316,7 +318,7 @@ public class GoodsManageFrame extends FrameTemplate {
 		
 
 
-		//항목테이블(row) 추가 기능
+		//�빆紐⑺뀒�씠釉�(row) 異붽� 湲곕뒫
 		itemAddButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -331,7 +333,7 @@ public class GoodsManageFrame extends FrameTemplate {
 				DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 				model.addRow(inputStr);
 				
-				System.out.println(itemTextField1.getText() + "추가");
+				System.out.println(itemTextField1.getText() + "異붽�");
 				
 				itemTextField1.setText("");
 				itemTextField2.setText("");
@@ -340,7 +342,7 @@ public class GoodsManageFrame extends FrameTemplate {
 			}
 		});
 		
-		//항목테이블(row) 삭제 기능
+		//�빆紐⑺뀒�씠釉�(row) �궘�젣 湲곕뒫
 		itemDelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -352,7 +354,7 @@ public class GoodsManageFrame extends FrameTemplate {
 					DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 					int selectedRow = itemTable.getSelectedRow();
 					String menuName = itemTable.getValueAt(selectedRow,0).toString();
-					System.out.println(menuName + "삭제");
+					System.out.println(menuName + "�궘�젣");
 					mm.deleteItemDetail(menuName);
 					model.removeRow(itemTable.getSelectedRow());
 					
@@ -362,7 +364,7 @@ public class GoodsManageFrame extends FrameTemplate {
 		});
 	
 		
-		//카테고리 테이블(row) 추가 기능
+		//移댄뀒怨좊━ �뀒�씠釉�(row) 異붽� 湲곕뒫
 		categoryAddButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -374,14 +376,14 @@ public class GoodsManageFrame extends FrameTemplate {
 				
 				int row = categoryTable.getRowCount();
 				mm.insertCategoryDetail(row,categoryTextField.getText());
-				System.out.println(categoryTextField.getText() + "추가");
+				System.out.println(categoryTextField.getText() + "異붽�");
 						
 				categoryTextField.setText("");
 				
 			}	
 		});
 		
-		//카테고리테이블(row) 삭제 기능
+		//移댄뀒怨좊━�뀒�씠釉�(row) �궘�젣 湲곕뒫
 		categoryDelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -393,7 +395,7 @@ public class GoodsManageFrame extends FrameTemplate {
 					DefaultTableModel model = (DefaultTableModel)categoryTable.getModel();
 					int selectedRow = categoryTable.getSelectedRow();
 					String categoryName = categoryTable.getValueAt(selectedRow,0).toString();
-					System.out.println(categoryName + "삭제");
+					System.out.println(categoryName + "�궘�젣");
 					mm.deleteCategoryDetail(categoryName);
 					
 					
@@ -406,7 +408,7 @@ public class GoodsManageFrame extends FrameTemplate {
 				}
 			});
 		
-		//카테고리 테이블 클릭시 판매항목 레이블 및 테이블 데이터 변경
+		//移댄뀒怨좊━ �뀒�씠釉� �겢由��떆 �뙋留ㅽ빆紐� �젅�씠釉� 諛� �뀒�씠釉� �뜲�씠�꽣 蹂�寃�
 		categoryTable.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -416,20 +418,20 @@ public class GoodsManageFrame extends FrameTemplate {
 	            int column = source.columnAtPoint( evt.getPoint() );
 	            String s=source.getModel().getValueAt(row, column)+"";
 
-	            itemLabel.setText("판매항목"+"("+ s +")");
+	            itemLabel.setText("�뙋留ㅽ빆紐�"+"("+ s +")");
 	    		
 	            DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 	    		model.setNumRows(0);
 	    		
-	            String header[] = {"이 름","가 격","순 서"};
+	            String header[] = {"�씠 由�","媛� 寃�","�닚 �꽌"};
 	            menuSize2 = mm.selectMenuListByCategoryName(s).size();   
 	            ArrayList<MenuVO> menuList = (ArrayList)mm.selectMenuListByCategoryName(s);
 	            
-	        	String[][] contents = new String[menuSize2][3];  // 리스트 사이즈를 먼저 선언
+	        	String[][] contents = new String[menuSize2][3];  // 由ъ뒪�듃 �궗�씠利덈�� 癒쇱� �꽑�뼵
 	    		for(int i=0; i < menuList.size(); i++) {
-	    			contents[i][0] = menuList.get(i).getMenuName();   // i번째 열의 MenuName
-	    			contents[i][1] = "" + menuList.get(i).getMenuPrice();  // i번째 열의 MenuPrice
-	    			contents[i][2] = "" + menuList.get(i).getSequence(); // i번째 열의 MenuCategory
+	    			contents[i][0] = menuList.get(i).getMenuName();   // i踰덉㎏ �뿴�쓽 MenuName
+	    			contents[i][1] = "" + menuList.get(i).getMenuPrice();  // i踰덉㎏ �뿴�쓽 MenuPrice
+	    			contents[i][2] = "" + menuList.get(i).getSequence(); // i踰덉㎏ �뿴�쓽 MenuCategory
 	    		}
 	    		model.setDataVector(contents, header);
 	   
@@ -464,7 +466,7 @@ public class GoodsManageFrame extends FrameTemplate {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 	/*		
-				//주문내역 저장
+				//二쇰Ц�궡�뿭 ���옣
 				mm.saveItemDetailList(insertList, deleteList);
 				deletelList.removeAll(deleteItemDetailList);
 				insertlList.removeAll(insertItemDetailList);
@@ -480,21 +482,20 @@ public class GoodsManageFrame extends FrameTemplate {
 
 
 	}
-	/*
 	@Override
 	public void run() {
-		Calendar t = Calendar.getInstance();
-		int year = t.get(Calendar.YEAR);
-		int month = t.get(Calendar.MONTH)+1;
-		int date = t.get(Calendar.DATE);
-		int amPm = t.get(Calendar.AM_PM);
-		int hour = t.get(Calendar.HOUR);
-		int min = t.get(Calendar.MINUTE);
-		int sec = (t.get(Calendar.SECOND) < 10) ? 0 + t.get(Calendar.SECOND) : t.get(Calendar.SECOND);
-		String ampm=amPm==Calendar.AM? "AM":"PM";
-		
 		while(true) {
-					
+			Calendar t = Calendar.getInstance();
+			int year = t.get(Calendar.YEAR);
+			int month = t.get(Calendar.MONTH)+1;
+			int date = t.get(Calendar.DATE);
+			int amPm = t.get(Calendar.AM_PM);
+			int hour = t.get(Calendar.HOUR);
+			int min = t.get(Calendar.MINUTE);
+			int sec = (t.get(Calendar.SECOND) < 10) ? 0 + t.get(Calendar.SECOND) : t.get(Calendar.SECOND);
+			String ampm=amPm==Calendar.AM? "AM":"PM";
+				
+							
 			if((min<10) && (sec<10)) {
 				String day1 = (year +"년 " + month + "월 " + date + "일 " + ampm + " " + hour + ":0" + min + ":0" + sec );
 				time.setText(day1);
@@ -509,14 +510,14 @@ public class GoodsManageFrame extends FrameTemplate {
 				time.setText(day4);
 			}
 			
+			
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-				
+			
 		}
 				
-		}
-		*/
+	}
 }	
