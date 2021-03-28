@@ -162,26 +162,20 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 		{
 			JPanel tmpJPanel = (JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
 			tmpJPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 9, 15));
-			//������ �г��� �ƴ� ���
 			if(i != tpm.getTotalPageCount()-1)
 			{
-				//�������� ��ư ������ �г� ����
 				for(int j=0; j < tpm.getTablePerPage(); j++)
 				{
 					tmpJPanel.add(tableButtonList.get(j+(i*15)));
 					
 				}
-			//������ �г��� ���
 			}else {
-				//��ü ���̺�� / �������� ���̺�� �� ������ �������� ���� ��� 
 				if(tpm.getTotalTableCount() % tpm.getTablePerPage() != 0)
 				{
-					//���¹�ư���� �г� ����
 					for(int j=0; j < tpm.getTotalTableCount() % tpm.getTablePerPage(); j++)
 					{
 						tmpJPanel.add(tableButtonList.get(j+(i*15)));
 					}
-				//��ü ���̺�� / �������� ���̺�� �� ������ ���������
 				} else {
 					for(int j=0; j < tpm.getTablePerPage(); j++)
 					{
@@ -355,7 +349,7 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 					} else {
 						tmpJPanel = (JPanel) ccUtil.createJcomponent("p", 800, 345, 5, 5);
 						tmpJPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 9, 15));
-						JButton tmpButton = new JButton(tpm.getTotalTableCount()+"�� TABLE");
+						JButton tmpButton = new JButton(tpm.getTotalTableCount()+"번 TABLE");
 						tmpButton.setPreferredSize(new Dimension(150, 100));
 						tmpButton.setVerticalAlignment(SwingConstants.TOP);
 						tmpButton.setBackground(bc);
@@ -498,4 +492,3 @@ public class TableManageFrame extends FrameTemplate implements Runnable{
 	}
 
 }
-	
