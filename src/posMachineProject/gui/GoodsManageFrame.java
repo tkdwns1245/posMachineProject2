@@ -102,15 +102,15 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	@Override
 	public void initComponent() {
 		mainPanel = new JPanel();
-		//Util�뿉  default濡� �꽭�똿�빐�빞 �븯�뒗�븿
+		//Util에  default로 세팅해야 하는함
 		ccUtil.setMainPanel(mainPanel);
-		//�떆怨꾧린�뒫 �뙣�꼸, �젅�씠釉�
+		//시계기능 패널, 레이블
 		timePanel=(JPanel)  ccUtil.createJcomponent("p", width*23/100,height*5/100, 50, 50);
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
 		time.setForeground(Color.white);
-		time.setFont(new Font("留묒�怨좊뵓",Font.BOLD, 15));
+		time.setFont(new Font("맑은고딕",Font.BOLD, 15));
 		
-		//臾쇳뭹�빆紐�  �뙣�꼸
+		//물품항목  패널
 		itemPanel= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*60/100, width*15/100,height*20/100);
 		itemTitlePanel =(JPanel)  ccUtil.createJcomponent("p", width*30/100,height*45/1000, 0,0);
 		itemDetail=(JPanel) ccUtil.createJcomponent("p", width*30/100,height*955/1000, 0, height*45/1000);
@@ -119,44 +119,44 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 
 
 
-		// 移댄뀒怨좊━ �뙣�꼸
+		// 카테고리 패널
 		categoryTitlePanel =(JPanel) ccUtil.createJcomponent("p",width*30/100,height*45/1000, 0,0);
 		categoryPanel=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*60/100, width*55/100,height*20/100);
 		categoryDetail=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*955/1000, 0, height*45/1000);
 		categoryContent=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*200, width/1000*50, height/600*60);
 
 
-		//臾쇳뭹�빆紐�, 移댄뀒怨좊━ �젅�씠�뵆 
+		//물품항목, 카테고리 레이플 
 		itemLabel=(JLabel) ccUtil.createJcomponent("l", width*30/100,height*45/1000, 0, 0);
-		itemLabel.setText("�뙋留ㅽ빆紐�()");
-		itemLabel.setFont(new Font("留묒�怨좊뵓",Font.BOLD, 15));
+		itemLabel.setText("판매항목()");
+		itemLabel.setFont(new Font("맑은고딕",Font.BOLD, 15));
 		
 		itemName =(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*15, height/600*10);
-		itemName.setText("�씠 由�:");
-		itemName.setFont(new Font("留묒�怨좊뵓",Font.BOLD, 12));
+		itemName.setText("이 름:");
+		itemName.setFont(new Font("맑은고딕",Font.BOLD, 12));
 		itemPrice=(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*105, height/600*10);
-		itemPrice.setText("媛� 寃�:");
+		itemPrice.setText("가 격:");
 		itemSequence=(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*195, height/600*10);
-		itemSequence.setText("�닚 �꽌:");
+		itemSequence.setText("순 서:");
 
 		
 		categoryLabel=(JLabel) ccUtil.createJcomponent("l",width*30/100,height*45/1000, width*0/100, height*0/100);
-		categoryLabel.setText("移댄뀒怨좊━");
-		categoryLabel.setFont(new Font("留묒�怨좊뵓",Font.BOLD, 15));
+		categoryLabel.setText("카테고리");
+		categoryLabel.setFont(new Font("맑은고딕",Font.BOLD, 15));
 		
-		//踰꾪듉 
+		//버튼 
 		goBackButton=(JButton) ccUtil.createJcomponent("b",width/10, height/600*30, width/10*8, height/60*5);
-		goBackButton.setText("�뮘濡쒓�湲�");
+		goBackButton.setText("뒤로가기");
 		itemAddButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*60, height/600*280);
-		itemAddButton.setText("異� 媛�");
+		itemAddButton.setText("추 가");
 		categoryAddButton=(JButton) ccUtil.createJcomponent("b",width/15, height/600*30, width/1000*190, height/600*15);
-		categoryAddButton.setText("異� 媛�");
+		categoryAddButton.setText("추 가");
 		itemDelButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*165, height/600*280);
-		itemDelButton.setText("�궘 �젣");
+		itemDelButton.setText("삭 제");
 		categoryDelButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*165, height/600*280);
-		categoryDelButton.setText("�궘 �젣");
+		categoryDelButton.setText("삭 제");
 				
-		//�뀓�뒪�듃 �븘�뱶
+		//텍스트 필드
 	 	itemTextField1=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*50, height/600*20);
 	 	itemTextField2=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*140, height/600*20);
 	 	itemTextField3=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*230, height/600*20);
@@ -164,18 +164,17 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				
 	
 		
-	//itemTable �깮�꽦
-		String header[] = {"�씠 由�","媛� 寃�","�닚 �꽌"};
+		// 물품항목 패널
+		String header[] = {"이 름","가 격","순 서"};
 		menuSize = mm.selectMenuList().size();   
 		ArrayList<MenuVO> menuList= (ArrayList)mm.selectMenuList();
-		String[][] contents = new String[menuSize][3];  // 由ъ뒪�듃 �궗�씠利덈�� 癒쇱� �꽑�뼵
+		String[][] contents = new String[menuSize][3]; 
 		for(int i=0; i < menuList.size(); i++) {
-			contents[i][0] = null;   // i踰덉㎏ �뿴�쓽 MenuName
-			contents[i][1] = null;  // i踰덉㎏ �뿴�쓽 MenuPrice
-			contents[i][2] = null; // i踰덉㎏ �뿴�쓽 MenuCategory
+			contents[i][0] = null;   
+			contents[i][1] = null;  
+			contents[i][2] = null; 
 		}
 		DefaultTableModel model = new DefaultTableModel(contents,header) {
-		// �뜑釉뷀겢由��빐�꽌 �닔�젙遺덇�
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
@@ -188,9 +187,9 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 		salesScrollpane.setPreferredSize(new Dimension(width/1000*200,height/600*195));
 		
 	
-		//CategoryTable �깮�꽦
+		//CategoryTabl 생
 
-		String header2[] = {"移� �뀒 怨� 由�"};
+		String header2[] = {"카 테 고 리"};
 		categorySize = mm.selectCategoryList().size();   
 		ArrayList<CategoryVO> categoryList = (ArrayList)mm.selectCategoryList();
 		String[][] contents2 = new String[categorySize][1];
@@ -199,7 +198,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 
 		}
 		DefaultTableModel model2 = new DefaultTableModel(contents2,header2){
-		// �뜑釉뷀겢由��빐�꽌 �닔�젙遺덇�
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
@@ -216,7 +214,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	public void addGui() {
 		this.add(mainPanel);
 		
-		// 臾쇳뭹�빆紐� �뙣�꼸
 		mainPanel.setLayout(null);
 		mainPanel.setBackground(new Color(223, 228, 234));
 		
@@ -251,9 +248,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 		itemContent.add(salesScrollpane);
 
 
-		
-		// 移댄뀒怨좊━ �뙣�꼸		
-		
+				
 		mainPanel.add(categoryPanel);
 		categoryPanel.setLayout(null);
 		categoryPanel.setBackground(new Color(100, 100, 100));
@@ -277,7 +272,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	@Override
 	public void initEvent() {
 		
-		//�뀒�씠釉� �꽑�깮�떆 �뀒�씠釉� �뿴
 		itemTable.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -318,7 +312,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 		
 
 
-		//�빆紐⑺뀒�씠釉�(row) 異붽� 湲곕뒫
 		itemAddButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -333,7 +326,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 				model.addRow(inputStr);
 				
-				System.out.println(itemTextField1.getText() + "異붽�");
+				System.out.println(itemTextField1.getText() + "추가");
 				
 				itemTextField1.setText("");
 				itemTextField2.setText("");
@@ -342,7 +335,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 			}
 		});
 		
-		//�빆紐⑺뀒�씠釉�(row) �궘�젣 湲곕뒫
 		itemDelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -354,7 +346,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 					DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 					int selectedRow = itemTable.getSelectedRow();
 					String menuName = itemTable.getValueAt(selectedRow,0).toString();
-					System.out.println(menuName + "�궘�젣");
+					System.out.println(menuName + "삭제");
 					mm.deleteItemDetail(menuName);
 					model.removeRow(itemTable.getSelectedRow());
 					
@@ -364,7 +356,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 		});
 	
 		
-		//移댄뀒怨좊━ �뀒�씠釉�(row) 異붽� 湲곕뒫
 		categoryAddButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -376,14 +367,13 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				
 				int row = categoryTable.getRowCount();
 				mm.insertCategoryDetail(row,categoryTextField.getText());
-				System.out.println(categoryTextField.getText() + "異붽�");
+				System.out.println(categoryTextField.getText() + "추");
 						
 				categoryTextField.setText("");
 				
 			}	
 		});
 		
-		//移댄뀒怨좊━�뀒�씠釉�(row) �궘�젣 湲곕뒫
 		categoryDelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -395,7 +385,8 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 					DefaultTableModel model = (DefaultTableModel)categoryTable.getModel();
 					int selectedRow = categoryTable.getSelectedRow();
 					String categoryName = categoryTable.getValueAt(selectedRow,0).toString();
-					System.out.println(categoryName + "�궘�젣");
+					System.out.println(categoryName + "삭제");
+					
 					mm.deleteCategoryDetail(categoryName);
 					
 					
@@ -408,7 +399,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				}
 			});
 		
-		//移댄뀒怨좊━ �뀒�씠釉� �겢由��떆 �뙋留ㅽ빆紐� �젅�씠釉� 諛� �뀒�씠釉� �뜲�씠�꽣 蹂�寃�
 		categoryTable.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -418,20 +408,20 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	            int column = source.columnAtPoint( evt.getPoint() );
 	            String s=source.getModel().getValueAt(row, column)+"";
 
-	            itemLabel.setText("�뙋留ㅽ빆紐�"+"("+ s +")");
+	            itemLabel.setText("판매항목"+"("+ s +")");
 	    		
 	            DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 	    		model.setNumRows(0);
 	    		
-	            String header[] = {"�씠 由�","媛� 寃�","�닚 �꽌"};
+	            String header[] = {"이 름","가 격","순 서"};
 	            menuSize2 = mm.selectMenuListByCategoryName(s).size();   
 	            ArrayList<MenuVO> menuList = (ArrayList)mm.selectMenuListByCategoryName(s);
 	            
-	        	String[][] contents = new String[menuSize2][3];  // 由ъ뒪�듃 �궗�씠利덈�� 癒쇱� �꽑�뼵
+	        	String[][] contents = new String[menuSize2][3];  
 	    		for(int i=0; i < menuList.size(); i++) {
-	    			contents[i][0] = menuList.get(i).getMenuName();   // i踰덉㎏ �뿴�쓽 MenuName
-	    			contents[i][1] = "" + menuList.get(i).getMenuPrice();  // i踰덉㎏ �뿴�쓽 MenuPrice
-	    			contents[i][2] = "" + menuList.get(i).getSequence(); // i踰덉㎏ �뿴�쓽 MenuCategory
+	    			contents[i][0] = menuList.get(i).getMenuName();  
+	    			contents[i][1] = "" + menuList.get(i).getMenuPrice();  
+	    			contents[i][2] = "" + menuList.get(i).getSequence(); 
 	    		}
 	    		model.setDataVector(contents, header);
 	   
@@ -465,13 +455,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	   goBackButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-	/*		
-				//二쇰Ц�궡�뿭 ���옣
-				mm.saveItemDetailList(insertList, deleteList);
-				deletelList.removeAll(deleteItemDetailList);
-				insertlList.removeAll(insertItemDetailList);
-				
-	*/
+
 				dispose();
             	pageManager.goMainPage();	
 			
@@ -516,7 +500,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
 		}
 				
 	}
