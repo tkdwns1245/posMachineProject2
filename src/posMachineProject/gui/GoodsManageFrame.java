@@ -102,15 +102,15 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	@Override
 	public void initComponent() {
 		mainPanel = new JPanel();
-		//Utilì—  defaultë¡œ ì„¸íŒ…í•´ì•¼ í•˜ëŠ”í•¨
+		//Util¿¡  default·Î ¼¼ÆÃÇØ¾ß ÇÏ´ÂÇÔ
 		ccUtil.setMainPanel(mainPanel);
-		//ì‹œê³„ê¸°ëŠ¥ íŒ¨ë„, ë ˆì´ë¸”
+		//½Ã°è±â´É ÆĞ³Î, ·¹ÀÌºí
 		timePanel=(JPanel)  ccUtil.createJcomponent("p", width*23/100,height*5/100, 50, 50);
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
 		time.setForeground(Color.white);
-		time.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 15));
+		time.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));
 		
-		//ë¬¼í’ˆí•­ëª©  íŒ¨ë„
+		//¹°Ç°Ç×¸ñ  ÆĞ³Î
 		itemPanel= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*60/100, width*15/100,height*20/100);
 		itemTitlePanel =(JPanel)  ccUtil.createJcomponent("p", width*30/100,height*45/1000, 0,0);
 		itemDetail=(JPanel) ccUtil.createJcomponent("p", width*30/100,height*955/1000, 0, height*45/1000);
@@ -119,44 +119,44 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 
 
 
-		// ì¹´í…Œê³ ë¦¬ íŒ¨ë„
+		// Ä«Å×°í¸® ÆĞ³Î
 		categoryTitlePanel =(JPanel) ccUtil.createJcomponent("p",width*30/100,height*45/1000, 0,0);
 		categoryPanel=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*60/100, width*55/100,height*20/100);
 		categoryDetail=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*955/1000, 0, height*45/1000);
 		categoryContent=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*200, width/1000*50, height/600*60);
 
 
-		//ë¬¼í’ˆí•­ëª©, ì¹´í…Œê³ ë¦¬ ë ˆì´í”Œ 
+		//¹°Ç°Ç×¸ñ, Ä«Å×°í¸® ·¹ÀÌÇÃ 
 		itemLabel=(JLabel) ccUtil.createJcomponent("l", width*30/100,height*45/1000, 0, 0);
-		itemLabel.setText("íŒë§¤í•­ëª©()");
-		itemLabel.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 15));
+		itemLabel.setText("ÆÇ¸ÅÇ×¸ñ()");
+		itemLabel.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));
 		
 		itemName =(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*15, height/600*10);
-		itemName.setText("ì´ ë¦„:");
-		itemName.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 12));
+		itemName.setText("ÀÌ ¸§:");
+		itemName.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 12));
 		itemPrice=(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*105, height/600*10);
-		itemPrice.setText("ê°€ ê²©:");
+		itemPrice.setText("°¡ °İ:");
 		itemSequence=(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*195, height/600*10);
-		itemSequence.setText("ìˆœ ì„œ:");
+		itemSequence.setText("¼ø ¼­:");
 
 		
 		categoryLabel=(JLabel) ccUtil.createJcomponent("l",width*30/100,height*45/1000, width*0/100, height*0/100);
-		categoryLabel.setText("ì¹´í…Œê³ ë¦¬");
-		categoryLabel.setFont(new Font("ë§‘ì€ê³ ë”•",Font.BOLD, 15));
+		categoryLabel.setText("Ä«Å×°í¸®");
+		categoryLabel.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));
 		
-		//ë²„íŠ¼ 
+		//¹öÆ° 
 		goBackButton=(JButton) ccUtil.createJcomponent("b",width/10, height/600*30, width/10*8, height/60*5);
-		goBackButton.setText("ë’¤ë¡œê°€ê¸°");
+		goBackButton.setText("µÚ·Î°¡±â");
 		itemAddButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*60, height/600*280);
-		itemAddButton.setText("ì¶” ê°€");
+		itemAddButton.setText("Ãß °¡");
 		categoryAddButton=(JButton) ccUtil.createJcomponent("b",width/15, height/600*30, width/1000*190, height/600*15);
-		categoryAddButton.setText("ì¶” ê°€");
+		categoryAddButton.setText("Ãß °¡");
 		itemDelButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*165, height/600*280);
-		itemDelButton.setText("ì‚­ ì œ");
+		itemDelButton.setText("»è Á¦");
 		categoryDelButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*165, height/600*280);
-		categoryDelButton.setText("ì‚­ ì œ");
+		categoryDelButton.setText("»è Á¦");
 				
-		//í…ìŠ¤íŠ¸ í•„ë“œ
+		//ÅØ½ºÆ® ÇÊµå
 	 	itemTextField1=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*50, height/600*20);
 	 	itemTextField2=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*140, height/600*20);
 	 	itemTextField3=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*230, height/600*20);
@@ -164,8 +164,8 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				
 	
 		
-		// ë¬¼í’ˆí•­ëª© íŒ¨ë„
-		String header[] = {"ì´ ë¦„","ê°€ ê²©","ìˆœ ì„œ"};
+		// ¹°Ç°Ç×¸ñ ÆĞ³Î
+		String header[] = {"ÀÌ ¸§","°¡ °İ","¼ø ¼­"};
 		menuSize = mm.selectMenuList().size();   
 		ArrayList<MenuVO> menuList= (ArrayList)mm.selectMenuList();
 		String[][] contents = new String[menuSize][3]; 
@@ -187,9 +187,9 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 		salesScrollpane.setPreferredSize(new Dimension(width/1000*200,height/600*195));
 		
 	
-		//CategoryTabl ìƒ
+		//CategoryTabl »ı
 
-		String header2[] = {"ì¹´ í…Œ ê³  ë¦¬"};
+		String header2[] = {"Ä« Å× °í ¸®"};
 		categorySize = mm.selectCategoryList().size();   
 		ArrayList<CategoryVO> categoryList = (ArrayList)mm.selectCategoryList();
 		String[][] contents2 = new String[categorySize][1];
@@ -326,7 +326,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 				model.addRow(inputStr);
 				
-				System.out.println(itemTextField1.getText() + "ì¶”ê°€");
+				System.out.println(itemTextField1.getText() + "Ãß°¡");
 				
 				itemTextField1.setText("");
 				itemTextField2.setText("");
@@ -346,7 +346,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 					DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 					int selectedRow = itemTable.getSelectedRow();
 					String menuName = itemTable.getValueAt(selectedRow,0).toString();
-					System.out.println(menuName + "ì‚­ì œ");
+					System.out.println(menuName + "»èÁ¦");
 					mm.deleteItemDetail(menuName);
 					model.removeRow(itemTable.getSelectedRow());
 					
@@ -367,7 +367,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				
 				int row = categoryTable.getRowCount();
 				mm.insertCategoryDetail(row,categoryTextField.getText());
-				System.out.println(categoryTextField.getText() + "ì¶”");
+				System.out.println(categoryTextField.getText() + "Ãß");
 						
 				categoryTextField.setText("");
 				
@@ -385,7 +385,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 					DefaultTableModel model = (DefaultTableModel)categoryTable.getModel();
 					int selectedRow = categoryTable.getSelectedRow();
 					String categoryName = categoryTable.getValueAt(selectedRow,0).toString();
-					System.out.println(categoryName + "ì‚­ì œ");
+					System.out.println(categoryName + "»èÁ¦");
 					
 					mm.deleteCategoryDetail(categoryName);
 					
@@ -408,12 +408,12 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	            int column = source.columnAtPoint( evt.getPoint() );
 	            String s=source.getModel().getValueAt(row, column)+"";
 
-	            itemLabel.setText("íŒë§¤í•­ëª©"+"("+ s +")");
+	            itemLabel.setText("ÆÇ¸ÅÇ×¸ñ"+"("+ s +")");
 	    		
 	            DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 	    		model.setNumRows(0);
 	    		
-	            String header[] = {"ì´ ë¦„","ê°€ ê²©","ìˆœ ì„œ"};
+	            String header[] = {"ÀÌ ¸§","°¡ °İ","¼ø ¼­"};
 	            menuSize2 = mm.selectMenuListByCategoryName(s).size();   
 	            ArrayList<MenuVO> menuList = (ArrayList)mm.selectMenuListByCategoryName(s);
 	            
@@ -481,16 +481,16 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				
 							
 			if((min<10) && (sec<10)) {
-				String day1 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":0" + sec );
+				String day1 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":0" + sec );
 				time.setText(day1);
 			} else if((min>10) && (sec<10)) {
-				String day2 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":0" + sec );
+				String day2 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":0" + sec );
 				time.setText(day2);
 			} else if((min<10) && (sec>10)) {
-				String day3 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":" + sec );
+				String day3 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":" + sec );
 				time.setText(day3);
 			} else {
-				String day4 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":" + sec );
+				String day4 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":" + sec );
 				time.setText(day4);
 			}
 			
