@@ -18,12 +18,12 @@ import posMachineProject.gui.TableManageFrame;
 
 public class Test {
 	public static void main(String[] args) {
-		System.out.println("ÇÁ·Î±×·¥ ½ÃÀÛ");
+		System.out.println("ï¿½ï¿½ï¿½Î±×·ï¿½ ï¿½ï¿½ï¿½ï¿½");
 		DatabaseUtil.init();
 		PageManager pm = new PageManager();
 //		TableDaoImpl tdi = new TableDaoImpl();
 		List<FrameTemplate> templateList = new ArrayList<FrameTemplate>();
-		System.out.println("ÆäÀÌÁö ·ÎµùÁß...");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½...");
 		templateList.add(new GoodsManageFrame());
 		templateList.add(new ReceiptManageFrame());
 		templateList.add(new SalesStatusFrame());
@@ -33,13 +33,13 @@ public class Test {
 		templateList.add(new MainFrame());
 		templateList.add(new TableFrame());
 		
-		//°¢ ÇÁ·¹ÀÓ¿¡ PageManagerµî·Ï
+		//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ PageManagerï¿½ï¿½ï¿½
 		for(FrameTemplate FrameTemplate : templateList )
 		{
 			FrameTemplate.setPageManager(pm);
 		}
 		pm.setPageList(templateList);
-		System.out.println("ÆäÀÌÁö ·Îµù¿Ï·á");
+		System.out.println("");
 		pm.goStartPage();
 	}
 }
