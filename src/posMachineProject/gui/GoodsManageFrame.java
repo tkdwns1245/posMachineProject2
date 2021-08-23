@@ -102,15 +102,15 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	@Override
 	public void initComponent() {
 		mainPanel = new JPanel();
-		//Utilï¿½ë¿‰  defaultæ¿¡ï¿½ ï¿½ê½­ï¿½ë˜¿ï¿½ë¹ï¿½ë¹ ï¿½ë¸¯ï¿½ë’—ï¿½ë¸¿
+		//Util¿¡  default·Î ¼¼ÆÃÇØ¾ß ÇÏ´ÂÇÔ
 		ccUtil.setMainPanel(mainPanel);
-		//ï¿½ë–†æ€¨ê¾§ë¦°ï¿½ë’« ï¿½ë™£ï¿½ê¼¸, ï¿½ì …ï¿½ì” é‡‰ï¿½
+		//½Ã°è±â´É ÆĞ³Î, ·¹ÀÌºí
 		timePanel=(JPanel)  ccUtil.createJcomponent("p", width*23/100,height*5/100, 50, 50);
 		time=(JLabel) ccUtil.createJcomponent("l", width*3/10, height/6, width*4/10, height/60*5);
 		time.setForeground(Color.white);
-		time.setFont(new Font("ï§ë¬’ï¿½æ€¨ì¢Šëµ“",Font.BOLD, 15));
+		time.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));
 		
-		//è‡¾ì‡³ë­¹ï¿½ë¹†ï§ï¿½  ï¿½ë™£ï¿½ê¼¸
+		//¹°Ç°Ç×¸ñ  ÆĞ³Î
 		itemPanel= (JPanel) ccUtil.createJcomponent("p", width*30/100,height*60/100, width*15/100,height*20/100);
 		itemTitlePanel =(JPanel)  ccUtil.createJcomponent("p", width*30/100,height*45/1000, 0,0);
 		itemDetail=(JPanel) ccUtil.createJcomponent("p", width*30/100,height*955/1000, 0, height*45/1000);
@@ -119,44 +119,44 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 
 
 
-		// ç§»ëŒ„ë€’æ€¨ì¢Šâ” ï¿½ë™£ï¿½ê¼¸
+		// Ä«Å×°í¸® ÆĞ³Î
 		categoryTitlePanel =(JPanel) ccUtil.createJcomponent("p",width*30/100,height*45/1000, 0,0);
 		categoryPanel=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*60/100, width*55/100,height*20/100);
 		categoryDetail=(JPanel) ccUtil.createJcomponent("p",width*30/100,height*955/1000, 0, height*45/1000);
 		categoryContent=(JPanel) ccUtil.createJcomponent("p",width/1000*205, height/600*200, width/1000*50, height/600*60);
 
 
-		//è‡¾ì‡³ë­¹ï¿½ë¹†ï§ï¿½, ç§»ëŒ„ë€’æ€¨ì¢Šâ” ï¿½ì …ï¿½ì” ï¿½ëµ† 
+		//¹°Ç°Ç×¸ñ, Ä«Å×°í¸® ·¹ÀÌÇÃ 
 		itemLabel=(JLabel) ccUtil.createJcomponent("l", width*30/100,height*45/1000, 0, 0);
-		itemLabel.setText("ï¿½ë™‹ï§ã…½ë¹†ï§ï¿½()");
-		itemLabel.setFont(new Font("ï§ë¬’ï¿½æ€¨ì¢Šëµ“",Font.BOLD, 15));
+		itemLabel.setText("ÆÇ¸ÅÇ×¸ñ()");
+		itemLabel.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));
 		
 		itemName =(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*15, height/600*10);
-		itemName.setText("ï¿½ì”  ç”±ï¿½:");
-		itemName.setFont(new Font("ï§ë¬’ï¿½æ€¨ì¢Šëµ“",Font.BOLD, 12));
+		itemName.setText("ÀÌ ¸§:");
+		itemName.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 12));
 		itemPrice=(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*105, height/600*10);
-		itemPrice.setText("åª›ï¿½ å¯ƒï¿½:");
+		itemPrice.setText("°¡ °İ:");
 		itemSequence=(JLabel) ccUtil.createJcomponent("l", width/1000*40, height/600*40, width/1000*195, height/600*10);
-		itemSequence.setText("ï¿½ë‹š ï¿½ê½Œ:");
+		itemSequence.setText("¼ø ¼­:");
 
 		
 		categoryLabel=(JLabel) ccUtil.createJcomponent("l",width*30/100,height*45/1000, width*0/100, height*0/100);
-		categoryLabel.setText("ç§»ëŒ„ë€’æ€¨ì¢Šâ”");
-		categoryLabel.setFont(new Font("ï§ë¬’ï¿½æ€¨ì¢Šëµ“",Font.BOLD, 15));
+		categoryLabel.setText("Ä«Å×°í¸®");
+		categoryLabel.setFont(new Font("¸¼Àº°íµñ",Font.BOLD, 15));
 		
-		//è¸°ê¾ªë“‰ 
+		//¹öÆ° 
 		goBackButton=(JButton) ccUtil.createJcomponent("b",width/10, height/600*30, width/10*8, height/60*5);
-		goBackButton.setText("ï¿½ë®˜æ¿¡ì’“ï¿½æ¹²ï¿½");
+		goBackButton.setText("µÚ·Î°¡±â");
 		itemAddButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*60, height/600*280);
-		itemAddButton.setText("ç•°ï¿½ åª›ï¿½");
+		itemAddButton.setText("Ãß °¡");
 		categoryAddButton=(JButton) ccUtil.createJcomponent("b",width/15, height/600*30, width/1000*190, height/600*15);
-		categoryAddButton.setText("ç•°ï¿½ åª›ï¿½");
+		categoryAddButton.setText("Ãß °¡");
 		itemDelButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*165, height/600*280);
-		itemDelButton.setText("ï¿½ê¶˜ ï¿½ì £");
+		itemDelButton.setText("»è Á¦");
 		categoryDelButton=(JButton) ccUtil.createJcomponent("b",width/12, height/600*30, width/1000*165, height/600*280);
-		categoryDelButton.setText("ï¿½ê¶˜ ï¿½ì £");
+		categoryDelButton.setText("»è Á¦");
 				
-		//ï¿½ë€“ï¿½ë’ªï¿½ë“ƒ ï¿½ë¸˜ï¿½ë±¶
+		//ÅØ½ºÆ® ÇÊµå
 	 	itemTextField1=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*50, height/600*20);
 	 	itemTextField2=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*140, height/600*20);
 	 	itemTextField3=(JTextField) ccUtil.createJcomponent("tf",width/1000*45, height/600*20, width/1000*230, height/600*20);
@@ -164,18 +164,17 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				
 	
 		
-	//itemTable ï¿½ê¹®ï¿½ê½¦
-		String header[] = {"ï¿½ì”  ç”±ï¿½","åª›ï¿½ å¯ƒï¿½","ï¿½ë‹š ï¿½ê½Œ"};
+		// ¹°Ç°Ç×¸ñ ÆĞ³Î
+		String header[] = {"ÀÌ ¸§","°¡ °İ","¼ø ¼­"};
 		menuSize = mm.selectMenuList().size();   
 		ArrayList<MenuVO> menuList= (ArrayList)mm.selectMenuList();
-		String[][] contents = new String[menuSize][3];  // ç”±ÑŠë’ªï¿½ë“ƒ ï¿½ê¶—ï¿½ì” ï§ëˆï¿½ï¿½ ç™’ì‡±ï¿½ ï¿½ê½‘ï¿½ë¼µ
+		String[][] contents = new String[menuSize][3]; 
 		for(int i=0; i < menuList.size(); i++) {
-			contents[i][0] = null;   // iè¸°ë‰ã ï¿½ë¿´ï¿½ì“½ MenuName
-			contents[i][1] = null;  // iè¸°ë‰ã ï¿½ë¿´ï¿½ì“½ MenuPrice
-			contents[i][2] = null; // iè¸°ë‰ã ï¿½ë¿´ï¿½ì“½ MenuCategory
+			contents[i][0] = null;   
+			contents[i][1] = null;  
+			contents[i][2] = null; 
 		}
 		DefaultTableModel model = new DefaultTableModel(contents,header) {
-		// ï¿½ëœ‘é‡‰ë·€ê²¢ç”±ï¿½ï¿½ë¹ï¿½ê½Œ ï¿½ë‹”ï¿½ì ™éºë‡ï¿½
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
@@ -188,9 +187,9 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 		salesScrollpane.setPreferredSize(new Dimension(width/1000*200,height/600*195));
 		
 	
-		//CategoryTable ï¿½ê¹®ï¿½ê½¦
+		//CategoryTabl »ı
 
-		String header2[] = {"ç§»ï¿½ ï¿½ë€’ æ€¨ï¿½ ç”±ï¿½"};
+		String header2[] = {"Ä« Å× °í ¸®"};
 		categorySize = mm.selectCategoryList().size();   
 		ArrayList<CategoryVO> categoryList = (ArrayList)mm.selectCategoryList();
 		String[][] contents2 = new String[categorySize][1];
@@ -199,7 +198,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 
 		}
 		DefaultTableModel model2 = new DefaultTableModel(contents2,header2){
-		// ï¿½ëœ‘é‡‰ë·€ê²¢ç”±ï¿½ï¿½ë¹ï¿½ê½Œ ï¿½ë‹”ï¿½ì ™éºë‡ï¿½
 			public boolean isCellEditable(int i, int c){ 
 				return false; 
 				}
@@ -216,7 +214,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	public void addGui() {
 		this.add(mainPanel);
 		
-		// è‡¾ì‡³ë­¹ï¿½ë¹†ï§ï¿½ ï¿½ë™£ï¿½ê¼¸
 		mainPanel.setLayout(null);
 		mainPanel.setBackground(new Color(223, 228, 234));
 		
@@ -251,9 +248,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 		itemContent.add(salesScrollpane);
 
 
-		
-		// ç§»ëŒ„ë€’æ€¨ì¢Šâ” ï¿½ë™£ï¿½ê¼¸		
-		
+				
 		mainPanel.add(categoryPanel);
 		categoryPanel.setLayout(null);
 		categoryPanel.setBackground(new Color(100, 100, 100));
@@ -277,7 +272,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	@Override
 	public void initEvent() {
 		
-		//ï¿½ë€’ï¿½ì” é‡‰ï¿½ ï¿½ê½‘ï¿½ê¹®ï¿½ë–† ï¿½ë€’ï¿½ì” é‡‰ï¿½ ï¿½ë¿´
 		itemTable.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -318,7 +312,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 		
 
 
-		//ï¿½ë¹†ï§â‘ºë€’ï¿½ì” é‡‰ï¿½(row) ç•°ë¶½ï¿½ æ¹²ê³•ë’«
 		itemAddButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -333,7 +326,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 				model.addRow(inputStr);
 				
-				System.out.println(itemTextField1.getText() + "ç•°ë¶½ï¿½");
+				System.out.println(itemTextField1.getText() + "Ãß°¡");
 				
 				itemTextField1.setText("");
 				itemTextField2.setText("");
@@ -342,7 +335,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 			}
 		});
 		
-		//ï¿½ë¹†ï§â‘ºë€’ï¿½ì” é‡‰ï¿½(row) ï¿½ê¶˜ï¿½ì £ æ¹²ê³•ë’«
 		itemDelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -354,7 +346,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 					DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 					int selectedRow = itemTable.getSelectedRow();
 					String menuName = itemTable.getValueAt(selectedRow,0).toString();
-					System.out.println(menuName + "ï¿½ê¶˜ï¿½ì £");
+					System.out.println(menuName + "»èÁ¦");
 					mm.deleteItemDetail(menuName);
 					model.removeRow(itemTable.getSelectedRow());
 					
@@ -364,7 +356,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 		});
 	
 		
-		//ç§»ëŒ„ë€’æ€¨ì¢Šâ” ï¿½ë€’ï¿½ì” é‡‰ï¿½(row) ç•°ë¶½ï¿½ æ¹²ê³•ë’«
 		categoryAddButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -376,14 +367,13 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				
 				int row = categoryTable.getRowCount();
 				mm.insertCategoryDetail(row,categoryTextField.getText());
-				System.out.println(categoryTextField.getText() + "ç•°ë¶½ï¿½");
+				System.out.println(categoryTextField.getText() + "Ãß");
 						
 				categoryTextField.setText("");
 				
 			}	
 		});
 		
-		//ç§»ëŒ„ë€’æ€¨ì¢Šâ”ï¿½ë€’ï¿½ì” é‡‰ï¿½(row) ï¿½ê¶˜ï¿½ì £ æ¹²ê³•ë’«
 		categoryDelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -395,7 +385,8 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 					DefaultTableModel model = (DefaultTableModel)categoryTable.getModel();
 					int selectedRow = categoryTable.getSelectedRow();
 					String categoryName = categoryTable.getValueAt(selectedRow,0).toString();
-					System.out.println(categoryName + "ï¿½ê¶˜ï¿½ì £");
+					System.out.println(categoryName + "»èÁ¦");
+					
 					mm.deleteCategoryDetail(categoryName);
 					
 					
@@ -408,7 +399,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				}
 			});
 		
-		//ç§»ëŒ„ë€’æ€¨ì¢Šâ” ï¿½ë€’ï¿½ì” é‡‰ï¿½ ï¿½ê²¢ç”±ï¿½ï¿½ë–† ï¿½ë™‹ï§ã…½ë¹†ï§ï¿½ ï¿½ì …ï¿½ì” é‡‰ï¿½ è«›ï¿½ ï¿½ë€’ï¿½ì” é‡‰ï¿½ ï¿½ëœ²ï¿½ì” ï¿½ê½£ è¹‚ï¿½å¯ƒï¿½
 		categoryTable.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -418,20 +408,20 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	            int column = source.columnAtPoint( evt.getPoint() );
 	            String s=source.getModel().getValueAt(row, column)+"";
 
-	            itemLabel.setText("ï¿½ë™‹ï§ã…½ë¹†ï§ï¿½"+"("+ s +")");
+	            itemLabel.setText("ÆÇ¸ÅÇ×¸ñ"+"("+ s +")");
 	    		
 	            DefaultTableModel model = (DefaultTableModel)itemTable.getModel();
 	    		model.setNumRows(0);
 	    		
-	            String header[] = {"ï¿½ì”  ç”±ï¿½","åª›ï¿½ å¯ƒï¿½","ï¿½ë‹š ï¿½ê½Œ"};
+	            String header[] = {"ÀÌ ¸§","°¡ °İ","¼ø ¼­"};
 	            menuSize2 = mm.selectMenuListByCategoryName(s).size();   
 	            ArrayList<MenuVO> menuList = (ArrayList)mm.selectMenuListByCategoryName(s);
 	            
-	        	String[][] contents = new String[menuSize2][3];  // ç”±ÑŠë’ªï¿½ë“ƒ ï¿½ê¶—ï¿½ì” ï§ëˆï¿½ï¿½ ç™’ì‡±ï¿½ ï¿½ê½‘ï¿½ë¼µ
+	        	String[][] contents = new String[menuSize2][3];  
 	    		for(int i=0; i < menuList.size(); i++) {
-	    			contents[i][0] = menuList.get(i).getMenuName();   // iè¸°ë‰ã ï¿½ë¿´ï¿½ì“½ MenuName
-	    			contents[i][1] = "" + menuList.get(i).getMenuPrice();  // iè¸°ë‰ã ï¿½ë¿´ï¿½ì“½ MenuPrice
-	    			contents[i][2] = "" + menuList.get(i).getSequence(); // iè¸°ë‰ã ï¿½ë¿´ï¿½ì“½ MenuCategory
+	    			contents[i][0] = menuList.get(i).getMenuName();  
+	    			contents[i][1] = "" + menuList.get(i).getMenuPrice();  
+	    			contents[i][2] = "" + menuList.get(i).getSequence(); 
 	    		}
 	    		model.setDataVector(contents, header);
 	   
@@ -465,13 +455,7 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 	   goBackButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-	/*		
-				//äºŒì‡°Ğ¦ï¿½ê¶¡ï¿½ë¿­ ï¿½ï¿½ï¿½ì˜£
-				mm.saveItemDetailList(insertList, deleteList);
-				deletelList.removeAll(deleteItemDetailList);
-				insertlList.removeAll(insertItemDetailList);
-				
-	*/
+
 				dispose();
             	pageManager.goMainPage();	
 			
@@ -497,16 +481,16 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 				
 							
 			if((min<10) && (sec<10)) {
-				String day1 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":0" + sec );
+				String day1 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":0" + sec );
 				time.setText(day1);
 			} else if((min>10) && (sec<10)) {
-				String day2 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":0" + sec );
+				String day2 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":0" + sec );
 				time.setText(day2);
 			} else if((min<10) && (sec>10)) {
-				String day3 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":0" + min + ":" + sec );
+				String day3 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":0" + min + ":" + sec );
 				time.setText(day3);
 			} else {
-				String day4 = (year +"ë…„ " + month + "ì›” " + date + "ì¼ " + ampm + " " + hour + ":" + min + ":" + sec );
+				String day4 = (year +"³â " + month + "¿ù " + date + "ÀÏ " + ampm + " " + hour + ":" + min + ":" + sec );
 				time.setText(day4);
 			}
 			
@@ -516,7 +500,6 @@ public class GoodsManageFrame extends FrameTemplate implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
 		}
 				
 	}
